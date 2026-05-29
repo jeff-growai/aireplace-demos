@@ -29,4 +29,4 @@ echo "→ Pushing to GitHub — Vercel auto-deploy triggered"
 git push origin main
 
 echo ""
-echo "✅  Live at: https://demos.getaireplace.com/$SLUG"
+echo "✅  Live at: https://aireplace-demos.vercel.app/$SLUG"
