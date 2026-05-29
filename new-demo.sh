@@ -32,4 +32,4 @@ echo "→ Deploying to Vercel..."
 vercel --prod --yes 2>&1 | tail -5
 
 echo ""
-echo "✅  Live at: https://aireplace-demos-air-sales-demo.vercel.app/$SLUG"
+echo "✅  Live at: https://aireplace-demos.vercel.app/$SLUG"
