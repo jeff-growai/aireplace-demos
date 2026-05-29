@@ -1,5 +1,6 @@
-# Claude Code local (machine-specific) settings — keep out of the repo
-.claude/settings.local.json
+# Claude Code — skill files and local settings stay off GitHub
+# (skills live in .claude/skills/ locally; only generated demos belong in this repo)
+.claude/
 
 # OS / editor cruft
 Thumbs.db
