@@ -2,8 +2,8 @@
 # Usage: bash new-demo.sh <slug>
 #
 # Called automatically by the ai-replace-demo-builder skill after it writes
-# prospects/<slug>/index.html. Commits the file and pushes to GitHub, which
-# triggers a Vercel auto-deploy.
+# prospects/<slug>/index.html. Commits to GitHub (version control) and
+# deploys directly to Vercel via CLI.
 #
 # Example: bash new-demo.sh printmoz
 
@@ -25,8 +25,11 @@ git add "prospects/$SLUG/index.html"
 echo "→ Committing..."
 git commit -m "demo: $SLUG"
 
-echo "→ Pushing to GitHub — Vercel auto-deploy triggered"
+echo "→ Pushing to GitHub (version control)..."
 git push origin main
 
+echo "→ Deploying to Vercel..."
+vercel --prod --yes 2>&1 | tail -5
+
 echo ""
-echo "✅  Live at: https://aireplace-demos.vercel.app/$SLUG"
+echo "✅  Live at: https://aireplace-demos-air-sales-demo.vercel.app/$SLUG"
