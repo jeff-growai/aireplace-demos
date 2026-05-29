@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace — MioCommerce Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#0C1A3A; --teal:#0097A7; --teal-d:#007B8A; --teal-l:#E0F6F8;
+  --bg:#F4F8FA; --white:#fff; --navy:#16243A; --amber:#B26A00; --amber-bg:#FFF3E0;
+  --ink:#1a2a38; --muted:#6b7c85; --line:#dce8ec;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);height:100vh;overflow:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+.top{height:58px;background:var(--dark);display:flex;align-items:center;padding:0 22px;gap:14px;color:#fff}
+.brandc{font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff}
+.sep{width:1px;height:24px;background:rgba(255,255,255,.22)}
+.brandr{font-weight:800;font-size:17px;color:var(--teal)}
+.brandr span{color:#fff}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#cfe9df}
+.dot{width:8px;height:8px;border-radius:50%;background:#2ee6a6;box-shadow:0 0 0 0 rgba(46,230,166,.7);animation:pl 1.8s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 rgba(46,230,166,.6)}70%{box-shadow:0 0 0 8px rgba(46,230,166,0)}100%{box-shadow:0 0 0 0 rgba(46,230,166,0)}}
+.wrap{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 58px)}
+.inbox{background:var(--white);border-right:1px solid var(--line);overflow:hidden;transition:opacity .4s ease;display:flex;flex-direction:column}
+.inbox.dim{opacity:.28}
+.inbox-h{padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+.inbox-h h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700}
+.inbox-h .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.items{overflow-y:auto;flex:1}
+.item{padding:13px 18px;border-bottom:1px solid var(--line);cursor:default;opacity:.45;transition:all .4s ease;border-left:3px solid transparent}
+.item.on{opacity:1;background:var(--teal-l);border-left-color:var(--teal)}
+.item.done{opacity:.7}
+.item .from{font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.item .from .t{font-weight:500;font-size:11px;color:var(--muted)}
+.item .subj{font-size:12.5px;color:var(--ink);margin-top:3px;font-weight:600}
+.item .prev{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.panel{display:flex;flex-direction:column;overflow:hidden}
+.narr{background:var(--navy);color:#fff;padding:16px 26px;display:flex;align-items:center;gap:16px;transition:background .4s ease;min-height:78px}
+.narr.teal{background:var(--teal-d)}
+.narr.amber{background:var(--amber)}
+.narr .ni{font-size:26px;line-height:1}
+.narr .nx{flex:1}
+.narr .ns{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;opacity:.7;font-weight:600}
+.narr .nt{font-size:18px;font-weight:700;margin-top:3px;line-height:1.3}
+.stage{flex:1;overflow-y:auto;padding:26px 30px;position:relative}
+.reading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);gap:14px;text-align:center}
+.reading .spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.reading .rmsg{font-size:14px;font-weight:600;max-width:340px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.card{padding:14px 16px;border-radius:12px;opacity:0;transform:translateY(10px);transition:all .45s cubic-bezier(.2,.7,.3,1)}
+.card.show{opacity:1;transform:none}
+.card .cl{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;font-weight:700;opacity:.85}
+.card .cv{font-size:14px;font-weight:600;margin-top:5px;line-height:1.35}
+.card.navy{background:var(--navy);color:#fff}
+.card.teal{background:var(--teal);color:#fff}
+.card.amber{background:var(--amber-bg);color:var(--amber);border:1px solid #ffd9a8}
+.draft{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;opacity:0;transform:translateY(10px);transition:all .5s ease}
+.draft.show{opacity:1;transform:none}
+.draft-h{padding:13px 18px;background:#fafcfb;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:700}
+.draft-meta{padding:13px 18px;border-bottom:1px solid var(--line);font-size:12.5px}
+.draft-meta b{color:var(--ink)}
+.draft-meta .l{color:var(--muted);width:52px;display:inline-block}
+.draft-body{padding:18px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;color:#1e3040;min-height:40px}
+.appwrap{margin-top:20px;display:none;flex-direction:column;align-items:center;gap:0}
+.appwrap.vis{display:flex;animation:rise .4s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.appbtn{font-family:Montserrat;font-size:16px;font-weight:700;color:#fff;background:var(--teal);border:none;border-radius:14px;padding:16px 46px;cursor:pointer;box-shadow:0 0 0 0 rgba(0,151,167,.5);animation:glow 1.7s ease-in-out infinite}
+@keyframes glow{0%{box-shadow:0 0 0 0 rgba(0,151,167,.55)}60%{box-shadow:0 0 0 16px rgba(0,151,167,0)}100%{box-shadow:0 0 0 0 rgba(0,151,167,0)}}
+.app-hint{margin-top:10px;font-size:12.5px;color:var(--muted);font-weight:500}
+.appln{margin-top:18px;text-align:center;font-size:14px;font-weight:700;color:var(--teal-d);opacity:0;transform:translateY(8px);transition:all .4s ease}
+.appln.vis{opacity:1;transform:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--white)}
+.stat{padding:12px 14px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .sv{font-size:22px;font-weight:800;color:var(--dark)}
+.stat.hi .sv{color:var(--teal)}
+.stat .sl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:2px;font-weight:600}
+.end{position:absolute;inset:0;background:linear-gradient(160deg,#071022,#0a2530);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:30px;opacity:0;pointer-events:none;transition:opacity .8s ease}
+.end.vis{opacity:1;pointer-events:auto}
+.end .cup{font-size:64px}
+.end h1{font-size:28px;font-weight:800;max-width:560px;line-height:1.3}
+.end .estat{font-family:'JetBrains Mono',monospace;font-size:15px;color:#8fe9cb;background:rgba(255,255,255,.06);padding:12px 22px;border-radius:30px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brandc">MioCommerce</div>
+  <div class="sep"></div>
+  <div class="brandr">AI Replace<span>.</span></div>
+  <div class="live"><span class="dot"></span> LIVE — running Franc's outbound</div>
+</div>
+<div class="wrap">
+  <aside class="inbox" id="inbox">
+    <div class="inbox-h"><h2>Lead Queue — Franc</h2><div class="sub" id="ibsub">Overnight prospecting · 11pm–7am</div></div>
+    <div class="items" id="items"></div>
+  </aside>
+  <section class="panel">
+    <div class="narr" id="narr">
+      <div class="ni" id="ni">🎯</div>
+      <div class="nx"><div class="ns" id="ns">Starting</div><div class="nt" id="nt">AI Replace is starting Franc's outbound run…</div></div>
+    </div>
+    <div class="stage" id="stage">
+      <div class="reading" id="reading"><div class="spin"></div><div class="rmsg" id="rmsg">Scanning lead queue · AI Replace loading…</div></div>
+      <div id="work" style="display:none">
+        <div class="cards" id="cards"></div>
+        <div class="draft" id="draft">
+          <div class="draft-h" id="dh">Drafted outreach</div>
+          <div class="draft-meta" id="dmeta"></div>
+          <div class="draft-body" id="dbody"></div>
+        </div>
+        <div class="appwrap" id="APW">
+          <button class="appbtn">✓ Approve &amp; Send</button>
+          <div class="app-hint" id="ahint">Franc approves · outreach sends instantly</div>
+        </div>
+        <div class="appln" id="APL"></div>
+      </div>
+      <div class="end" id="end">
+        <div class="cup">☕</div>
+        <h1>This runs every morning before Franc opens his laptop.</h1>
+        <div class="estat" id="estat"></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sv" id="st-h">0</div><div class="sl">Leads Reached</div></div>
+      <div class="stat"><div class="sv" id="st-a">0</div><div class="sl">Franc Approved</div></div>
+      <div class="stat"><div class="sv" id="st-s">0m</div><div class="sl">Saved Today</div></div>
+      <div class="stat hi"><div class="sv" id="st-t">0s</div><div class="sl">Franc's Time</div></div>
+    </div>
+  </section>
+</div>
+<script>
+var NAME="Franc";
+var EMAILS=[
+ {from:"Sparkle Pro Cleaning · CRM",t:"6:18am",subj:"Re-engage · 12-location cleaning co · 60 days quiet",
+  prev:"Qualified lead, last touched 60 days ago. No booking page. Fit score 92/100.",
+  arrive:"A warm CRM lead has gone quiet — a 12-location cleaning company with no online booking.",
+  read:"Reviewing their CRM record, last interaction, and drafting a warm re-engagement…",
+  cards:[["Lead type","CRM Re-engagement","navy"],["Key intel","12 locations · no booking page · 60 days since last contact","amber"],["Fit score","92/100 — Grow plan","navy"],["Action","Drafted personalised re-engagement email","teal"]],
+  dlabel:"Drafted re-engagement",
+  draftmsg:"AI pulled their CRM record, spotted the 60-day gap, and wrote the email. Franc just approves.",
+  meta:[["To","Sparkle Pro Cleaning"],["Re","Following up — booking page for 12 locations"]],
+  body:"Hi there,\n\nI wanted to personally follow up — it’s been a couple of months since we last spoke and I didn’t want to lose touch.\n\nWe’ve been working with a lot of multi-location cleaning companies lately and one thing that keeps coming up is losing jobs quietly — customers find them on Google, can’t book instantly, and move on to a competitor who has online scheduling.\n\nWith MioCommerce you’d have live pricing and real-time booking across all 12 locations from a single dashboard. 15-day free trial, no credit card needed.\n\nWould a quick 20-minute demo this week be worth your time?\n\nBest,\nFranc · MioCommerce\nmiocommerce.com",
+  done:"A warm CRM lead re-engaged with a personalised message — 60-day gap closed overnight.",
+  mins:14,secs:18},
+
+ {from:"Metro Janitorial Services · Google",t:"3:22am",subj:"Prospected · commercial cleaning · no booking page found",
+  prev:"Found via Google. 4.8★, 23 reviews, phone-only booking. Strong ICP fit.",
+  arrive:"AI prospected a commercial cleaning company on Google — 4.8 stars, zero online booking.",
+  read:"Researching their website, Google listing, and crafting targeted cold outreach…",
+  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","No booking page · 4.8★ · 23 reviews · phone-only booking","amber"],["Fit score","88/100 — Grow plan","navy"],["Action","Drafted cold email with booking-gap hook","teal"]],
+  dlabel:"Drafted cold outreach",
+  draftmsg:"AI found the gap — no online booking — and built the entire pitch around it. The hook writes itself.",
+  meta:[["To","Metro Janitorial Services"],["Re","Losing jobs you don’t know about"]],
+  body:"Hi there,\n\nI found Metro Janitorial on Google while looking into commercial cleaning companies in your area — 4.8 stars and 23 reviews is impressive. Clearly you do great work.\n\nI noticed you don’t have online booking on your website. That means every potential customer who finds you after hours either calls and gets voicemail, or moves on to someone who lets them book instantly. For a business with your reputation, that’s revenue slipping through the cracks quietly.\n\nMioCommerce gives you a live pricing and booking page that works 24/7 — customers see your real availability and lock in a slot on the spot. 15-day free trial, no credit card.\n\nWorth a 20-minute look?\n\nBest,\nFranc · MioCommerce\nmiocommerce.com",
+  done:"Cold outreach sent to a high-fit prospect — booking-gap hook researched and written automatically.",
+  mins:18,secs:12},
+
+ {from:"Diamond Detail Co. · Google",t:"4:45am",subj:"Prospected · auto detailing · active Instagram, no booking",
+  prev:"Active Instagram, strong reviews, zero online scheduler. Losing bookings to competitors.",
+  arrive:"AI found a detailing shop — active Instagram, clear demand, but zero online booking.",
+  read:"Checking their Instagram, Google listing, and writing a personalised cold email…",
+  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","Active Instagram · no booking page · DM-only scheduling","amber"],["Fit score","85/100 — Startup plan","navy"],["Action","Drafted Instagram-aware personalised outreach","teal"]],
+  dlabel:"Drafted cold outreach",
+  draftmsg:"Active social, zero booking infrastructure — AI spotted the disconnect and wrote straight to it.",
+  meta:[["To","Diamond Detail Co."],["Re","Your Instagram vs. your booking process"]],
+  body:"Hi there,\n\nYour Instagram looks great — the paint correction work on that black BMW was seriously impressive. You clearly have demand.\n\nHere’s the thing though: there’s no way to book you directly from Instagram or your website. Customers who see your work have to DM you and wait, and some won’t. You’re building an audience and then losing the easiest part — the actual booking.\n\nMioCommerce puts a live booking button on your site and links straight from your Instagram bio. Customers pick a slot, prepay, and you get a confirmed appointment — no back and forth.\n\n15-day free trial, no credit card. Want to see it in 20 minutes?\n\nFranc · MioCommerce\nmiocommerce.com",
+  done:"Hyper-personalised cold email drafted from Instagram research — sent while Franc slept.",
+  mins:16,secs:14},
+
+ {from:"Prestige Tire and Auto · CRM",t:"5:30am",subj:"Demo no-show · booked Apr 14 · opened 2 follow-ups",
+  prev:"Booked a demo 8 days ago, didn’t show. Opened 2 follow-up emails. 6 locations. Still warm.",
+  arrive:"A prospect who booked a demo and didn’t show — they opened 2 emails. Still very warm.",
+  read:"Reviewing demo booking, email open history, and writing a low-friction rebook…",
+  cards:[["Lead type","Demo No-Show · Re-engage","navy"],["Key intel","Booked Apr 14 · no-show · opened 2 emails · 6 locations","amber"],["Priority","High — showed clear intent to buy","navy"],["Action","Drafted frictionless rebook with free trial reminder","teal"]],
+  dlabel:"Drafted rebook email",
+  draftmsg:"They wanted the demo — life got in the way. AI wrote a frictionless rebook before the trail goes cold.",
+  meta:[["To","Prestige Tire and Auto"],["Re","Let’s reschedule — 15 min"]],
+  body:"Hi there,\n\nNo worries at all on missing the demo last week — these things happen.\n\nI wanted to reach out personally before too much time passed. You booked for a reason and I don’t want you to lose that momentum.\n\nFor tire shops with multiple locations, the biggest win we see is replacing phone scheduling with online booking across all locations simultaneously — customers pick a location, pick a slot, and you get a confirmed appointment without anyone picking up the phone.\n\nI have two slots open this week: Thursday at 2pm or Friday at 10am. 15 minutes, I’ll show you the whole setup. Your 15-day free trial is still waiting for you.\n\nWhich works better?\n\nFranc · MioCommerce",
+  done:"A 6-location no-show re-engaged with a tailored message — trail kept warm overnight.",
+  mins:12,secs:14},
+
+ {from:"QuickFit Tire Services · Google",t:"2:14am",subj:"Prospected · tire shop · 6 locations · phone-only booking",
+  prev:"Found via Google. 6 locations, all phone-only scheduling. No digital booking anywhere.",
+  arrive:"AI found a 6-location tire shop running all appointments by phone — no digital booking at all.",
+  read:"Researching their locations, reviews, and building the ROI case for online booking…",
+  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","6 locations · phone-only · est. 40+ scheduling calls per day","amber"],["Fit score","91/100 — ProMax plan","navy"],["Action","Drafted ROI-focused cold outreach","teal"]],
+  dlabel:"Drafted cold outreach",
+  draftmsg:"6 locations all on the phone — AI ran the numbers on the daily cost and built the pitch around it.",
+  meta:[["To","QuickFit Tire Services"],["Re","What phone-only booking is costing you"]],
+  body:"Hi there,\n\nI came across QuickFit on Google — six locations is impressive growth.\n\nHere’s something worth thinking about: with six locations taking appointments by phone, you’re likely fielding 30–50 scheduling calls a day. That’s 2–3 hours of staff time every single day just answering the phone. And any call that goes unanswered after hours is a lost appointment.\n\nMioCommerce replaces that with online booking that works across all six locations simultaneously — customers pick a location, pick a slot, and you get a confirmed appointment without anyone picking up the phone.\n\n15-day free trial, no credit card. I can walk you through the whole setup in 20 minutes.\n\nWorth a look?\n\nFranc · MioCommerce\nmiocommerce.com",
+  done:"High-fit 6-location prospect reached with an ROI-focused pitch — researched and sent overnight.",
+  mins:20,secs:10}
+];
+
+var sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function $(id){return document.getElementById(id)}
+function setN(icon,step,title,theme){
+  $('narr').className='narr'+(theme?' '+theme:'');
+  $('ni').innerHTML=icon;$('ns').innerHTML=step;$('nt').innerHTML=title;
+}
+function buildInbox(){
+  var h='';
+  EMAILS.forEach(function(e,i){
+    h+='<div class="item" id="it'+i+'"><div class="from">'+e.from+'<span class="t">'+e.t+'</span></div>'
+     +'<div class="subj">'+e.subj+'</div><div class="prev">'+e.prev+'</div></div>';
+  });
+  $('items').innerHTML=h;
+}
+var totMin=0,totSec=0,handled=0,approved=0;
+function bump(el,val){$(el).textContent=val}
+
+async function run(){
+  buildInbox();
+  await sleep(900);
+  setN('🎯','Lead Queue','AI Replace found 5 prospects to reach overnight.','');
+  await sleep(1400);
+
+  for(var i=0;i<EMAILS.length;i++){
+    var e=EMAILS[i];
+    for(var j=0;j<EMAILS.length;j++){var it=$('it'+j);it.classList.remove('on');if(j<i)it.classList.add('done')}
+    $('it'+i).classList.add('on');
+    $('inbox').classList.add('dim');
+    $('work').style.display='none';
+    $('end').classList.remove('vis');
+    $('reading').style.display='flex';
+    $('rmsg').textContent='New lead found · AI Replace is researching…';
+    setN('🎯','Step 1 · Lead found',e.arrive,'');
+    await sleep(1700);
+    setN('🔍','Step 2 · Researching',e.read,'');
+    $('rmsg').textContent=e.read;
+    await sleep(900);
+    $('reading').style.display='none';
+    $('work').style.display='block';
+    $('draft').classList.remove('show');
+    $('APW').classList.remove('vis');
+    $('APL').classList.remove('vis');
+    var ch='';
+    e.cards.forEach(function(c,k){ch+='<div class="card '+c[2]+'" id="cd'+k+'"><div class="cl">'+c[0]+'</div><div class="cv">'+c[1]+'</div></div>'});
+    $('cards').innerHTML=ch;
+    for(var k=0;k<e.cards.length;k++){await sleep(360);$('cd'+k).classList.add('show')}
+    await sleep(700);
+    $('inbox').classList.remove('dim');
+    setN('✉️','Step 3 · Outreach ready',e.draftmsg,'teal');
+    $('dh').textContent=e.dlabel;
+    $('dmeta').innerHTML=e.meta.map(function(m){return '<div><span class="l">'+m[0]+'</span><b>'+m[1]+'</b></div>'}).join('');
+    $('dbody').textContent=e.body;
+    $('draft').classList.add('show');
+    await sleep(900);
+    $('ahint').innerHTML=NAME+' approves · outreach sends instantly';
+    $('APW').classList.add('vis');
+    await sleep(2400);
+    $('APW').classList.remove('vis');
+    await sleep(300);
+    var apl=$('APL');
+    apl.textContent='✓ '+NAME+' approved · sent '+e.t;
+    apl.classList.add('vis');
+    setN('✅','Step 4 · Sent',e.done,'teal');
+    handled++;approved++;totMin+=e.mins;totSec+=e.secs;
+    bump('st-h',handled);bump('st-a',approved);bump('st-s',totMin+'m');bump('st-t',totSec+'s');
+    await sleep(2300);
+  }
+  for(var j=0;j<EMAILS.length;j++)$('it'+j).classList.add('done');
+  $('it'+(EMAILS.length-1)).classList.remove('on');
+  $('inbox').classList.add('dim');
+  $('work').style.display='none';
+  $('reading').style.display='none';
+  setN('☕','Done','Franc’s outbound is done before he wakes up.','teal');
+  $('estat').textContent=handled+' leads reached · '+totMin+' minutes saved · '+NAME+' spent '+totSec+' seconds total';
+  $('end').classList.add('vis');
+}
+window.addEventListener('load',run);
+</script>
+</body>
+</html>
