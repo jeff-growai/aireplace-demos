@@ -92,20 +92,20 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
   <div class="brandc">MioCommerce</div>
   <div class="sep"></div>
   <div class="brandr">AI Replace<span>.</span></div>
-  <div class="live"><span class="dot"></span> LIVE — running Franc's outbound</div>
+  <div class="live"><span class="dot"></span> LIVE — running Franc's SDR overnight</div>
 </div>
 <div class="wrap">
   <aside class="inbox" id="inbox">
-    <div class="inbox-h"><h2>Lead Queue — Franc</h2><div class="sub" id="ibsub">Overnight prospecting · 11pm–7am</div></div>
+    <div class="inbox-h"><h2>Lead Queue — Franc</h2><div class="sub" id="ibsub">Overnight · 11pm–7am</div></div>
     <div class="items" id="items"></div>
   </aside>
   <section class="panel">
     <div class="narr" id="narr">
       <div class="ni" id="ni">🎯</div>
-      <div class="nx"><div class="ns" id="ns">Starting</div><div class="nt" id="nt">AI Replace is starting Franc's outbound run…</div></div>
+      <div class="nx"><div class="ns" id="ns">Starting</div><div class="nt" id="nt">AI Replace is starting Franc's overnight SDR run…</div></div>
     </div>
     <div class="stage" id="stage">
-      <div class="reading" id="reading"><div class="spin"></div><div class="rmsg" id="rmsg">Scanning lead queue · AI Replace loading…</div></div>
+      <div class="reading" id="reading"><div class="spin"></div><div class="rmsg" id="rmsg">Connecting to HubSpot · loading lead queue…</div></div>
       <div id="work" style="display:none">
         <div class="cards" id="cards"></div>
         <div class="draft" id="draft">
@@ -115,7 +115,7 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
         </div>
         <div class="appwrap" id="APW">
           <button class="appbtn">✓ Approve &amp; Send</button>
-          <div class="app-hint" id="ahint">Franc approves · outreach sends instantly</div>
+          <div class="app-hint" id="ahint">Franc approves · sends instantly</div>
         </div>
         <div class="appln" id="APL"></div>
       </div>
@@ -126,7 +126,7 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="sv" id="st-h">0</div><div class="sl">Leads Reached</div></div>
+      <div class="stat"><div class="sv" id="st-h">0</div><div class="sl">Leads Handled</div></div>
       <div class="stat"><div class="sv" id="st-a">0</div><div class="sl">Franc Approved</div></div>
       <div class="stat"><div class="sv" id="st-s">0m</div><div class="sl">Saved Today</div></div>
       <div class="stat hi"><div class="sv" id="st-t">0s</div><div class="sl">Franc's Time</div></div>
@@ -136,64 +136,64 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
 <script>
 var NAME="Franc";
 var EMAILS=[
- {from:"Sparkle Pro Cleaning · CRM",t:"6:18am",subj:"Re-engage · 12-location cleaning co · 60 days quiet",
-  prev:"Qualified lead, last touched 60 days ago. No booking page. Fit score 92/100.",
-  arrive:"A warm CRM lead has gone quiet — a 12-location cleaning company with no online booking.",
-  read:"Reviewing their CRM record, last interaction, and drafting a warm re-engagement…",
-  cards:[["Lead type","CRM Re-engagement","navy"],["Key intel","12 locations · no booking page · 60 days since last contact","amber"],["Fit score","92/100 — Grow plan","navy"],["Action","Drafted personalised re-engagement email","teal"]],
-  dlabel:"Drafted re-engagement",
-  draftmsg:"AI pulled their CRM record, spotted the 60-day gap, and wrote the email. Franc just approves.",
-  meta:[["To","Sparkle Pro Cleaning"],["Re","Following up — booking page for 12 locations"]],
-  body:"Hi there,\n\nI wanted to personally follow up — it’s been a couple of months since we last spoke and I didn’t want to lose touch.\n\nWe’ve been working with a lot of multi-location cleaning companies lately and one thing that keeps coming up is losing jobs quietly — customers find them on Google, can’t book instantly, and move on to a competitor who has online scheduling.\n\nWith MioCommerce you’d have live pricing and real-time booking across all 12 locations from a single dashboard. 15-day free trial, no credit card needed.\n\nWould a quick 20-minute demo this week be worth your time?\n\nBest,\nFranc · MioCommerce\nmiocommerce.com",
-  done:"A warm CRM lead re-engaged with a personalised message — 60-day gap closed overnight.",
-  mins:14,secs:18},
+ {from:"FreshCo Cleaning Services · HubSpot",t:"6:42am",subj:"Demo in 48h · invite not accepted · no-show risk",
+  prev:"Booked May 20 demo via HubSpot. Invite not accepted. 8-person cleaning co. Twilio text queued.",
+  arrive:"A booked lead hasn't accepted their demo invite — high no-show risk flagged 48 hours out.",
+  read:"Pulling their HubSpot record, checking their profile, and drafting a personalised Twilio text…",
+  cards:[["Lead type","Pre-Demo Confirmation · HubSpot + Twilio","navy"],["Key intel","Demo May 20 · invite not accepted · cleaning co · 8 employees","amber"],["No-show risk","High — 48 hours out, no acceptance, no engagement","amber"],["Action","Personalised Twilio text drafted · HubSpot status updated","teal"]],
+  dlabel:"Drafted Twilio confirmation text",
+  draftmsg:"AI spotted the no-accept in HubSpot and wrote a text that feels personal — not automated. Franc just approves.",
+  meta:[["To","Miguel · FreshCo Cleaning"],["Via","Twilio SMS"]],
+  body:"Hey Miguel! Franc here from MioCommerce 👋\n\nJust reaching out personally ahead of our call Tuesday at 2pm. I pulled up FreshCo and it looks like you've built a solid operation.\n\nQuick question before we jump on: what's the #1 thing you're hoping we can help you fix? I want to make sure our 30 minutes is completely worth your time.\n\nSee you Tuesday!\nFranc · MioCommerce",
+  done:"Demo confirmed via personalised Twilio text — no-show risk cleared before Franc's call.",
+  mins:16,secs:12},
 
- {from:"Metro Janitorial Services · Google",t:"3:22am",subj:"Prospected · commercial cleaning · no booking page found",
-  prev:"Found via Google. 4.8★, 23 reviews, phone-only booking. Strong ICP fit.",
-  arrive:"AI prospected a commercial cleaning company on Google — 4.8 stars, zero online booking.",
-  read:"Researching their website, Google listing, and crafting targeted cold outreach…",
-  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","No booking page · 4.8★ · 23 reviews · phone-only booking","amber"],["Fit score","88/100 — Grow plan","navy"],["Action","Drafted cold email with booking-gap hook","teal"]],
+ {from:"Diamond Auto Detail · Google Scrape",t:"4:15am",subj:"Prospected · auto detailing Atlanta · no scheduling software",
+  prev:"Found via Google scrape, Atlanta. No booking system, 4.7★ reviews, active on Facebook. Strong ICP fit.",
+  arrive:"AI scraped Google for auto detailing in Atlanta — high-fit shop with zero online scheduling found.",
+  read:"Checking their Google listing, Facebook page, and website, then drafting personalised cold outreach…",
+  cards:[["Lead type","Cold Outbound · Google Scraped","navy"],["Key intel","No booking system · 4.7★ · active Facebook · phone-only","amber"],["Fit score","87/100 — Startup or Grow plan","navy"],["Action","Drafted cold email with scheduling-gap hook","teal"]],
   dlabel:"Drafted cold outreach",
-  draftmsg:"AI found the gap — no online booking — and built the entire pitch around it. The hook writes itself.",
-  meta:[["To","Metro Janitorial Services"],["Re","Losing jobs you don’t know about"]],
-  body:"Hi there,\n\nI found Metro Janitorial on Google while looking into commercial cleaning companies in your area — 4.8 stars and 23 reviews is impressive. Clearly you do great work.\n\nI noticed you don’t have online booking on your website. That means every potential customer who finds you after hours either calls and gets voicemail, or moves on to someone who lets them book instantly. For a business with your reputation, that’s revenue slipping through the cracks quietly.\n\nMioCommerce gives you a live pricing and booking page that works 24/7 — customers see your real availability and lock in a slot on the spot. 15-day free trial, no credit card.\n\nWorth a 20-minute look?\n\nBest,\nFranc · MioCommerce\nmiocommerce.com",
-  done:"Cold outreach sent to a high-fit prospect — booking-gap hook researched and written automatically.",
+  draftmsg:"AI scraped Google, found the gap — no online booking — and built the pitch around the exact problem MioCommerce solves.",
+  meta:[["To","Diamond Auto Detail"],["Re","Losing bookings you don't know about"]],
+  body:"Hi there,\n\nI came across Diamond Auto Detail on Google while looking at detailers in Atlanta — 4.7 stars and a great Facebook presence. You clearly do quality work.\n\nOne thing I noticed: you're taking bookings by phone only. Any customer who finds you after hours, or just doesn't want to call, moves on to someone they can book instantly. For a shop with your reputation, that's real jobs slipping through the cracks.\n\nMioCommerce gives auto detailers a live booking and payment page that works 24/7 — customers pick a slot, pay upfront, and you get a confirmed job on your calendar. Takes a day to set up.\n\n15-day free trial, no credit card. Worth a 20-minute look?\n\nFranc · MioCommerce\nmiocommerce.com",
+  done:"Cold outreach sent to a high-fit Atlanta detailer — Google-scraped, researched, and personalised overnight.",
   mins:18,secs:12},
 
- {from:"Diamond Detail Co. · Google",t:"4:45am",subj:"Prospected · auto detailing · active Instagram, no booking",
-  prev:"Active Instagram, strong reviews, zero online scheduler. Losing bookings to competitors.",
-  arrive:"AI found a detailing shop — active Instagram, clear demand, but zero online booking.",
-  read:"Checking their Instagram, Google listing, and writing a personalised cold email…",
-  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","Active Instagram · no booking page · DM-only scheduling","amber"],["Fit score","85/100 — Startup plan","navy"],["Action","Drafted Instagram-aware personalised outreach","teal"]],
-  dlabel:"Drafted cold outreach",
-  draftmsg:"Active social, zero booking infrastructure — AI spotted the disconnect and wrote straight to it.",
-  meta:[["To","Diamond Detail Co."],["Re","Your Instagram vs. your booking process"]],
-  body:"Hi there,\n\nYour Instagram looks great — the paint correction work on that black BMW was seriously impressive. You clearly have demand.\n\nHere’s the thing though: there’s no way to book you directly from Instagram or your website. Customers who see your work have to DM you and wait, and some won’t. You’re building an audience and then losing the easiest part — the actual booking.\n\nMioCommerce puts a live booking button on your site and links straight from your Instagram bio. Customers pick a slot, prepay, and you get a confirmed appointment — no back and forth.\n\n15-day free trial, no credit card. Want to see it in 20 minutes?\n\nFranc · MioCommerce\nmiocommerce.com",
-  done:"Hyper-personalised cold email drafted from Instagram research — sent while Franc slept.",
+ {from:"Inbound Lead · Google Ads",t:"3:08am",subj:"Filtered · new-start · fit score 31/100 · routed to free trial",
+  prev:"Form via Google Ads. Business started 3 weeks ago. Sole operator, no website, no prior software. Not demo-ready.",
+  arrive:"An inbound Google Ads lead came in overnight — AI scored them and flagged a low-fit new-start profile.",
+  read:"Analysing their form submission, checking their digital footprint, and scoring against ICP criteria…",
+  cards:[["Lead type","Inbound · Google Ads · Qualification","navy"],["Key intel","Business started 3 weeks ago · sole operator · no website · no prior software","amber"],["Fit score","31/100 — not demo-ready · new-start profile","amber"],["Action","Routed to 15-day free trial · SDR calendar protected","teal"]],
+  dlabel:"Drafted nurture email — demo not booked",
+  draftmsg:"Low-fit lead auto-routed to self-serve free trial. Franc's demo calendar stays clear for real opportunities.",
+  meta:[["To","New Inbound · Google Ads"],["Re","Get started free — MioCommerce"]],
+  body:"Hi there,\n\nThanks for your interest in MioCommerce!\n\nIt sounds like you're just getting your business off the ground — exciting times. The best way to see if MioCommerce is the right fit is to explore it yourself at your own pace.\n\nWe've set you up with a 15-day free trial, no credit card required. You can explore the booking pages, live pricing, and scheduling tools whenever you're ready.\n\nIf you have questions along the way, our support team is here. And when you're ready to talk next steps, we're just a click away.\n\nWelcome aboard,\nMioCommerce Team",
+  done:"Unqualified lead routed to free trial — demo calendar protected, SDR time saved.",
+  mins:14,secs:8},
+
+ {from:"AllStar Tire and Wheel · CRM",t:"5:30am",subj:"Re-engage · 55 days quiet · pricing page visited twice this week",
+  prev:"Qualified CRM lead, 55 days quiet. Visited MioCommerce pricing page twice in the last 3 days. Warm signal.",
+  arrive:"A 55-day quiet CRM lead just visited the pricing page twice this week — buying signal detected.",
+  read:"Pulling their HubSpot record, reviewing their visit history, and drafting a warm re-engagement…",
+  cards:[["Lead type","CRM Re-engagement · Buying Signal","navy"],["Key intel","55 days quiet · 2x pricing page visits · tire shop · 3 locations","amber"],["Signal strength","High — pricing page = active evaluation","navy"],["Action","Drafted re-engagement timed to the signal","teal"]],
+  dlabel:"Drafted re-engagement email",
+  draftmsg:"AI caught the pricing page signal in HubSpot and timed the reach-out perfectly — while the interest is still hot.",
+  meta:[["To","AllStar Tire and Wheel"],["Re","Still thinking it over?"]],
+  body:"Hi there,\n\nI noticed you've been looking at our pricing recently — wanted to reach out personally rather than leave you guessing.\n\nFor tire shops with multiple locations, the thing we hear most is the scheduling headache: calls coming in across locations, no central system, appointments falling through the cracks. MioCommerce gives each location its own live booking page with one dashboard to manage everything.\n\nIf it would help, I'm happy to do a quick 20-minute walkthrough built around how you're actually running your shops — no pitch, just the parts that are relevant to you.\n\nYour 15-day free trial is still available, no card needed.\n\nFranc · MioCommerce",
+  done:"Re-engagement sent at exactly the right moment — buying signal caught and actioned overnight.",
   mins:16,secs:14},
 
- {from:"Prestige Tire and Auto · CRM",t:"5:30am",subj:"Demo no-show · booked Apr 14 · opened 2 follow-ups",
-  prev:"Booked a demo 8 days ago, didn’t show. Opened 2 follow-up emails. 6 locations. Still warm.",
-  arrive:"A prospect who booked a demo and didn’t show — they opened 2 emails. Still very warm.",
-  read:"Reviewing demo booking, email open history, and writing a low-friction rebook…",
-  cards:[["Lead type","Demo No-Show · Re-engage","navy"],["Key intel","Booked Apr 14 · no-show · opened 2 emails · 6 locations","amber"],["Priority","High — showed clear intent to buy","navy"],["Action","Drafted frictionless rebook with free trial reminder","teal"]],
-  dlabel:"Drafted rebook email",
-  draftmsg:"They wanted the demo — life got in the way. AI wrote a frictionless rebook before the trail goes cold.",
-  meta:[["To","Prestige Tire and Auto"],["Re","Let’s reschedule — 15 min"]],
-  body:"Hi there,\n\nNo worries at all on missing the demo last week — these things happen.\n\nI wanted to reach out personally before too much time passed. You booked for a reason and I don’t want you to lose that momentum.\n\nFor tire shops with multiple locations, the biggest win we see is replacing phone scheduling with online booking across all locations simultaneously — customers pick a location, pick a slot, and you get a confirmed appointment without anyone picking up the phone.\n\nI have two slots open this week: Thursday at 2pm or Friday at 10am. 15 minutes, I’ll show you the whole setup. Your 15-day free trial is still waiting for you.\n\nWhich works better?\n\nFranc · MioCommerce",
-  done:"A 6-location no-show re-engaged with a tailored message — trail kept warm overnight.",
-  mins:12,secs:14},
-
- {from:"QuickFit Tire Services · Google",t:"2:14am",subj:"Prospected · tire shop · 6 locations · phone-only booking",
-  prev:"Found via Google. 6 locations, all phone-only scheduling. No digital booking anywhere.",
-  arrive:"AI found a 6-location tire shop running all appointments by phone — no digital booking at all.",
-  read:"Researching their locations, reviews, and building the ROI case for online booking…",
-  cards:[["Lead type","Cold Outbound · Google Prospected","navy"],["Key intel","6 locations · phone-only · est. 40+ scheduling calls per day","amber"],["Fit score","91/100 — ProMax plan","navy"],["Action","Drafted ROI-focused cold outreach","teal"]],
+ {from:"GreenLeaf Janitorial · Google Scrape",t:"2:45am",subj:"Prospected · commercial cleaning · 12 employees · switcher profile",
+  prev:"Found via Google scrape. 12 employees, outdated scheduling setup, active on Facebook. Classic switcher fit.",
+  arrive:"AI scraped Google for commercial cleaning companies — found a 12-person team on outdated software.",
+  read:"Researching their website, current setup, Facebook presence, and building the switcher pitch…",
+  cards:[["Lead type","Cold Outbound · Google Scraped","navy"],["Key intel","12 employees · outdated scheduling · active on Facebook · switcher profile","amber"],["Fit score","91/100 — Grow plan · strong switcher match","navy"],["Action","Drafted cold email targeting switcher pain points","teal"]],
   dlabel:"Drafted cold outreach",
-  draftmsg:"6 locations all on the phone — AI ran the numbers on the daily cost and built the pitch around it.",
-  meta:[["To","QuickFit Tire Services"],["Re","What phone-only booking is costing you"]],
-  body:"Hi there,\n\nI came across QuickFit on Google — six locations is impressive growth.\n\nHere’s something worth thinking about: with six locations taking appointments by phone, you’re likely fielding 30–50 scheduling calls a day. That’s 2–3 hours of staff time every single day just answering the phone. And any call that goes unanswered after hours is a lost appointment.\n\nMioCommerce replaces that with online booking that works across all six locations simultaneously — customers pick a location, pick a slot, and you get a confirmed appointment without anyone picking up the phone.\n\n15-day free trial, no credit card. I can walk you through the whole setup in 20 minutes.\n\nWorth a look?\n\nFranc · MioCommerce\nmiocommerce.com",
-  done:"High-fit 6-location prospect reached with an ROI-focused pitch — researched and sent overnight.",
+  draftmsg:"12-person cleaning company outgrowing their current setup — a textbook MioCommerce switcher. AI built the pitch to match.",
+  meta:[["To","GreenLeaf Janitorial"],["Re","Outgrowing your current scheduling setup?"]],
+  body:"Hi there,\n\nI came across GreenLeaf on Google while looking at commercial cleaning companies in your area — 12-person team and strong reviews. Clearly you've built something real.\n\nA lot of cleaning companies at your stage come to us because their current setup works fine for one location or one person, but starts breaking down when you're coordinating a team: double-bookings, last-minute changes, customers having to call in for everything.\n\nMioCommerce was built specifically for service companies at your stage — live pricing, real-time booking, team scheduling, and invoicing in one place. Switching takes about a day and we walk you through the whole thing.\n\n15-day free trial, no card needed. Worth a quick look?\n\nFranc · MioCommerce\nmiocommerce.com",
+  done:"High-fit switcher prospect reached with a tailored pitch — researched and sent overnight.",
   mins:20,secs:10}
 ];
 
@@ -217,7 +217,7 @@ function bump(el,val){$(el).textContent=val}
 async function run(){
   buildInbox();
   await sleep(900);
-  setN('🎯','Lead Queue','AI Replace found 5 prospects to reach overnight.','');
+  setN('🎯','Lead Queue','AI Replace found 5 leads to action overnight.','');
   await sleep(1400);
 
   for(var i=0;i<EMAILS.length;i++){
@@ -228,10 +228,10 @@ async function run(){
     $('work').style.display='none';
     $('end').classList.remove('vis');
     $('reading').style.display='flex';
-    $('rmsg').textContent='New lead found · AI Replace is researching…';
-    setN('🎯','Step 1 · Lead found',e.arrive,'');
+    $('rmsg').textContent='New lead flagged · AI Replace is analysing…';
+    setN('🎯','Step 1 · Lead flagged',e.arrive,'');
     await sleep(1700);
-    setN('🔍','Step 2 · Researching',e.read,'');
+    setN('🔍','Step 2 · Analysing',e.read,'');
     $('rmsg').textContent=e.read;
     await sleep(900);
     $('reading').style.display='none';
@@ -245,13 +245,13 @@ async function run(){
     for(var k=0;k<e.cards.length;k++){await sleep(360);$('cd'+k).classList.add('show')}
     await sleep(700);
     $('inbox').classList.remove('dim');
-    setN('✉️','Step 3 · Outreach ready',e.draftmsg,'teal');
+    setN('✉️','Step 3 · Action ready',e.draftmsg,'teal');
     $('dh').textContent=e.dlabel;
     $('dmeta').innerHTML=e.meta.map(function(m){return '<div><span class="l">'+m[0]+'</span><b>'+m[1]+'</b></div>'}).join('');
     $('dbody').textContent=e.body;
     $('draft').classList.add('show');
     await sleep(900);
-    $('ahint').innerHTML=NAME+' approves · outreach sends instantly';
+    $('ahint').innerHTML=NAME+' approves · sends instantly';
     $('APW').classList.add('vis');
     await sleep(2400);
     $('APW').classList.remove('vis');
@@ -259,7 +259,7 @@ async function run(){
     var apl=$('APL');
     apl.textContent='✓ '+NAME+' approved · sent '+e.t;
     apl.classList.add('vis');
-    setN('✅','Step 4 · Sent',e.done,'teal');
+    setN('✅','Step 4 · Done',e.done,'teal');
     handled++;approved++;totMin+=e.mins;totSec+=e.secs;
     bump('st-h',handled);bump('st-a',approved);bump('st-s',totMin+'m');bump('st-t',totSec+'s');
     await sleep(2300);
@@ -269,8 +269,8 @@ async function run(){
   $('inbox').classList.add('dim');
   $('work').style.display='none';
   $('reading').style.display='none';
-  setN('☕','Done','Franc’s outbound is done before he wakes up.','teal');
-  $('estat').textContent=handled+' leads reached · '+totMin+' minutes saved · '+NAME+' spent '+totSec+' seconds total';
+  setN('☕','Done','Franc\'s lead queue is clear before he wakes up.','teal');
+  $('estat').textContent=handled+' leads handled · '+totMin+' minutes saved · '+NAME+' spent '+totSec+' seconds total';
   $('end').classList.add('vis');
 }
 window.addEventListener('load',run);
