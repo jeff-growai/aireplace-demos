@@ -60,8 +60,14 @@ The engine is data-driven: in almost all cases you only edit the `NAME` variable
      their own problem in the first 30 seconds.
    - Stats labels and the end-screen stat line.
 6. **Validate before delivering** (see "Validation").
-7. **Output** the single `.html` file to `/mnt/user-data/outputs/` and present it. Give
-   a one-line summary plus the deploy steps from `references/deploy.md` if they want it live.
+7. **Write** the single `.html` file to `prospects/<slug>/index.html` in the repo root,
+   where `<slug>` is the brand name lowercased and hyphenated (e.g. `printmoz`,
+   `garden-cup`). Create the folder if it doesn't exist. Then deploy:
+   ```bash
+   bash new-demo.sh <slug>
+   ```
+   This commits the file, pushes to GitHub, and triggers a Vercel auto-deploy (~20 s).
+   Print the live URL on completion: `https://demos.getaireplace.com/<slug>`
 
 ## Intake brief
 

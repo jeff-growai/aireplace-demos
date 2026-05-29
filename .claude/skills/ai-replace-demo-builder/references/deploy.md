@@ -1,41 +1,73 @@
-# AI Replace — Deploying a demo (Vercel + GitHub)
+# AI Replace — Deploying a demo
 
-Each demo is a single static `.html` file, so hosting is trivial — no build step, no
-framework, no server. Pick whichever path fits the closer's comfort level.
+Each demo is a single static `.html` file committed to the monorepo at
+`prospects/<slug>/index.html`. A Vercel Git integration auto-deploys every push,
+so the deploy step is just a git commit + push.
 
-A clean per-prospect URL works best on a call. Two common patterns:
-- **One repo per prospect** → `printmoz-demo.vercel.app` (cleanest, throwaway).
-- **One repo, many demos** → put each demo at `/printmoz/index.html` → `demos.vercel.app/printmoz`.
+## Monorepo layout
 
-## Fastest: drag-and-drop to Vercel (no Git needed)
-
-1. Rename the file to `index.html`.
-2. Go to vercel.com → **Add New… → Project → Deploy** (or use the drop-zone for a static folder).
-3. Drop the folder containing `index.html`. Vercel detects it as a static site automatically.
-4. You get a live URL in ~20 seconds. Share that on the call.
-
-## Recommended: GitHub → Vercel (re-deployable, versioned)
-
-Per-prospect repo:
-```bash
-mkdir printmoz-demo && cd printmoz-demo
-cp /path/to/demo.html index.html
-git init && git add . && git commit -m "Printmoz AI CS Rep demo"
-# create an empty repo on github.com first, then:
-git remote add origin https://github.com/<you>/printmoz-demo.git
-git push -u origin main
 ```
-Then in Vercel: **Add New… → Project → Import** the repo. No framework preset needed
-(it's static). Deploy → live URL. Every `git push` redeploys automatically.
+aireplace-demos/
+├── vercel.json          ← rewrites /:slug → /prospects/:slug/index.html
+├── new-demo.sh          ← commit + push script called by the skill
+└── prospects/
+    ├── printmoz/
+    │   └── index.html
+    └── <next-prospect>/
+        └── index.html
+```
 
-A custom domain (e.g. `demos.getaireplace.com`) can be added in Vercel → Project → Settings
-→ Domains, pointed at a subdomain you control.
+**Live URL pattern:** `https://demos.getaireplace.com/<slug>`
+
+## Automated deploy (built into the skill)
+
+After writing `prospects/<slug>/index.html`, the skill runs:
+
+```bash
+bash new-demo.sh <slug>
+```
+
+That script:
+1. Stages `prospects/<slug>/index.html`
+2. Commits `demo: <slug>`
+3. Pushes to `origin main` → Vercel detects the push and deploys in ~20 s
+4. Prints the live URL: `https://demos.getaireplace.com/<slug>`
+
+Nothing else needed. The URL is ready to paste into the follow-up email or
+share on the second call.
+
+## Slug naming convention
+
+`<slug>` = brand name, lowercase, hyphens for spaces. Examples:
+- Printmoz → `printmoz`
+- Garden Cup → `garden-cup`
+- V Shred → `v-shred`
+
+## Manual fallback (if auto-deploy fails)
+
+```bash
+cd "C:\Users\Jeff\Documents\GROW AI\Claude\AIR Demo"
+mkdir -p prospects/<slug>
+cp /path/to/demo.html prospects/<slug>/index.html
+git add prospects/<slug>/index.html
+git commit -m "demo: <slug>"
+git push origin main
+```
+
+Vercel deploys automatically within ~20 seconds of the push.
+
+## One-time infrastructure (already set up)
+
+- GitHub repo: `jeff-growai/aireplace-demos` (private)
+- Vercel project: `aireplace-demos.vercel.app`, connected to the GitHub repo
+- Custom domain: `demos.getaireplace.com` → Vercel project
+- `vercel.json` rewrite: `/:slug` → `/prospects/:slug/index.html`
 
 ## Notes
 
-- The file references Google Fonts via CDN, so the deployed page needs internet (it will, on
-  Vercel). For a fully offline screen-share, the closer can just open the local `.html` file.
-- Nothing in the demo is secret, but these URLs are public once deployed — use unguessable repo/
-  path names if you don't want prospects finding each other's demos.
-- **Account creation, connecting GitHub to Vercel, and pushing live are done with your own logins**
-  — set those up once, then each new demo is a 20-second deploy.
+- Demos reference Google Fonts via CDN — they need internet to render the fonts
+  on Vercel (fine). For a fully offline screen-share the closer opens the local file.
+- URLs are public once deployed. The repo is private, but the Vercel URLs are live.
+  Use unguessable slugs if you don't want prospects finding each other's demos.
+- Account creation, GitHub/Vercel connection, and domain DNS are done once and
+  never repeated. Each new demo is fully automated from here.
