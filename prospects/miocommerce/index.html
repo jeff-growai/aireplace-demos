@@ -15,7 +15,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);height:100vh;overflow:hidden}
-.mono{font-family:'JetBrains Mono',monospace}
 .top{height:58px;background:var(--dark);display:flex;align-items:center;padding:0 22px;gap:14px;color:#fff}
 .brandc{font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff}
 .sep{width:1px;height:24px;background:rgba(255,255,255,.22)}
@@ -24,7 +23,7 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
 .live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#cfe9df}
 .dot{width:8px;height:8px;border-radius:50%;background:#2ee6a6;box-shadow:0 0 0 0 rgba(46,230,166,.7);animation:pl 1.8s infinite}
 @keyframes pl{0%{box-shadow:0 0 0 0 rgba(46,230,166,.6)}70%{box-shadow:0 0 0 8px rgba(46,230,166,0)}100%{box-shadow:0 0 0 0 rgba(46,230,166,0)}}
-.wrap{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 58px)}
+.wrap{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 58px - 64px)}
 .inbox{background:var(--white);border-right:1px solid var(--line);overflow:hidden;transition:opacity .4s ease;display:flex;flex-direction:column}
 .inbox.dim{opacity:.28}
 .inbox-h{padding:16px 18px 12px;border-bottom:1px solid var(--line)}
@@ -85,6 +84,16 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
 .end .cup{font-size:64px}
 .end h1{font-size:28px;font-weight:800;max-width:560px;line-height:1.3}
 .end .estat{font-family:'JetBrains Mono',monospace;font-size:15px;color:#8fe9cb;background:rgba(255,255,255,.06);padding:12px 22px;border-radius:30px}
+/* navigation bar */
+.nav{height:64px;background:var(--white);border-top:2px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+.ndots{display:flex;gap:7px;align-items:center}
+.ndot{width:8px;height:8px;border-radius:50%;background:var(--line);transition:all .3s ease;cursor:pointer}
+.ndot.on{background:var(--teal);transform:scale(1.25)}
+.nctrl{display:flex;align-items:center;gap:14px}
+.nbtn{font-family:Montserrat;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 18px;border-radius:20px;border:1.5px solid var(--line);background:var(--white);color:var(--muted);cursor:pointer;transition:all .2s ease}
+.nbtn:hover:not(:disabled){border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
+.nbtn:disabled{opacity:.3;cursor:default}
+.nstep{font-size:12px;font-weight:700;color:var(--ink);min-width:82px;text-align:center;letter-spacing:.2px}
 </style>
 </head>
 <body>
@@ -102,10 +111,10 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
   <section class="panel">
     <div class="narr" id="narr">
       <div class="ni" id="ni">🎯</div>
-      <div class="nx"><div class="ns" id="ns">Starting</div><div class="nt" id="nt">AI Replace is starting Franc's overnight SDR run…</div></div>
+      <div class="nx"><div class="ns" id="ns">Ready</div><div class="nt" id="nt">Press Next to start Franc's overnight SDR run.</div></div>
     </div>
     <div class="stage" id="stage">
-      <div class="reading" id="reading"><div class="spin"></div><div class="rmsg" id="rmsg">Connecting to HubSpot · loading lead queue…</div></div>
+      <div class="reading" id="reading" style="display:none"><div class="spin"></div><div class="rmsg" id="rmsg">Connecting to HubSpot · loading lead queue…</div></div>
       <div id="work" style="display:none">
         <div class="cards" id="cards"></div>
         <div class="draft" id="draft">
@@ -124,6 +133,10 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
         <h1>This runs every morning before Franc opens his laptop.</h1>
         <div class="estat" id="estat"></div>
       </div>
+      <div class="reading" id="idle" style="display:flex">
+        <div style="font-size:40px">🎯</div>
+        <div class="rmsg">Click Next to begin the walkthrough.</div>
+      </div>
     </div>
     <div class="stats">
       <div class="stat"><div class="sv" id="st-h">0</div><div class="sl">Leads Handled</div></div>
@@ -132,6 +145,14 @@ body{font-family:Montserrat,sans-serif;background:var(--bg);color:var(--ink);hei
       <div class="stat hi"><div class="sv" id="st-t">0s</div><div class="sl">Franc's Time</div></div>
     </div>
   </section>
+</div>
+<div class="nav">
+  <div class="ndots" id="ndots"></div>
+  <div class="nctrl">
+    <button class="nbtn" id="nbp">← Prev</button>
+    <span class="nstep" id="nstep">Step 1 of 5</span>
+    <button class="nbtn" id="nbn">Next →</button>
+  </div>
 </div>
 <script>
 var NAME="Franc";
@@ -197,12 +218,18 @@ var EMAILS=[
   mins:20,secs:10}
 ];
 
+// Pre-compute cumulative stats
+var cumStats=[];
+(function(){var cm=0,cs=0;EMAILS.forEach(function(e,i){cm+=e.mins;cs+=e.secs;cumStats.push({h:i+1,a:i+1,m:cm,s:cs})})})();
+
 var sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function $(id){return document.getElementById(id)}
 function setN(icon,step,title,theme){
   $('narr').className='narr'+(theme?' '+theme:'');
   $('ni').innerHTML=icon;$('ns').innerHTML=step;$('nt').innerHTML=title;
 }
+function bump(el,val){$(el).textContent=val}
+
 function buildInbox(){
   var h='';
   EMAILS.forEach(function(e,i){
@@ -211,69 +238,112 @@ function buildInbox(){
   });
   $('items').innerHTML=h;
 }
-var totMin=0,totSec=0,handled=0,approved=0;
-function bump(el,val){$(el).textContent=val}
 
-async function run(){
-  buildInbox();
-  await sleep(900);
-  setN('🎯','Lead Queue','AI Replace found 5 leads to action overnight.','');
-  await sleep(1400);
+var cur=0,maxR=-1,playing=false;
 
-  for(var i=0;i<EMAILS.length;i++){
-    var e=EMAILS[i];
-    for(var j=0;j<EMAILS.length;j++){var it=$('it'+j);it.classList.remove('on');if(j<i)it.classList.add('done')}
-    $('it'+i).classList.add('on');
-    $('inbox').classList.add('dim');
-    $('work').style.display='none';
-    $('end').classList.remove('vis');
-    $('reading').style.display='flex';
-    $('rmsg').textContent='New lead flagged · AI Replace is analysing…';
-    setN('🎯','Step 1 · Lead flagged',e.arrive,'');
-    await sleep(1700);
-    setN('🔍','Step 2 · Analysing',e.read,'');
-    $('rmsg').textContent=e.read;
-    await sleep(900);
-    $('reading').style.display='none';
-    $('work').style.display='block';
-    $('draft').classList.remove('show');
-    $('APW').classList.remove('vis');
-    $('APL').classList.remove('vis');
-    var ch='';
-    e.cards.forEach(function(c,k){ch+='<div class="card '+c[2]+'" id="cd'+k+'"><div class="cl">'+c[0]+'</div><div class="cv">'+c[1]+'</div></div>'});
-    $('cards').innerHTML=ch;
-    for(var k=0;k<e.cards.length;k++){await sleep(360);$('cd'+k).classList.add('show')}
-    await sleep(700);
-    $('inbox').classList.remove('dim');
-    setN('✉️','Step 3 · Action ready',e.draftmsg,'teal');
-    $('dh').textContent=e.dlabel;
-    $('dmeta').innerHTML=e.meta.map(function(m){return '<div><span class="l">'+m[0]+'</span><b>'+m[1]+'</b></div>'}).join('');
-    $('dbody').textContent=e.body;
-    $('draft').classList.add('show');
-    await sleep(900);
-    $('ahint').innerHTML=NAME+' approves · sends instantly';
-    $('APW').classList.add('vis');
-    await sleep(2400);
-    $('APW').classList.remove('vis');
-    await sleep(300);
-    var apl=$('APL');
-    apl.textContent='✓ '+NAME+' approved · sent '+e.t;
-    apl.classList.add('vis');
-    setN('✅','Step 4 · Done',e.done,'teal');
-    handled++;approved++;totMin+=e.mins;totSec+=e.secs;
-    bump('st-h',handled);bump('st-a',approved);bump('st-s',totMin+'m');bump('st-t',totSec+'s');
-    await sleep(2300);
+function setNav(i){
+  document.querySelectorAll('.ndot').forEach(function(d,k){d.classList.toggle('on',k===i)});
+  $('nstep').textContent='Step '+(i+1)+' of '+EMAILS.length;
+  $('nbp').disabled=playing||i===0;
+  $('nbn').disabled=playing||i===EMAILS.length-1;
+}
+
+async function play(i){
+  if(playing)return;
+  playing=true;cur=i;
+  $('nbp').disabled=true;$('nbn').disabled=true;
+  setNav(i);
+  var e=EMAILS[i];
+  // inbox state
+  for(var j=0;j<EMAILS.length;j++){
+    var it=$('it'+j);
+    it.classList.remove('on');
+    if(j<i)it.classList.add('done');else it.classList.remove('done');
   }
-  for(var j=0;j<EMAILS.length;j++)$('it'+j).classList.add('done');
-  $('it'+(EMAILS.length-1)).classList.remove('on');
+  $('it'+i).classList.add('on');
+  // clear idle screen
+  $('idle').style.display='none';
+  // S1 — arrive
   $('inbox').classList.add('dim');
   $('work').style.display='none';
+  $('end').classList.remove('vis');
+  $('reading').style.display='flex';
+  $('rmsg').textContent='New lead flagged · AI Replace is analysing…';
+  setN('🎯','Step 1 · Lead flagged',e.arrive,'');
+  await sleep(1700);
+  // S2 — classify
+  setN('🔍','Step 2 · Analysing',e.read,'');
+  $('rmsg').textContent=e.read;
+  await sleep(900);
   $('reading').style.display='none';
-  setN('☕','Done','Franc\'s lead queue is clear before he wakes up.','teal');
-  $('estat').textContent=handled+' leads handled · '+totMin+' minutes saved · '+NAME+' spent '+totSec+' seconds total';
-  $('end').classList.add('vis');
+  $('work').style.display='block';
+  $('draft').classList.remove('show');
+  $('APW').classList.remove('vis');
+  $('APL').classList.remove('vis');
+  var ch='';
+  e.cards.forEach(function(c,k){ch+='<div class="card '+c[2]+'" id="cd'+k+'"><div class="cl">'+c[0]+'</div><div class="cv">'+c[1]+'</div></div>'});
+  $('cards').innerHTML=ch;
+  for(var k=0;k<e.cards.length;k++){await sleep(360);$('cd'+k).classList.add('show')}
+  await sleep(700);
+  // S3 — draft + approve
+  $('inbox').classList.remove('dim');
+  setN('✉️','Step 3 · Action ready',e.draftmsg,'teal');
+  $('dh').textContent=e.dlabel;
+  $('dmeta').innerHTML=e.meta.map(function(m){return '<div><span class="l">'+m[0]+'</span><b>'+m[1]+'</b></div>'}).join('');
+  $('dbody').textContent=e.body;
+  $('draft').classList.add('show');
+  await sleep(900);
+  $('ahint').innerHTML=NAME+' approves · sends instantly';
+  $('APW').classList.add('vis');
+  await sleep(2400);
+  $('APW').classList.remove('vis');
+  await sleep(300);
+  // S4 — confirm + stats
+  var apl=$('APL');
+  apl.textContent='✓ '+NAME+' approved · sent '+e.t;
+  apl.classList.add('vis');
+  setN('✅','Step 4 · Done',e.done,'teal');
+  if(i>maxR){
+    maxR=i;
+    bump('st-h',cumStats[i].h);bump('st-a',cumStats[i].a);
+    bump('st-s',cumStats[i].m+'m');bump('st-t',cumStats[i].s+'s');
+  }
+  await sleep(1800);
+  // End screen on last step
+  if(i===EMAILS.length-1){
+    for(var j=0;j<EMAILS.length;j++)$('it'+j).classList.add('done');
+    $('it'+(EMAILS.length-1)).classList.remove('on');
+    $('inbox').classList.add('dim');
+    $('work').style.display='none';
+    $('reading').style.display='none';
+    setN('☕','Done',"Franc's lead queue is clear before he wakes up.",'teal');
+    var last=cumStats[EMAILS.length-1];
+    $('estat').textContent=last.h+' leads handled · '+last.m+' minutes saved · '+NAME+' spent '+last.s+' seconds total';
+    $('end').classList.add('vis');
+  }
+  playing=false;
+  $('nbp').disabled=i===0;
+  $('nbn').disabled=i===EMAILS.length-1;
 }
-window.addEventListener('load',run);
+
+function init(){
+  buildInbox();
+  // Build progress dots
+  var dh='';
+  EMAILS.forEach(function(e,i){dh+='<span class="ndot"></span>'});
+  $('ndots').innerHTML=dh;
+  // Set initial nav state
+  $('nstep').textContent='Step 1 of '+EMAILS.length;
+  $('nbp').disabled=true;
+  // Button listeners
+  $('nbp').addEventListener('click',function(){if(!playing&&cur>0)play(cur-1)});
+  $('nbn').addEventListener('click',function(){if(!playing&&cur<EMAILS.length-1)play(cur+1)});
+  // Dot click listeners
+  document.querySelectorAll('.ndot').forEach(function(d,k){
+    d.addEventListener('click',function(){if(!playing)play(k)});
+  });
+}
+window.addEventListener('load',init);
 </script>
 </body>
 </html>
