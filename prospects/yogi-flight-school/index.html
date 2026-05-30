@@ -142,6 +142,8 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
 .sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
 /* ===== review + spill ===== */
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #f3c4ad;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link:hover{background:#ffe2d2}
 .franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
 .franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .franc-card.pending{color:var(--muted);background:#fffaf6;border-color:var(--border);font-style:italic}
@@ -373,14 +375,15 @@ var STEPS=[
    ["›","MATCH: 'Refunds' + 'Medical/health' → excluded","flag"],
    ["›","Policy: AI must NOT auto-send · suggest only","flag"],
    ["›","Sentiment: vulnerable · needs human warmth","warn"],
+   ["›","Retention-first: offer membership freeze before refund","ok"],
    ["›","Drafting a SUGGESTED reply for your team","ok"],
    ["›","Holding for human approval — NOT sent","warn"],
    ["›","Flagging in inbox for Nathania's team","hi"],
   ],
   oMeta:"SUGGESTED reply · held for human · NOT sent",
   conf:"Hold",
-  outreach:"Hi Marina,\n\nOh no — first off, sending you so much care as you recover from your wrist surgery. Please be gentle with yourself; healing is the only job that matters right now.\n\nOf course we'll take care of this. I've started your cancellation and our team will process your refund — you'll get confirmation by email shortly.\n\nAnd whenever you're cleared and ready, your spot is here waiting. We even have wrist-friendly modifications for exactly this, so we can help you ease back in gently. No rush at all.\n\nTake care of you 🙏\n— Team YFS",
-  francView:"AI Exclusion match (refunds + medical). Per YOUR rules, the AI drafted this suggested reply but did NOT send it — it's flagged for your team to review and send. AI did the writing; you keep the human touch where it matters most.",
+  outreach:"Hi Marina,\n\nOh no — first off, sending you so much care as you heal from your wrist surgery. Please be gentle with yourself; recovery is the only job that matters right now. 🙏\n\nBefore we process anything: rather than cancel, we can freeze your membership so you keep everything you've built — your progress, your spot, and your current pricing — with no charges while it's paused. You just pick it back up whenever you're cleared.\n\nWe've also got wrist-friendly modifications for exactly this, so when you're ready we can ease you back in gently.\n\nIf you'd still rather cancel and have us refund you, that's completely okay too — just say the word and I'll take care of it right away. Whatever's easiest for you.\n\nTake care of you,\n— Team YFS",
+  francView:"AI Exclusion match (refunds + medical). The suggested reply leads with care, then offers to freeze her membership — retaining the relationship before giving money away — with a refund still on the table if she prefers. Drafted but NOT sent; flagged for your team.",
   sent:"Held for human · AI suggestion ready (NOT sent)",
   auto:false,saved:8,secs:20,
   tiles:[{l:"Channel",v:"Support Inbox"},{l:"Exclusion",v:"Refund + Medical",a:true},{l:"Sent?",v:"NO — held"},{l:"Action",v:"Flagged"}],
@@ -572,6 +575,11 @@ function renderContext(step,revealed){
   el('ctxBody').innerHTML=h;
 }
 
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
 function showFranc(step){
   var e=el('francCard');if(!e)return;
   e.style.display='block';
@@ -668,6 +676,7 @@ function restoreDone(step){
   fillBrainComplete(step);
   el('oText').innerHTML=wireHTML(step,true);
   el('aiText').textContent=step.outreach;
+  appendLink(step);
   showFranc(step);
   finishVisual(step);
   updateNav();
@@ -694,6 +703,7 @@ async function runStep(){
   el('oText').innerHTML=wireHTML(step,true);
   await sleep(220);if(t!==tok)return;
   await typeText('aiText',step.outreach,7);if(t!==tok)return;
+  appendLink(step);
   showFranc(step);
   el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
   setBadge('aiBadge','b-done','Done');
