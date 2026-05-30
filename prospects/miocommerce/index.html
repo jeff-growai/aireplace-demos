@@ -136,6 +136,8 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .chip.x{background:var(--redlt);color:var(--red);border-color:#f0caca;text-decoration:line-through;opacity:.75}
 .chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
 .sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--teallt);border:1px solid #9ecfd6;color:var(--tealdk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link:hover{background:#cdeef2}
 .franc-card{border:1px solid #9ecfd6;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
 .franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .franc-card.pending{color:var(--muted);background:#f6fbfc;border-color:var(--border);font-style:italic}
@@ -554,6 +556,11 @@ function renderContext(step,revealed){
   el('ctxBody').innerHTML=h;
 }
 
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
 function showFranc(step){
   var e=el('francCard');if(!e)return;
   e.style.display='block';
@@ -651,6 +658,7 @@ function restoreDone(step){
   fillBrainComplete(step);
   el('oText').innerHTML=wireHTML(step,true);
   el('aiText').textContent=step.outreach;
+  appendLink(step);
   showFranc(step);
   finishVisual(step);
   updateNav();
@@ -678,6 +686,7 @@ async function runStep(){
   el('oText').innerHTML=wireHTML(step,true);
   await sleep(220);if(t!==tok)return;
   await typeText('aiText',step.outreach,7);if(t!==tok)return;
+  appendLink(step);
   showFranc(step);
   finishVisual(step);
   el('statusText').textContent='AI Replace — '+step.sent;
