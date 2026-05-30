@@ -11,7 +11,7 @@
   --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
   --brand:#f15a22;--branddk:#c94210;--brandlt:#fff0e8;
   --red:#c93232;--redlt:#fdf0f0;--amber:#8c5c0a;--amberlt:#fef5e8;
-  --green:#1a7a4a;--greenlt:#edf8f0;--fbblue:#1877f2;
+  --green:#1a7a4a;--greenlt:#edf8f0;
   --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -83,10 +83,9 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
 .ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
 .ometa b{color:var(--tealdk)}
-.oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
+.oconf{align-self:start;border:1px solid #9ecfd6;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
 .owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 .otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
-/* ===== PHONE (Instagram DM / SMS) ===== */
 .phone{max-width:310px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
 .phone-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 12px;background:#111;border-radius:22px 22px 0 0;color:#fff}
 .phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
@@ -97,7 +96,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
 .pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
 .pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
-/* ===== EMAIL ===== */
 .email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
 .email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
 .email-row .ek{padding:11px 12px;font:700 9.5px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#faf7f4;border-right:1px solid var(--border)}
@@ -106,7 +104,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .email-hold{padding:9px 14px;background:var(--amberlt);border-bottom:1px solid #e8c8a4;color:var(--amber);font:800 10px/1.4 var(--mono);letter-spacing:.03em}
 .email-bd{padding:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;color:var(--body);min-height:120px}
 .email-await{color:var(--muted);font-style:italic}
-/* ===== FACEBOOK ===== */
 .fb{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
 .fb-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px}
 .fb-av{width:40px;height:40px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--mono);color:#fff;flex:0 0 auto}
@@ -114,17 +111,19 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .fb-sub{font:600 11px/1.3 var(--mono);color:var(--muted);margin-top:1px}
 .fb-cap{padding:0 14px 4px;font-weight:800;font-size:14px;color:var(--ink)}
 .fb-cap2{padding:0 14px 12px;font-size:13px;color:var(--body);border-bottom:1px solid var(--border)}
-.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:10px}
-.fbc{display:flex;gap:9px;align-items:flex-start}
-.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:#8a8d91}
-.fbc.ai .fbc-av{background:var(--brand)}
-.fbc-bub{background:#f0f2f5;border-radius:14px;padding:8px 12px;min-width:0}
-.fbc.ai .fbc-bub{background:var(--brandlt);border:1px solid #f3c4ad}
-.fbc-name{font-weight:800;font-size:12px;color:var(--ink)}
-.fbc.ai .fbc-name{color:var(--branddk)}
-.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:1px}
-.fb-hidden{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--redlt);border:1px solid #f0caca;border-radius:10px;font-size:11.5px;font-weight:600;color:var(--red);margin-top:2px}
-/* ===== SYSTEM (ManyChat / Kajabi) ===== */
+.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:9px}
+.fbc{display:flex;gap:9px;align-items:flex-start;transition:opacity .35s}
+.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:var(--brand)}
+.fbc-bub{background:#f4f5f7;border:1px solid #e9e9ee;border-radius:12px;padding:9px 13px;min-width:0;flex:1}
+.fbc.flagged .fbc-bub{background:var(--redlt);border-color:#f0caca}
+.fbc.deleted{opacity:.45}
+.fbc.deleted .fbc-name,.fbc.deleted .fbc-text{text-decoration:line-through}
+.fbc-name{font-weight:800;font-size:12.5px;color:var(--ink)}
+.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:2px}
+.fbc-flag{display:inline-block;margin-top:7px;font:800 8.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:#fff;border:1px solid #f0caca;border-radius:100px;padding:5px 9px}
+.fbc-flag.done{color:var(--green);border-color:#9fd4b8;background:var(--greenlt)}
+.fb-airec{margin-top:4px;padding:11px 13px;background:var(--brandlt);border:1px solid #f3c4ad;border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--body)}
+.fb-airec .rh{display:block;font:800 8.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--branddk);margin-bottom:5px}
 .sys{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
 .sys-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border);background:#0e1b2a}
 .sys-ic{width:28px;height:28px;border-radius:7px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
@@ -141,7 +140,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .chip.x{background:var(--redlt);color:var(--red);border-color:#f0caca;text-decoration:line-through;opacity:.75}
 .chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
 .sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
-/* ===== review + spill ===== */
 .guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #f3c4ad;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
 .guide-link:hover{background:#ffe2d2}
 .franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
@@ -152,6 +150,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
 .spill.show{opacity:1}
 .spill.hold{background:var(--amber)}
+.spill.await{background:var(--branddk)}
 .ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
 .ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
 .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
@@ -171,12 +170,14 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pitch-item:first-of-type{border-top:none;padding-top:0}
 .pitch-name{font-size:11.5px;font-weight:850;color:var(--ink)}
 .pitch-copy{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
-.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(920px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(255,250,246,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(80,45,25,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(255,250,246,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(80,45,25,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
 .nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
 .nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
 .nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(241,90,34,.22);white-space:nowrap}
 .btn-primary:disabled{background:#d8c4ba;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(241,90,34,.55)}60%{box-shadow:0 0 0 14px rgba(241,90,34,0)}100%{box-shadow:0 0 0 0 rgba(241,90,34,0)}}
 .btn-sec{border:1px solid var(--border);border-radius:100px;background:#fffaf6;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
 .btn-sec:hover:not(:disabled){border-color:#f3c4ad;color:var(--branddk);background:var(--brandlt)}
 .btn-sec:disabled{opacity:.35;cursor:not-allowed}
@@ -273,6 +274,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 </div>
 
 <script>
+var NAME="Nathania";var ITEM="item";
 var STEPS=[
  {sender:"Instagram DM · @flowwithjess",initials:"JF",time:"7:02am",subject:"I finally landed Crow! 😭🙏",
   preview:"Nat I can't believe it — after 3 weeks of YFS drills I held crow!",tag:"DM",tagDone:"Replied",
@@ -302,34 +304,35 @@ var STEPS=[
   pitch:[{n:"Brand-voice replies",c:"Trained on your past DMs — irreverent, warm, unmistakably YFS"},{n:"24/7 coverage",c:"Replies land instantly, even at 7am before anyone's online"},{n:"Backup human",c:"Covers DMs when your CS rep is out — never goes quiet"}]},
 
  {sender:"Facebook Ad · Comments",initials:"YF",time:"5:48am",subject:"New comments · 'Free crow pose drills'",
-  preview:"Positive comments + questions. 1 competitor-spam comment detected.",tag:"Comments",tagDone:"Handled",
-  label:"Meta Ad Comments · Triage",wlbl:"Facebook · Ad Comments",
+  preview:"Mostly love — but one comment is hijacking your paid traffic.",tag:"Comments",tagDone:"Cleaned",
+  label:"Meta Ad Comments · Moderation",wlbl:"Facebook · Ad Comments",
   status:"AI Replace — Scanning Facebook ad comments via Meta...",
   channel:"fb",fbName:"Yogi Flight School",fbSub:"Beginner Arm Balance Training · Facebook",
-  post:"Free crow pose drills",postSub:"Build confidence without forcing the shape. Ask questions below and we'll help. 🙏",
-  topWho:"ari_rises",topInit:"AR",topComment:"This free training made side crow feel possible. Thank you!",
-  fbHandle:"yogiflightschool",
-  hiddenNote:"1 competitor-link comment hidden from public view (still visible to your team).",
+  post:"Free crow pose drills",postSub:"Build confidence without forcing the shape. Ask questions below 🙏",
+  comments:[
+   {who:"Amy M.",init:"AM",text:"These wrist warmups helped a lot. Starting to trust the lean forward."},
+   {who:"Brian K.",init:"BK",text:"I run a faster private course. DM me \"CROW\" and skip these beginner drills.",flag:"hijack"}
+  ],
   lines:[
    ["›","Connecting to Meta Graph API · Facebook page",""],
-   ["›","Active ad: 'Free crow pose drills'","dim"],
-   ["›","New comments since midnight: 12",""],
-   ["›","9 positive (praise, emoji, tag-a-friend)","hi"],
-   ["›","2 genuine questions → drafting helpful replies","ok"],
-   ["›","1 comment flagged: links a competitor course","flag"],
-   ["›","Spam/competitor → hide (not delete) for review","warn"],
-   ["›","Auto-replying to positive comments in voice","hi"],
-   ["›","No negative sentiment needing escalation","ok"],
-   ["›","Logging all actions to your records",""],
+   ["›","Ad: 'Free crow pose drills' · 12 new comments",""],
+   ["›","9 positive → auto-replied in brand voice","hi"],
+   ["›","2 questions → answered (wrist pain, what's inside)","ok"],
+   ["›","Scanning for brand-safety / policy issues...","dim"],
+   ["›","Brian K.: 'DM me CROW… skip these drills'","warn"],
+   ["›","Detected: competitor hijack — poaching paid traffic","flag"],
+   ["›","Deletion is destructive — needs your confirmation","warn"],
+   ["›","Recommending removal · hidden from public view",""],
   ],
-  oMeta:"Auto-handled · 11 replies + 1 hidden · Facebook",
-  conf:"Auto",
-  outreach:"Love hearing this 🔥 Side crow starts feeling way less impossible once the pieces click. Keep showing up — that next pose is closer than you think!",
-  francView:"AI worked the whole comment section: hyped the fans, answered the real questions, and quietly hid the competitor spam before new viewers saw it. The kind of monitoring nobody has time to do live.",
-  sent:"11 replies sent · 1 comment hidden · no action needed",
-  auto:true,saved:6,secs:0,
-  tiles:[{l:"Channel",v:"FB Comments"},{l:"Positive",v:"9 replied"},{l:"Spam",v:"1 hidden",a:true},{l:"Action",v:"Auto-handled"}],
-  pitch:[{n:"Real-time moderation",c:"Hides competitor + negative comments before they cost you leads"},{n:"Protects ad spend",c:"A clean comment section converts more ad clicks"},{n:"Answers + hypes",c:"Replies to real questions, celebrates the wins"}]},
+  oMeta:"Moderation · 1 hijack comment flagged · Facebook",
+  conf:"Hijack",
+  outreach:"Replied to the 9 positive comments and answered the 2 questions in your voice. One to flag: Brian K. is using your ad to poach traffic to a competing course (\"DM me CROW… skip these drills\"). I recommend removing it so new viewers don't see it — your call, confirm below to delete.",
+  confirm:{btn:"🗑 CONFIRM DELETE",effect:"removeFlagged",done:"Hijack comment deleted · hidden from public view",badge:"Deleted",title:"Delete the hijack comment?",copy:"Brian K. is poaching your paid traffic. Click to remove it from public view."},
+  francView:"AI handled the love automatically — but did NOT delete anything on its own. The competitor's comment is flagged and waiting for your one-click confirm. You stay in control of anything destructive.",
+  sent:"Hijack comment deleted · comment section clean",
+  auto:false,hold:false,saved:6,secs:8,
+  tiles:[{l:"Channel",v:"FB Comments"},{l:"Positive",v:"9 replied"},{l:"Hijack",v:"1 flagged",a:true},{l:"Action",v:"Delete (confirm)"}],
+  pitch:[{n:"Real-time moderation",c:"Spots competitor + harmful comments the moment they post"},{n:"You confirm deletes",c:"Nothing destructive happens without your one-click approval"},{n:"Protects ad spend",c:"New viewers never see a hijack on your paid traffic"}]},
 
  {sender:"ManyChat · System Alert",initials:"MC",time:"3:14am",subject:"Launch flow stalled — 14 users stuck",
   preview:"'YFS Launch' flow failing after first message. Emails not reaching Zapier.",tag:"Glitch",tagDone:"Fixed",
@@ -378,16 +381,15 @@ var STEPS=[
    ["›","Retention-first: offer membership freeze before refund","ok"],
    ["›","Drafting a SUGGESTED reply for your team","ok"],
    ["›","Holding for human approval — NOT sent","warn"],
-   ["›","Flagging in inbox for Nathania's team","hi"],
   ],
   oMeta:"SUGGESTED reply · held for human · NOT sent",
   conf:"Hold",
   outreach:"Hi Marina,\n\nOh no — first off, sending you so much care as you heal from your wrist surgery. Please be gentle with yourself; recovery is the only job that matters right now. 🙏\n\nBefore we process anything: rather than cancel, we can freeze your membership so you keep everything you've built — your progress, your spot, and your current pricing — with no charges while it's paused. You just pick it back up whenever you're cleared.\n\nWe've also got wrist-friendly modifications for exactly this, so when you're ready we can ease you back in gently.\n\nIf you'd still rather cancel and have us refund you, that's completely okay too — just say the word and I'll take care of it right away. Whatever's easiest for you.\n\nTake care of you,\n— Team YFS",
   francView:"AI Exclusion match (refunds + medical). The suggested reply leads with care, then offers to freeze her membership — retaining the relationship before giving money away — with a refund still on the table if she prefers. Drafted but NOT sent; flagged for your team.",
   sent:"Held for human · AI suggestion ready (NOT sent)",
-  auto:false,saved:8,secs:20,
+  auto:false,hold:true,saved:8,secs:20,
   tiles:[{l:"Channel",v:"Support Inbox"},{l:"Exclusion",v:"Refund + Medical",a:true},{l:"Sent?",v:"NO — held"},{l:"Action",v:"Flagged"}],
-  pitch:[{n:"AI Exclusions list",c:"Refunds, medical, complaints — AI suggests but never auto-sends"},{n:"Drafts, doesn't decide",c:"Your team gets a ready reply to approve — saves writing time"},{n:"Human where it counts",c:"Sensitive moments always reach a person — your brand's whole ethos"}]},
+  pitch:[{n:"AI Exclusions list",c:"Refunds, medical, complaints — AI suggests but never auto-sends"},{n:"Retention-first",c:"Offers a membership freeze before any money leaves"},{n:"Human where it counts",c:"Sensitive moments always reach a person — your brand's whole ethos"}]},
 
  {sender:"Kajabi · Membership Event",initials:"KJ",time:"2:05am",subject:"Membership canceled — stale tags",
   preview:"Member canceled 'Flight Method Cert' but is still tagged active.",tag:"Billing",tagDone:"Cleaned",
@@ -418,9 +420,12 @@ var STEPS=[
   pitch:[{n:"Billing hygiene",c:"Removes stale access tags the moment a membership cancels"},{n:"Prevents disputes",c:"No more free access slipping through after cancellation"},{n:"Works inside Kajabi",c:"Acts in your real systems, not just a chat window"}]}
 ];
 
-var cur=0,done={},running=false,tok=0,typeIv=null,timers=[],
+var cur=0,done={},running=false,awaiting=false,tok=0,typeIv=null,timers=[],
     stats={h:0,a:0,s:0,t:0};
 var N=STEPS.length;
+
+// 2nd stat counter — Yogi counts items flagged for a human (hold steps)
+function countSecond(step){return step.hold?1:0}
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
@@ -428,6 +433,11 @@ function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(type
 function el(id){return document.getElementById(id)}
 function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
 function setLabel(txt){var e=el('stageLabel');e.textContent=txt;e.classList.toggle('vis',!!txt)}
+function conclusionLine(step){
+  if(step.auto)return['Handled automatically · no action needed','ok'];
+  if(step.hold)return['Suggestion ready · flagged for human','warn'];
+  return['Awaiting '+NAME+' confirmation…','warn'];
+}
 
 function addLine(prefix,text,cls,delay){
   return new Promise(function(resolve){
@@ -441,6 +451,12 @@ function addLine(prefix,text,cls,delay){
     },delay||0);
     timers.push(id);
   });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
 }
 function addDiv(delay){
   return new Promise(function(resolve){
@@ -467,7 +483,6 @@ function typeText(id,text,speed){
   });
 }
 
-/* ===== channel-native renderers — #aiText is the typed element ===== */
 function phoneHTML(step,reveal){
   var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+(step.channel==='ig'?'Instagram':'SMS')+'</div></div><div class="phone-screen">';
   if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
@@ -483,7 +498,7 @@ function emailHTML(step,reveal){
   var body;
   if(reveal)body='<span id="aiText"></span>';
   else body=hasIn?esc(step.inbound):'<span class="email-await">Composing…</span>';
-  var hold=(reveal&&!step.auto)?'<div class="email-hold">⚑ AI SUGGESTION — NOT SENT · held for your team to review</div>':'';
+  var hold=(reveal&&step.hold)?'<div class="email-hold">⚑ AI SUGGESTION — NOT SENT · held for your team to review</div>':'';
   return '<div class="email">'
     +'<div class="email-row"><div class="ek">From</div><div class="ev">'+esc(from)+'</div></div>'
     +'<div class="email-row"><div class="ek">To</div><div class="ev">'+esc(to)+'</div></div>'
@@ -495,12 +510,14 @@ function fbHTML(step,reveal){
   var h='<div class="fb">'
     +'<div class="fb-hdr"><div class="fb-av">'+esc(step.initials)+'</div><div><div class="fb-name">'+esc(step.fbName)+'</div><div class="fb-sub">'+esc(step.fbSub)+'</div></div></div>'
     +'<div class="fb-cap">'+esc(step.post)+'</div><div class="fb-cap2">'+esc(step.postSub)+'</div>'
-    +'<div class="fb-comments">'
-    +'<div class="fbc"><div class="fbc-av">'+esc(step.topInit)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.topWho)+'</div><div class="fbc-text">'+esc(step.topComment)+'</div></div></div>';
-  if(reveal){
-    h+='<div class="fbc ai"><div class="fbc-av">'+esc(step.initials)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.fbHandle)+'</div><div class="fbc-text"><span id="aiText"></span></div></div></div>';
-    if(step.hiddenNote)h+='<div class="fb-hidden">🚫 '+esc(step.hiddenNote)+'</div>';
-  }
+    +'<div class="fb-comments">';
+  (step.comments||[]).forEach(function(c,i){
+    h+='<div class="fbc'+(c.flag?' flagged':'')+'" id="fbc'+i+'"><div class="fbc-av">'+esc(c.init)+'</div>'
+      +'<div class="fbc-bub"><div class="fbc-name">'+esc(c.who)+'</div><div class="fbc-text">'+esc(c.text)+'</div>'
+      +(c.flag?'<div class="fbc-flag">Flagged: '+esc(c.flag)+'</div>':'')
+      +'</div></div>';
+  });
+  if(reveal)h+='<div class="fb-airec"><span class="rh">AI Replace · recommendation</span><span id="aiText"></span></div>';
   h+='</div></div>';
   return h;
 }
@@ -512,8 +529,8 @@ function systemHTML(step,reveal){
   if(step.chips){
     h+='<div class="sys-chips">';
     step.chips.forEach(function(c){
-      var cls=reveal?(c.x?' x':(c.add?' add':'')):'';
       if(!reveal&&c.add)return;
+      var cls=reveal?(c.x?' x':(c.add?' add':'')):'';
       h+='<span class="chip'+cls+'">'+esc(c.t)+'</span>';
     });
     h+='</div>';
@@ -528,6 +545,23 @@ function wireHTML(step,reveal){
   if(ch==='fb')return fbHTML(step,reveal);
   if(ch==='email')return emailHTML(step,reveal);
   return systemHTML(step,reveal);
+}
+
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
+
+function applyDoneEffect(step){
+  if(step.confirm&&step.confirm.effect==='removeFlagged'){
+    var nodes=document.querySelectorAll('.fbc.flagged');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.add('deleted');
+      var tag=nodes[i].querySelector('.fbc-flag');
+      if(tag){tag.textContent='✓ Removed';tag.className='fbc-flag done'}
+    }
+  }
 }
 
 function renderQueue(){
@@ -562,8 +596,8 @@ function renderContext(step,revealed){
     +'<span><b>✓</b>Simple acknowledgments → auto-reply</span>'
     +'<span><b>✓</b>ManyChat stuck flows → auto-fix + recover</span>'
     +'<span><b>✓</b>Kajabi tag cleanup → auto-action</span>'
+    +'<span><b class="f">⚑</b>Deletes / sends → one-click confirm first</span>'
     +'<span><b class="f">⚑</b>Refunds · medical · complaints → suggest only</span>'
-    +'<span><b class="f">⚑</b>AI Exclusions list → never auto-send</span>'
     +'</div></div>';
   if(revealed){
     h+='<div class="pitch-box"><div class="pitch-ttl">Why this works for YFS</div>';
@@ -575,21 +609,16 @@ function renderContext(step,revealed){
   el('ctxBody').innerHTML=h;
 }
 
-function appendLink(step){
-  if(!step.link)return;
-  var e=el('aiText');if(!e)return;
-  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
-}
 function showFranc(step){
   var e=el('francCard');if(!e)return;
   e.style.display='block';
-  e.className='franc-card'+(step.auto?'':' hold');
-  e.innerHTML='<b>Nathania view</b>'+esc(step.francView);
+  e.className='franc-card'+(step.hold?' hold':'');
+  e.innerHTML='<b>'+NAME+' view</b>'+esc(step.francView);
 }
 
 function updateStats(step){
   stats.h++;
-  if(!step.auto)stats.a++;
+  stats.a+=countSecond(step);
   stats.s+=step.saved;stats.t+=step.secs;
   el('stH').textContent=stats.h;
   el('stA').textContent=stats.a;
@@ -597,32 +626,94 @@ function updateStats(step){
   el('stT').textContent=stats.t+'s';
 }
 
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+
+function enterAwaiting(step){
+  awaiting=true;
+  showFranc(step);
+  el('spill').textContent='Awaiting '+NAME+'’s confirmation';
+  el('spill').className='spill show await';
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge','b-alert','Confirm');
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — awaiting '+NAME+' confirmation';
+  updateNav();
+}
+
+function finalizeAuto(step){
+  showFranc(step);
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Held':'Done'));
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+}
+
+function confirmAction(){
+  if(!awaiting)return;
+  awaiting=false;
+  var step=STEPS[cur];
+  applyDoneEffect(step);
+  appendBrain('✓',step.confirm.done||'Confirmed','ok');
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show';
+  setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+  updateNav();
+}
+
 function updateNav(){
   var step=STEPS[cur];
   var isDone=done[cur];
   var isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
   el('btnPrev').disabled=running||cur===0;
-  el('btnSkip').className='btn-sec'+(isDone?' hidden':'');
+  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
   el('btnSkip').disabled=running;
   if(running){
-    el('btnPrimary').textContent='Running...';
-    el('btnPrimary').disabled=true;
+    p.textContent='Running...';p.disabled=true;
     setBadge('navBadge','b-proc','Running');
+  } else if(awaiting){
+    p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title||'Confirm to continue';
+    el('navCopy').textContent=step.confirm.copy||'Review the draft, then click to confirm.';
   } else if(!isDone){
-    el('btnPrimary').textContent='ANALYZE';
-    el('btnPrimary').disabled=false;
+    p.textContent='ANALYZE';p.disabled=false;
     setBadge('navBadge','b-idle','Waiting');
     el('navTitle').textContent=step.sender+' loaded';
-    el('navCopy').textContent='Click Analyze to run the AI on this item.';
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
   } else if(isLast){
-    el('btnPrimary').textContent='REPLAY ↺';
-    el('btnPrimary').disabled=false;
+    p.textContent='REPLAY ↺';p.disabled=false;
     setBadge('navBadge','b-done','Complete');
-    el('navTitle').textContent='All 5 items handled';
+    el('navTitle').textContent='All '+N+' items handled';
     el('navCopy').textContent='Demo complete. Click Replay to start over.';
   } else {
-    el('btnPrimary').textContent='NEXT →';
-    el('btnPrimary').disabled=false;
+    p.textContent='NEXT →';p.disabled=false;
     setBadge('navBadge','b-live','Next');
     el('navTitle').textContent=step.sender+' — done';
     el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the final item')+'.';
@@ -630,7 +721,7 @@ function updateNav(){
 }
 
 function renderStep(){
-  tok++;clearTimers();running=false;
+  tok++;clearTimers();running=false;awaiting=false;
   var step=STEPS[cur];
   renderQueue();
   renderContext(step,false);
@@ -650,40 +741,28 @@ function renderStep(){
   updateNav();
 }
 
-function fillBrainComplete(step){
-  el('brainBody').innerHTML='';
-  step.lines.forEach(function(l){
-    var d=document.createElement('div');d.className='bl show';
-    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
-    el('brainBody').appendChild(d);
-  });
-  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
-  var dl=document.createElement('div');dl.className='bl show';
-  dl.innerHTML='<span class="bp">✓</span><span class="bt '+(step.auto?'ok':'warn')+'">'+(step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human')+'</span>';
-  el('brainBody').appendChild(dl);
-}
-
-function finishVisual(step){
-  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
-  el('oConf').textContent=step.conf;
-  el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
-  setBadge('aiBadge','b-done','Done');
-  setBadge('oBadge',step.auto?'b-done':'b-alert',step.auto?'Sent':'Held');
-  renderContext(step,true);
-}
-
 function restoreDone(step){
   fillBrainComplete(step);
-  el('oText').innerHTML=wireHTML(step,true);
+  revealOutput(step);
   el('aiText').textContent=step.outreach;
   appendLink(step);
   showFranc(step);
-  finishVisual(step);
+  if(step.confirm){
+    appendBrain('✓',step.confirm.done||'Confirmed','ok');
+    applyDoneEffect(step);
+    el('spill').textContent=step.sent;el('spill').className='spill show';
+    setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  } else {
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Held':'Done'));
+  }
+  setBadge('aiBadge','b-done','Done');
+  renderContext(step,true);
   updateNav();
 }
 
 async function runStep(){
-  if(running||done[cur])return;
+  if(running||done[cur]||awaiting)return;
   running=true;
   var t=++tok;
   var step=STEPS[cur];
@@ -697,47 +776,39 @@ async function runStep(){
     if(t!==tok)return;
   }
   await addDiv(150);if(t!==tok)return;
-  await addLine('✓',step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human',step.auto?'ok':'warn',150);if(t!==tok)return;
-  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
-  el('oConf').textContent=step.conf;
-  el('oText').innerHTML=wireHTML(step,true);
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],150);if(t!==tok)return;
+  revealOutput(step);
   await sleep(220);if(t!==tok)return;
   await typeText('aiText',step.outreach,7);if(t!==tok)return;
   appendLink(step);
-  showFranc(step);
-  el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
-  setBadge('aiBadge','b-done','Done');
-  setBadge('oBadge',step.auto?'b-done':'b-alert',step.auto?'Sent':'Held');
-  renderContext(step,true);
-  el('statusText').textContent='AI Replace — '+step.sent;
-  done[cur]=true;
-  updateStats(step);
-  renderQueue();
   running=false;
-  updateNav();
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
 }
 
 function skipNow(){
-  if(done[cur])return;
-  clearTimers();tok++;running=false;
+  if(done[cur]||awaiting||running)return;
+  clearTimers();tok++;
   var step=STEPS[cur];
-  restoreDone(step);
-  el('statusText').textContent='AI Replace — '+step.sent;
-  done[cur]=true;
-  updateStats(step);
-  renderQueue();
-  updateNav();
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
 }
 
 function handlePrimary(){
   if(running)return;
+  if(awaiting){confirmAction();return}
   if(!done[cur]){runStep();return}
   if(cur>=N-1){replay();return}
   cur++;renderStep();
 }
 
 function replay(){
-  clearTimers();tok++;
+  clearTimers();tok++;awaiting=false;
   cur=0;done={};stats={h:0,a:0,s:0,t:0};
   el('stH').textContent='0';el('stA').textContent='0';
   el('stS').textContent='0m';el('stT').textContent='0s';
