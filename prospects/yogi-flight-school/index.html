@@ -11,7 +11,7 @@
   --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
   --brand:#f15a22;--branddk:#c94210;--brandlt:#fff0e8;
   --red:#c93232;--redlt:#fdf0f0;--amber:#8c5c0a;--amberlt:#fef5e8;
-  --green:#1a7a4a;--greenlt:#edf8f0;
+  --green:#1a7a4a;--greenlt:#edf8f0;--fbblue:#1877f2;
   --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -81,23 +81,68 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .bdiv.show{opacity:1}
 .outreach-card{flex:1 1 auto;min-height:0}
 .ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
-.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:9px;font:600 10px/1.5 var(--mono);color:var(--muted)}
+.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
 .ometa b{color:var(--tealdk)}
 .oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
-.osubj{font-size:13.5px;font-weight:800;color:var(--ink);padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:9px}
-.otext{flex:1 1 auto;min-height:0;overflow:auto;background:#fffbf8;border:1px solid #f3e3d9;border-radius:10px;padding:14px;color:var(--body)}
-.thread{display:flex;flex-direction:column;gap:10px}
-.tsect{display:flex;flex-direction:column;gap:5px}
-.tlbl{font:800 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.mrow{display:flex;gap:9px;align-items:flex-start}
-.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font:900 9px/1 var(--mono);color:#fff;background:var(--brand);margin-top:20px}
-.mav.ai{background:var(--teal)}
-.mbub{width:100%;border:1px solid var(--border);border-radius:13px;padding:13px 15px;font-size:13px;line-height:1.6;white-space:pre-wrap;box-shadow:0 1px 6px rgba(80,45,25,.04)}
-.mbub.intel{background:var(--white);border-bottom-left-radius:4px;color:var(--ink);font-family:var(--mono);font-size:10.5px;line-height:1.55}
-.mbub.ai{background:var(--teallt);border-color:#b0d9cb;border-bottom-right-radius:4px;color:var(--body)}
-.bhead{font:800 8px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.ai .bhead{color:var(--tealdk)}
-.franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body)}
+.owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
+/* ===== PHONE (Instagram DM / SMS) ===== */
+.phone{max-width:310px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.phone-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 12px;background:#111;border-radius:22px 22px 0 0;color:#fff}
+.phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
+.phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;min-height:300px;display:flex;flex-direction:column;gap:9px;justify-content:flex-end}
+.pb{max-width:80%;padding:10px 13px;font-size:13px;line-height:1.45;border-radius:18px;white-space:pre-wrap}
+.pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
+.pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
+/* ===== EMAIL ===== */
+.email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
+.email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
+.email-row .ek{padding:11px 12px;font:700 9.5px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#faf7f4;border-right:1px solid var(--border)}
+.email-row .ev{padding:11px 13px;font-size:13px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis}
+.email-subjrow{padding:11px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13.5px;color:var(--ink);background:#fffdfb}
+.email-hold{padding:9px 14px;background:var(--amberlt);border-bottom:1px solid #e8c8a4;color:var(--amber);font:800 10px/1.4 var(--mono);letter-spacing:.03em}
+.email-bd{padding:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;color:var(--body);min-height:120px}
+.email-await{color:var(--muted);font-style:italic}
+/* ===== FACEBOOK ===== */
+.fb{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
+.fb-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.fb-av{width:40px;height:40px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--mono);color:#fff;flex:0 0 auto}
+.fb-name{font-weight:800;font-size:14px;color:var(--ink)}
+.fb-sub{font:600 11px/1.3 var(--mono);color:var(--muted);margin-top:1px}
+.fb-cap{padding:0 14px 4px;font-weight:800;font-size:14px;color:var(--ink)}
+.fb-cap2{padding:0 14px 12px;font-size:13px;color:var(--body);border-bottom:1px solid var(--border)}
+.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:10px}
+.fbc{display:flex;gap:9px;align-items:flex-start}
+.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:#8a8d91}
+.fbc.ai .fbc-av{background:var(--brand)}
+.fbc-bub{background:#f0f2f5;border-radius:14px;padding:8px 12px;min-width:0}
+.fbc.ai .fbc-bub{background:var(--brandlt);border:1px solid #f3c4ad}
+.fbc-name{font-weight:800;font-size:12px;color:var(--ink)}
+.fbc.ai .fbc-name{color:var(--branddk)}
+.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:1px}
+.fb-hidden{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--redlt);border:1px solid #f0caca;border-radius:10px;font-size:11.5px;font-weight:600;color:var(--red);margin-top:2px}
+/* ===== SYSTEM (ManyChat / Kajabi) ===== */
+.sys{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(80,45,25,.05)}
+.sys-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border);background:#0e1b2a}
+.sys-ic{width:28px;height:28px;border-radius:7px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.sys-ttl{font:800 11px/1 var(--mono);letter-spacing:.04em;color:#fff;flex:1}
+.sys-pill{font:800 9px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:100px;padding:5px 9px;background:rgba(201,50,50,.2);color:#ff9d9d;border:1px solid rgba(201,50,50,.4)}
+.sys-pill.ok{background:rgba(26,122,74,.2);color:#7fe0a8;border-color:rgba(26,122,74,.5)}
+.sys-rows{padding:6px 14px}
+.sys-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #f0e8e4;font-size:12.5px}
+.sys-row:last-child{border-bottom:none}
+.sys-row span{color:var(--muted);font:600 11px/1.4 var(--mono)}
+.sys-row b{color:var(--ink);font-weight:800;text-align:right}
+.sys-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 14px 12px}
+.chip{font:700 10.5px/1 var(--mono);padding:6px 10px;border-radius:100px;background:#f0eeec;color:var(--body);border:1px solid var(--border)}
+.chip.x{background:var(--redlt);color:var(--red);border-color:#f0caca;text-decoration:line-through;opacity:.75}
+.chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
+.sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
+/* ===== review + spill ===== */
+.franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
 .franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .franc-card.pending{color:var(--muted);background:#fffaf6;border-color:var(--border);font-style:italic}
 .franc-card.hold{background:var(--amberlt);border-color:#e8c8a4}
@@ -112,7 +157,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .tile.alert{background:var(--redlt);border-color:#f0caca}
 .tile-lbl{font:800 8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .tile-val{font-size:12.5px;font-weight:850;color:var(--ink);line-height:1.2}
-.tile-note{font-size:10px;color:var(--muted);margin-top:2px}
 .icp-box{background:var(--brandlt);border:1px solid #f3c4ad;border-radius:11px;padding:9px}
 .icp-ttl{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--branddk);margin-bottom:6px}
 .icp-list{display:flex;flex-direction:column;gap:3px;font-size:10.5px;line-height:1.3;color:var(--body)}
@@ -194,8 +238,9 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
       </div>
       <div class="ob">
         <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
-        <div class="osubj" id="oSubj">&nbsp;</div>
+        <div class="owlbl" id="oWlbl"></div>
         <div class="otext" id="oText"><div class="empty-msg">The incoming item loads after you click Analyze.</div></div>
+        <div class="franc-card pending" id="francCard" style="display:none"><b>Nathania view</b>Processing…</div>
         <div class="spill" id="spill">Output pending</div>
       </div>
     </div>
@@ -228,9 +273,11 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 <script>
 var STEPS=[
  {sender:"Instagram DM · @flowwithjess",initials:"JF",time:"7:02am",subject:"I finally landed Crow! 😭🙏",
-  preview:"Nat I can't believe it — after 3 weeks of YFS drills I held crow for 10 seconds!",tag:"DM",tagDone:"Replied",
-  label:"Social DM · Love + Thanks",
+  preview:"Nat I can't believe it — after 3 weeks of YFS drills I held crow!",tag:"DM",tagDone:"Replied",
+  label:"Social DM · Love + Thanks",wlbl:"Instagram Direct Message",
   status:"AI Replace — Monitoring Instagram DMs via Meta...",
+  channel:"ig",handle:"@flowwithjess",
+  inbound:"I finally held crow after your drills!! 🙏 Three weeks ago this felt totally impossible. Thank you so so much!!",
   lines:[
    ["›","Connecting to Meta Graph API · Instagram inbox",""],
    ["›","New DM from @flowwithjess","hi"],
@@ -243,26 +290,28 @@ var STEPS=[
    ["›","Loading brand voice: irreverent, warm, hype","dim"],
    ["›","Drafting on-brand celebratory reply...",""],
   ],
-  intelSrc:"Instagram DM · Meta Graph API",
-  intel:"Source: Meta Graph API · Instagram\n\nFrom: @flowwithjess\nMember: active (YFS course)\nSentiment: very positive\nIntent: celebrating landing Crow\nExclusions: none matched\nScope: auto-reply ✓",
   oMeta:"Auto-reply · Instagram DM · @flowwithjess",
   conf:"Auto",
-  subj:"Re: I finally landed Crow!",
-  outreach:"AHHH JESS!!! 🔥 10 SECONDS?! Do you understand what you just did?? Three weeks ago crow was a \"someday\" pose and now it's a YOU pose. 😤\n\nThis is exactly what we mean when we say the pose was never the point — the proof that you can do hard things, THAT'S the point.\n\nScreenshot this moment. Next stop: we add a little float and start chasing that handstand. So proud of you, ninja. 🙏\n\n— Team YFS",
-  francView:"AI auto-replied in your voice — pure love + thanks, no exclusions matched. This is the kind of message that eats your CS rep's morning. Handled, on-brand, zero human time.",
+  outreach:"AHHH 10 seconds?! 🔥 Three weeks ago crow was a \"someday\" pose — now it's a YOU pose. The pose was never the point; proving you can do hard things IS. Screenshot this moment. Next stop: a little float toward handstand. So proud of you, ninja 🙏",
+  francView:"AI auto-replied in your voice — pure love + thanks, no exclusions matched. The kind of message that eats your CS rep's morning. Handled, on-brand, zero human time.",
   sent:"Auto-replied in brand voice · no action needed",
   auto:true,saved:4,secs:0,
   tiles:[{l:"Channel",v:"Instagram DM"},{l:"Sentiment",v:"Positive"},{l:"Type",v:"Love + Thanks"},{l:"Action",v:"Auto-replied"}],
   pitch:[{n:"Brand-voice replies",c:"Trained on your past DMs — irreverent, warm, unmistakably YFS"},{n:"24/7 coverage",c:"Replies land instantly, even at 7am before anyone's online"},{n:"Backup human",c:"Covers DMs when your CS rep is out — never goes quiet"}]},
 
- {sender:"Facebook Ad · Comments",initials:"FB",time:"5:48am",subject:"12 new comments · 'Crow Pose in 30 Days' ad",
-  preview:"9 positive, 2 questions, 1 competitor-spam comment detected.",tag:"Comments",tagDone:"Handled",
-  label:"Meta Ad Comments · Triage",
+ {sender:"Facebook Ad · Comments",initials:"YF",time:"5:48am",subject:"New comments · 'Free crow pose drills'",
+  preview:"Positive comments + questions. 1 competitor-spam comment detected.",tag:"Comments",tagDone:"Handled",
+  label:"Meta Ad Comments · Triage",wlbl:"Facebook · Ad Comments",
   status:"AI Replace — Scanning Facebook ad comments via Meta...",
+  channel:"fb",fbName:"Yogi Flight School",fbSub:"Beginner Arm Balance Training · Facebook",
+  post:"Free crow pose drills",postSub:"Build confidence without forcing the shape. Ask questions below and we'll help. 🙏",
+  topWho:"ari_rises",topInit:"AR",topComment:"This free training made side crow feel possible. Thank you!",
+  fbHandle:"yogiflightschool",
+  hiddenNote:"1 competitor-link comment hidden from public view (still visible to your team).",
   lines:[
    ["›","Connecting to Meta Graph API · Facebook page",""],
-   ["›","Active ad: 'Crow Pose in 30 Days'","dim"],
-   ["›","12 new comments since midnight",""],
+   ["›","Active ad: 'Free crow pose drills'","dim"],
+   ["›","New comments since midnight: 12",""],
    ["›","9 positive (praise, emoji, tag-a-friend)","hi"],
    ["›","2 genuine questions → drafting helpful replies","ok"],
    ["›","1 comment flagged: links a competitor course","flag"],
@@ -271,22 +320,21 @@ var STEPS=[
    ["›","No negative sentiment needing escalation","ok"],
    ["›","Logging all actions to your records",""],
   ],
-  intelSrc:"Facebook Ad Comments · Meta Graph API",
-  intel:"Source: Meta Graph API · Facebook\n\nAd: 'Crow Pose in 30 Days'\nNew comments: 12\n• Positive: 9 → auto-reply\n• Questions: 2 → drafted\n• Competitor spam: 1 → hidden\nEscalations: 0",
   oMeta:"Auto-handled · 11 replies + 1 hidden · Facebook",
   conf:"Auto",
-  subj:"12 comments triaged on 'Crow Pose in 30 Days'",
-  outreach:"Handled the comment section so it stays warm and on-brand:\n\n• 9 positive comments → replied with quick hype + a heart (e.g. \"YES go get that pose 🔥\")\n• 2 real questions → answered: one on wrist pain (linked UnFuck Your Wrists), one on what's included in the course\n• 1 competitor-link comment → hidden (not deleted), so it's invisible to new viewers but you can still see it\n\nYour ad's comment section now reads as active, friendly, and clean — no negative first impression for new leads clicking through.",
+  outreach:"Love hearing this 🔥 Side crow starts feeling way less impossible once the pieces click. Keep showing up — that next pose is closer than you think!",
   francView:"AI worked the whole comment section: hyped the fans, answered the real questions, and quietly hid the competitor spam before new viewers saw it. The kind of monitoring nobody has time to do live.",
   sent:"11 replies sent · 1 comment hidden · no action needed",
   auto:true,saved:6,secs:0,
   tiles:[{l:"Channel",v:"FB Comments"},{l:"Positive",v:"9 replied"},{l:"Spam",v:"1 hidden",a:true},{l:"Action",v:"Auto-handled"}],
   pitch:[{n:"Real-time moderation",c:"Hides competitor + negative comments before they cost you leads"},{n:"Protects ad spend",c:"A clean comment section converts more ad clicks"},{n:"Answers + hypes",c:"Replies to real questions, celebrates the wins"}]},
 
- {sender:"ManyChat · System Alert",initials:"MC",time:"3:14am",subject:"Launch flow stalled — 14 users stuck, 0 emails",
+ {sender:"ManyChat · System Alert",initials:"MC",time:"3:14am",subject:"Launch flow stalled — 14 users stuck",
   preview:"'YFS Launch' flow failing after first message. Emails not reaching Zapier.",tag:"Glitch",tagDone:"Fixed",
-  label:"ManyChat Automation · Repair",
+  label:"ManyChat Automation · Repair",wlbl:"ManyChat Automation Repair",
   status:"AI Replace — Monitoring ManyChat flow health...",
+  channel:"system",sysTitle:"ManyChat · 'YFS Launch' Flow",sysState:"Stalled",sysDone:"Restored",
+  sysRows:[["Failing at","After Message 1"],["Users stuck","14"],["Emails captured","0 → 14"],["Root cause","Zapier webhook unmapped"]],
   lines:[
    ["›","Connecting to ManyChat API · flow monitor",""],
    ["›","Alert: 'YFS Launch' flow stalled after Message 1","flag"],
@@ -299,22 +347,24 @@ var STEPS=[
    ["›","Pushing recovered emails to Zapier → YFS list","hi"],
    ["›","Verified: 14 emails now in Zapier queue","hi"],
   ],
-  intelSrc:"ManyChat · Flow Monitor (API)",
-  intel:"Source: ManyChat API · Flow Monitor\n\nFlow: 'YFS Launch'\nFailing at: after Message 1\nUsers stuck: 14\nEmails captured: 0 → 14\nRoot cause: Zapier webhook\n  mapping missing\nStatus: RESTORED ✓",
   oMeta:"Auto-fix · ManyChat 'YFS Launch' flow",
   conf:"Auto",
-  subj:"Flow restored — 14 emails recovered",
-  outreach:"Caught and fixed the stuck launch flow at 3:14am:\n\n• Root cause: when the flow was last edited, it lost its Zapier webhook mapping — the exact reason new flows stopped pushing emails to your list.\n• Fix: re-mapped the email field to the Zapier webhook step.\n• Recovery: re-triggered the flow for all 14 stuck users and pushed their captured emails to your Zapier queue.\n\n'YFS Launch' is live again and email capture is confirmed working. No leads lost.",
+  outreach:"Root cause: when the flow was last edited it lost its Zapier webhook mapping — the exact reason new flows stopped pushing emails to your list.\n\nFixed: re-mapped the email field to the Zapier webhook, re-triggered the flow for all 14 stuck users, and pushed their captured emails to your Zapier queue.\n\n'YFS Launch' is live again and email capture is confirmed working. Zero leads lost.",
   francView:"This is the 4-hours-a-day ManyChat problem — caught and fixed at 3am before anyone woke up. 14 leads that would've vanished are now in your list. Imagine this running every night.",
   sent:"Flow fixed · 14 emails recovered · no action needed",
   auto:true,saved:35,secs:0,
   tiles:[{l:"Source",v:"ManyChat"},{l:"Stuck Users",v:"14",a:true},{l:"Emails",v:"0 → 14"},{l:"Action",v:"Auto-fixed"}],
   pitch:[{n:"Flow health monitoring",c:"Watches your ManyChat flows 24/7 and fixes stalls automatically"},{n:"Lead recovery",c:"Re-triggers stuck users so captured emails never disappear"},{n:"Ends the 4hr/day fix",c:"The daily troubleshooting your team does — gone"}]},
 
- {sender:"support@ · Marina K.",initials:"MK",time:"4:30am",subject:"Refund request — wrist surgery, can't continue",
-  preview:"Hi, I need to cancel and request a refund — I just had wrist surgery and can't practice...",tag:"Refund",tagDone:"Flagged",
-  label:"CS Inbox · AI Exclusion Match",
+ {sender:"support@ · Marina K.",initials:"MK",time:"4:30am",subject:"Refund request — wrist surgery",
+  preview:"I need to cancel and request a refund — just had wrist surgery and can't practice...",tag:"Refund",tagDone:"Flagged",
+  label:"CS Inbox · AI Exclusion Match",wlbl:"Support Email · Held for Review",
   status:"AI Replace — Triaging the support inbox...",
+  channel:"email",
+  emailFrom:"support@yogiflightschool.com",emailTo:"marina.k@gmail.com",
+  inboundFrom:"marina.k@gmail.com",inboundTo:"support@yogiflightschool.com",
+  inbound:"Hi, I need to cancel and request a refund. I just had wrist surgery and won't be able to practice for a while. I'm really gutted about it — I was loving the program. Thank you for understanding. — Marina",
+  subj:"Refund request",
   lines:[
    ["›","Connecting to support inbox (Gmail)",""],
    ["›","New email: Marina K. · refund request",""],
@@ -327,22 +377,22 @@ var STEPS=[
    ["›","Holding for human approval — NOT sent","warn"],
    ["›","Flagging in inbox for Nathania's team","hi"],
   ],
-  intelSrc:"Support Inbox · Gmail",
-  intel:"Source: Gmail · support@\n\nFrom: Marina K.\nTopic: Refund + medical\nExclusions matched:\n  • Refunds\n  • Medical/health mention\nPolicy: SUGGEST ONLY\nStatus: HELD for human ⚑",
   oMeta:"SUGGESTED reply · held for human · NOT sent",
   conf:"Hold",
-  subj:"Re: Refund request (suggested — needs your review)",
-  outreach:"Hi Marina,\n\nOh no — first off, sending you so much care as you recover from your wrist surgery. Please be gentle with yourself right now; healing is the only job that matters.\n\nOf course we'll take care of this for you. I've started your cancellation and our team will process your refund — you'll see confirmation by email shortly.\n\nAnd whenever you're cleared and ready to come back to the mat, your spot is here waiting. We'd love to help you ease back in gently (we even have wrist-friendly modifications for exactly this). No rush at all.\n\nTake care of you. 🙏\n— Team YFS",
+  outreach:"Hi Marina,\n\nOh no — first off, sending you so much care as you recover from your wrist surgery. Please be gentle with yourself; healing is the only job that matters right now.\n\nOf course we'll take care of this. I've started your cancellation and our team will process your refund — you'll get confirmation by email shortly.\n\nAnd whenever you're cleared and ready, your spot is here waiting. We even have wrist-friendly modifications for exactly this, so we can help you ease back in gently. No rush at all.\n\nTake care of you 🙏\n— Team YFS",
   francView:"AI Exclusion match (refunds + medical). Per YOUR rules, the AI drafted this suggested reply but did NOT send it — it's flagged for your team to review and send. AI did the writing; you keep the human touch where it matters most.",
   sent:"Held for human · AI suggestion ready (NOT sent)",
   auto:false,saved:8,secs:20,
   tiles:[{l:"Channel",v:"Support Inbox"},{l:"Exclusion",v:"Refund + Medical",a:true},{l:"Sent?",v:"NO — held"},{l:"Action",v:"Flagged"}],
   pitch:[{n:"AI Exclusions list",c:"Refunds, medical, complaints — AI suggests but never auto-sends"},{n:"Drafts, doesn't decide",c:"Your team gets a ready reply to approve — saves writing time"},{n:"Human where it counts",c:"Sensitive moments always reach a person — your brand's whole ethos"}]},
 
- {sender:"Kajabi · Membership Event",initials:"KJ",time:"2:05am",subject:"Membership canceled — stale tags detected",
-  preview:"Member canceled 'Flight Method Cert' but is still tagged active. Access not revoked.",tag:"Billing",tagDone:"Cleaned",
-  label:"Kajabi Billing · Tag Cleanup",
+ {sender:"Kajabi · Membership Event",initials:"KJ",time:"2:05am",subject:"Membership canceled — stale tags",
+  preview:"Member canceled 'Flight Method Cert' but is still tagged active.",tag:"Billing",tagDone:"Cleaned",
+  label:"Kajabi Billing · Tag Cleanup",wlbl:"Kajabi Account Record",
   status:"AI Replace — Reconciling Kajabi membership tags...",
+  channel:"system",sysTitle:"Kajabi · Member Account",sysState:"Tags Stale",sysDone:"Reconciled",
+  sysRows:[["Event","Cancellation"],["Product","Flight Method Cert"],["Billing","Payments ended"]],
+  chips:[{t:"active-member",x:true},{t:"cert-access",x:true},{t:"canceled-2026-05",add:true}],
   lines:[
    ["›","Connecting to Kajabi · membership events",""],
    ["›","Event: cancellation · 'Flight Method Cert'","warn"],
@@ -355,13 +405,10 @@ var STEPS=[
    ["›","No other accounts affected","ok"],
    ["›","Logged to billing audit trail",""],
   ],
-  intelSrc:"Kajabi · Membership Event",
-  intel:"Source: Kajabi · Membership\n\nEvent: cancellation\nProduct: Flight Method Cert\nStale tags found:\n  • active-member\n  • cert-access\nBilling: payments ended\nStatus: RECONCILED ✓",
   oMeta:"Auto-action · Kajabi tag cleanup",
   conf:"Auto",
-  subj:"Membership tags reconciled after cancellation",
-  outreach:"Cleaned up the billing state after this cancellation:\n\n• Detected the member canceled 'Flight Method Cert' but was still tagged 'active-member' and 'cert-access' — meaning they'd keep paid access for free.\n• Verified against billing: payments have ended.\n• Removed both stale tags and added 'canceled-2026-05'.\n• Access is now correctly revoked and the record is reconciled.\n\nThis is the kind of quiet tag mismatch that leads to free access, support confusion, and refund disputes later — handled automatically the moment the cancellation hit.",
-  francView:"AI logged into Kajabi, removed the stale access tags after the cancellation, and reconciled the billing record — exactly the admin task that slips through the cracks and causes disputes weeks later.",
+  outreach:"Detected the member canceled 'Flight Method Cert' but was still tagged 'active-member' and 'cert-access' — meaning they'd keep paid access for free.\n\nVerified against billing (payments ended), removed both stale tags, and added 'canceled-2026-05'. Access is now correctly revoked and the record is reconciled.\n\nThis is the quiet tag mismatch that causes free access and refund disputes weeks later — handled the moment the cancellation hit.",
+  francView:"AI logged into Kajabi, removed the stale access tags after the cancellation, and reconciled the billing record — exactly the admin task that slips through the cracks and causes disputes later.",
   sent:"Tags cleaned · access revoked · no action needed",
   auto:true,saved:6,secs:0,
   tiles:[{l:"Source",v:"Kajabi"},{l:"Stale Tags",v:"2 removed",a:true},{l:"Access",v:"Revoked"},{l:"Action",v:"Auto-cleaned"}],
@@ -372,7 +419,7 @@ var cur=0,done={},running=false,tok=0,typeIv=null,timers=[],
     stats={h:0,a:0,s:0,t:0};
 var N=STEPS.length;
 
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
 function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
 function el(id){return document.getElementById(id)}
@@ -411,10 +458,73 @@ function typeText(id,text,speed){
     var i=0;
     typeIv=setInterval(function(){
       e.textContent+=text[i];i++;
-      e.scrollTop=e.scrollHeight;
+      var sc=e.closest('.otext');if(sc)sc.scrollTop=sc.scrollHeight;
       if(i>=text.length){clearInterval(typeIv);resolve()}
     },speed||9);
   });
+}
+
+/* ===== channel-native renderers — #aiText is the typed element ===== */
+function phoneHTML(step,reveal){
+  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+(step.channel==='ig'?'Instagram':'SMS')+'</div></div><div class="phone-screen">';
+  if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+  if(reveal)h+='<div class="pb out"><span id="aiText"></span></div>';
+  else if(!step.inbound)h+='<div class="pb-empty">AI is preparing a message…</div>';
+  h+='</div></div>';
+  return h;
+}
+function emailHTML(step,reveal){
+  var hasIn=!!step.inbound;
+  var from=(reveal||!hasIn)?step.emailFrom:step.inboundFrom;
+  var to=(reveal||!hasIn)?step.emailTo:step.inboundTo;
+  var body;
+  if(reveal)body='<span id="aiText"></span>';
+  else body=hasIn?esc(step.inbound):'<span class="email-await">Composing…</span>';
+  var hold=(reveal&&!step.auto)?'<div class="email-hold">⚑ AI SUGGESTION — NOT SENT · held for your team to review</div>':'';
+  return '<div class="email">'
+    +'<div class="email-row"><div class="ek">From</div><div class="ev">'+esc(from)+'</div></div>'
+    +'<div class="email-row"><div class="ek">To</div><div class="ev">'+esc(to)+'</div></div>'
+    +'<div class="email-subjrow">Subject: '+esc(step.subj)+'</div>'
+    +hold
+    +'<div class="email-bd">'+body+'</div></div>';
+}
+function fbHTML(step,reveal){
+  var h='<div class="fb">'
+    +'<div class="fb-hdr"><div class="fb-av">'+esc(step.initials)+'</div><div><div class="fb-name">'+esc(step.fbName)+'</div><div class="fb-sub">'+esc(step.fbSub)+'</div></div></div>'
+    +'<div class="fb-cap">'+esc(step.post)+'</div><div class="fb-cap2">'+esc(step.postSub)+'</div>'
+    +'<div class="fb-comments">'
+    +'<div class="fbc"><div class="fbc-av">'+esc(step.topInit)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.topWho)+'</div><div class="fbc-text">'+esc(step.topComment)+'</div></div></div>';
+  if(reveal){
+    h+='<div class="fbc ai"><div class="fbc-av">'+esc(step.initials)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.fbHandle)+'</div><div class="fbc-text"><span id="aiText"></span></div></div></div>';
+    if(step.hiddenNote)h+='<div class="fb-hidden">🚫 '+esc(step.hiddenNote)+'</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+function systemHTML(step,reveal){
+  var h='<div class="sys"><div class="sys-hdr"><div class="sys-ic">'+esc(step.initials)+'</div><div class="sys-ttl">'+esc(step.sysTitle)+'</div><div class="sys-pill'+(reveal?' ok':'')+'">'+esc(reveal?step.sysDone:step.sysState)+'</div></div>';
+  h+='<div class="sys-rows">';
+  step.sysRows.forEach(function(r){h+='<div class="sys-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>'});
+  h+='</div>';
+  if(step.chips){
+    h+='<div class="sys-chips">';
+    step.chips.forEach(function(c){
+      var cls=reveal?(c.x?' x':(c.add?' add':'')):'';
+      if(!reveal&&c.add)return;
+      h+='<span class="chip'+cls+'">'+esc(c.t)+'</span>';
+    });
+    h+='</div>';
+  }
+  if(reveal)h+='<div class="sys-body"><span id="aiText"></span></div>';
+  h+='</div>';
+  return h;
+}
+function wireHTML(step,reveal){
+  var ch=step.channel;
+  if(ch==='ig'||ch==='sms')return phoneHTML(step,reveal);
+  if(ch==='fb')return fbHTML(step,reveal);
+  if(ch==='email')return emailHTML(step,reveal);
+  return systemHTML(step,reveal);
 }
 
 function renderQueue(){
@@ -462,28 +572,9 @@ function renderContext(step,revealed){
   el('ctxBody').innerHTML=h;
 }
 
-function renderShell(step,revealOutreach){
-  var h='<div class="thread">'
-    +'<div class="tsect"><div class="tlbl">Incoming item</div>'
-    +'<div class="mrow"><div class="mav">'+esc(step.initials)+'</div>'
-    +'<div class="mbub intel"><div class="bhead">'+esc(step.intelSrc)+'</div>'+esc(step.intel)+'</div>'
-    +'</div></div>';
-  if(revealOutreach){
-    h+='<div class="tsect"><div class="tlbl">AI output</div>'
-      +'<div class="mrow"><div class="mbub ai"><div class="bhead">AI Replace</div>'
-      +'<span id="aiText"></span></div>'
-      +'<div class="mav ai">AI</div></div></div>'
-      +'<div class="tsect"><div class="tlbl">Nathania\'s review</div>'
-      +'<div class="franc-card pending" id="francCard"><b>Nathania view</b>Processing...</div>'
-      +'</div>';
-  }
-  h+='</div>';
-  el('oText').innerHTML=h;
-  el('oText').scrollTop=0;
-}
-
 function showFranc(step){
   var e=el('francCard');if(!e)return;
+  e.style.display='block';
   e.className='franc-card'+(step.auto?'':' hold');
   e.innerHTML='<b>Nathania view</b>'+esc(step.francView);
 }
@@ -538,8 +629,9 @@ function renderStep(){
   el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Item loaded — click Analyze to run the AI</span></div>';
   el('oMeta').textContent='Waiting for AI reasoning';
   el('oConf').textContent='--';
-  el('oSubj').textContent=step.subject;
-  el('oText').innerHTML='<div class="empty-msg">The incoming item loads after you click Analyze.</div>';
+  el('oWlbl').textContent=step.wlbl;
+  el('oText').innerHTML=wireHTML(step,false);
+  el('francCard').style.display='none';
   el('spill').className='spill';
   setBadge('aiBadge','b-idle','Standby');
   setBadge('oBadge','b-idle','Ready');
@@ -550,7 +642,7 @@ function renderStep(){
   updateNav();
 }
 
-function restoreDone(step){
+function fillBrainComplete(step){
   el('brainBody').innerHTML='';
   step.lines.forEach(function(l){
     var d=document.createElement('div');d.className='bl show';
@@ -559,18 +651,25 @@ function restoreDone(step){
   });
   var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
   var dl=document.createElement('div');dl.className='bl show';
-  dl.innerHTML='<span class="bp">✓</span><span class="bt ok">'+(step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human')+'</span>';
+  dl.innerHTML='<span class="bp">✓</span><span class="bt '+(step.auto?'ok':'warn')+'">'+(step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human')+'</span>';
   el('brainBody').appendChild(dl);
+}
+
+function finishVisual(step){
   el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
   el('oConf').textContent=step.conf;
-  el('oSubj').textContent=step.subj;
-  renderShell(step,true);
-  el('aiText').textContent=step.outreach;
-  showFranc(step);
   el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
   setBadge('aiBadge','b-done','Done');
   setBadge('oBadge',step.auto?'b-done':'b-alert',step.auto?'Sent':'Held');
   renderContext(step,true);
+}
+
+function restoreDone(step){
+  fillBrainComplete(step);
+  el('oText').innerHTML=wireHTML(step,true);
+  el('aiText').textContent=step.outreach;
+  showFranc(step);
+  finishVisual(step);
   updateNav();
 }
 
@@ -592,9 +691,8 @@ async function runStep(){
   await addLine('✓',step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human',step.auto?'ok':'warn',150);if(t!==tok)return;
   el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
   el('oConf').textContent=step.conf;
-  el('oSubj').textContent=step.subj;
-  renderShell(step,true);
-  await sleep(200);if(t!==tok)return;
+  el('oText').innerHTML=wireHTML(step,true);
+  await sleep(220);if(t!==tok)return;
   await typeText('aiText',step.outreach,7);if(t!==tok)return;
   showFranc(step);
   el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
@@ -613,26 +711,7 @@ function skipNow(){
   if(done[cur])return;
   clearTimers();tok++;running=false;
   var step=STEPS[cur];
-  el('brainBody').innerHTML='';
-  step.lines.forEach(function(l){
-    var d=document.createElement('div');d.className='bl show';
-    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
-    el('brainBody').appendChild(d);
-  });
-  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
-  var dl=document.createElement('div');dl.className='bl show';
-  dl.innerHTML='<span class="bp">✓</span><span class="bt '+(step.auto?'ok':'warn')+'">'+(step.auto?'Handled automatically · no action needed':'Suggestion ready · flagged for human')+'</span>';
-  el('brainBody').appendChild(dl);
-  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
-  el('oConf').textContent=step.conf;
-  el('oSubj').textContent=step.subj;
-  renderShell(step,true);
-  el('aiText').textContent=step.outreach;
-  showFranc(step);
-  el('spill').textContent=step.sent;el('spill').className='spill show'+(step.auto?'':' hold');
-  setBadge('aiBadge','b-done','Done');
-  setBadge('oBadge',step.auto?'b-done':'b-alert',step.auto?'Sent':'Held');
-  renderContext(step,true);
+  restoreDone(step);
   el('statusText').textContent='AI Replace — '+step.sent;
   done[cur]=true;
   updateStats(step);
