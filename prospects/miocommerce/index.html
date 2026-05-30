@@ -110,16 +110,19 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .fb-sub{font:600 11px/1.3 var(--mono);color:var(--muted);margin-top:1px}
 .fb-cap{padding:0 14px 4px;font-weight:800;font-size:14px;color:var(--ink)}
 .fb-cap2{padding:0 14px 12px;font-size:13px;color:var(--body);border-bottom:1px solid var(--border)}
-.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:10px}
-.fbc{display:flex;gap:9px;align-items:flex-start}
-.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:#8a8d91}
-.fbc.ai .fbc-av{background:var(--brand)}
-.fbc-bub{background:#f0f2f5;border-radius:14px;padding:8px 12px;min-width:0}
-.fbc.ai .fbc-bub{background:var(--brandlt);border:1px solid #9ecfd6}
-.fbc-name{font-weight:800;font-size:12px;color:var(--ink)}
-.fbc.ai .fbc-name{color:var(--branddk)}
-.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:1px}
-.fb-hidden{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--redlt);border:1px solid #f0caca;border-radius:10px;font-size:11.5px;font-weight:600;color:var(--red);margin-top:2px}
+.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:9px}
+.fbc{display:flex;gap:9px;align-items:flex-start;transition:opacity .35s}
+.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:var(--brand)}
+.fbc-bub{background:#f4f5f7;border:1px solid #e9e9ee;border-radius:12px;padding:9px 13px;min-width:0;flex:1}
+.fbc.flagged .fbc-bub{background:var(--redlt);border-color:#f0caca}
+.fbc.deleted{opacity:.45}
+.fbc.deleted .fbc-name,.fbc.deleted .fbc-text{text-decoration:line-through}
+.fbc-name{font-weight:800;font-size:12.5px;color:var(--ink)}
+.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:2px}
+.fbc-flag{display:inline-block;margin-top:7px;font:800 8.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:#fff;border:1px solid #f0caca;border-radius:100px;padding:5px 9px}
+.fbc-flag.done{color:var(--green);border-color:#9fd4b8;background:var(--greenlt)}
+.fb-airec{margin-top:4px;padding:11px 13px;background:var(--brandlt);border:1px solid #9ecfd6;border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--body)}
+.fb-airec .rh{display:block;font:800 8.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--branddk);margin-bottom:5px}
 .sys{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,80,100,.05)}
 .sys-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border);background:#0e1b2a}
 .sys-ic{width:28px;height:28px;border-radius:7px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
@@ -146,6 +149,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
 .spill.show{opacity:1}
 .spill.hold{background:var(--amber)}
+.spill.await{background:var(--branddk)}
 .ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
 .ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
 .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
@@ -164,12 +168,14 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pitch-item:first-of-type{border-top:none;padding-top:0}
 .pitch-name{font-size:11.5px;font-weight:850;color:var(--ink)}
 .pitch-copy{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
-.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(920px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(246,251,252,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(0,80,100,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(246,251,252,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(0,80,100,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
 .nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
 .nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
 .nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(0,151,167,.22);white-space:nowrap}
 .btn-primary:disabled{background:#b8cacc;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(0,151,167,.55)}60%{box-shadow:0 0 0 14px rgba(0,151,167,0)}100%{box-shadow:0 0 0 0 rgba(0,151,167,0)}}
 .btn-sec{border:1px solid var(--border);border-radius:100px;background:#f6fbfc;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
 .btn-sec:hover:not(:disabled){border-color:#9ecfd6;color:var(--tealdk);background:var(--teallt)}
 .btn-sec:disabled{opacity:.35;cursor:not-allowed}
@@ -266,10 +272,10 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 </div>
 
 <script>
-var NAME="Franc";
+var NAME="Franc";var ITEM="lead";
 var STEPS=[
  {sender:"FreshCo Cleaning",initials:"FC",time:"6:42am",subject:"Demo in 48h · invite not accepted",
-  preview:"May 20 demo via HubSpot. Invite NOT accepted. 72% no-show risk.",tag:"Urgent",tagDone:"Confirmed",
+  preview:"May 20 demo via HubSpot. Invite NOT accepted. 72% no-show risk.",tag:"Urgent",tagDone:"Approved",
   label:"Pre-Demo Confirmation",wlbl:"Twilio SMS · Outbound",
   status:"AI Replace — Scanning HubSpot for unconfirmed demos...",
   channel:"sms",handle:"Miguel · FreshCo",
@@ -286,10 +292,11 @@ var STEPS=[
    ["›","Drafting confirmation text for Franc...",""],
   ],
   oMeta:"Via Twilio SMS · FreshCo · Miguel",
-  conf:"94%",subj:"",
+  conf:"94%",
   outreach:"Hey Miguel! Franc here from MioCommerce 👋\n\nJust reaching out personally ahead of our call Tuesday at 2pm. I pulled up FreshCo — looks like you've built a solid operation.\n\nQuick Q before we jump on: what's the #1 thing you're hoping we can help fix? Want to make our 30 min completely worth your time.\n\nSee you Tuesday!",
+  confirm:{btn:"✓ APPROVE & SEND",done:"Approved · text sent via Twilio",badge:"Sent",title:"Send this text to Miguel?",copy:"Confirms the demo and cuts the 72% no-show risk. Click to send."},
   francView:"Franc review: Confirmation text ready via Twilio. FreshCo hasn't accepted the invite — this personal text cuts the 72% no-show risk before Tuesday. Approve to send.",
-  sent:"Twilio SMS queued · Franc approval pending",
+  sent:"Approved · sent to Miguel via Twilio",
   auto:false,hold:false,saved:16,secs:12,
   tiles:[{l:"Source",v:"HubSpot CRM"},{l:"No-show Risk",v:"72% · HIGH",a:true},{l:"Fit Score",v:"94/100"},{l:"Plan",v:"Grow · $99/mo"}],
   pitch:[{n:"Live Booking Page",c:"24/7 scheduling — reduces demo dependency long-term"},{n:"Team Scheduling",c:"Smart calendar for an 8-person crew"},{n:"Online Payments",c:"Deposits + full payment before the job"}]},
@@ -314,8 +321,9 @@ var STEPS=[
   oMeta:"Cold outreach · Diamond Auto Detail · Atlanta",
   conf:"87%",
   outreach:"Hi there,\n\nFound Diamond Auto Detail on Google — 4.7 stars across 38 reviews is no accident.\n\nQuick question: when someone finds you after hours and there's no way to book online, where do you figure they end up?\n\nMind if I share a quick idea?\n\nFranc",
+  confirm:{btn:"✓ APPROVE & SEND",done:"Approved · cold email sent",badge:"Sent",title:"Send this cold email?",copy:"Short opener to Diamond Auto Detail — names their rating + booking gap. Click to send."},
   francView:"Franc review: Short cold opener — names their 4.7★ rating and the no-booking gap, then asks a question instead of pitching. The only goal is a reply. Approve to send.",
-  sent:"Cold email queued · Franc approval pending",
+  sent:"Approved · cold email sent",
   auto:false,hold:false,saved:18,secs:12,
   tiles:[{l:"Source",v:"Google Scrape"},{l:"Booking",v:"Phone-only",a:true},{l:"Fit Score",v:"87/100"},{l:"Plan",v:"Startup · $49/mo"}],
   pitch:[{n:"Live Booking Page",c:"24/7 booking link for website + Facebook bio"},{n:"Upfront Payments",c:"Deposits eliminate no-shows"},{n:"Real-Time Slots",c:"Customers self-book open times"}]},
@@ -342,7 +350,7 @@ var STEPS=[
   outreach:"Hi there,\n\nThanks for your interest in MioCommerce!\n\nIt sounds like you're just getting your business off the ground — exciting times. The best way to see if MioCommerce is the right fit is to explore it at your own pace.\n\nWe've set you up with a 15-day free trial, no credit card required. Explore the booking pages, live pricing, and scheduling tools whenever you're ready.\n\nQuestions along the way? Our support team is here — and when you're ready to talk next steps, we're a click away.\n\nWelcome aboard,\nMioCommerce Team",
   francView:"Auto-handled — no approval needed. Low-fit lead (31/100) routed to free trial automatically. Franc's demo calendar stays protected. Time spent: 0 seconds.",
   sent:"Auto-routed to free trial · no approval needed",
-  auto:true,hold:false,saved:14,secs:0,
+  auto:true,saved:14,secs:0,
   tiles:[{l:"Source",v:"Google Ads"},{l:"Fit Score",v:"31/100 ✗",a:true},{l:"Decision",v:"Free Trial"},{l:"SDR Time",v:"Protected"}],
   pitch:[{n:"Demo threshold 65+",c:"Below-threshold leads route to self-serve — protects the calendar"},{n:"Free-trial path",c:"15-day trial, no card — lead qualifies itself"},{n:"Smart filtering",c:"Saves Franc 14 min per unqualified inbound"}]},
 
@@ -366,8 +374,9 @@ var STEPS=[
   oMeta:"Re-engagement · AllStar Tire · signal-timed",
   conf:"91%",
   outreach:"Hi there,\n\nSaw you were back looking at our pricing — figured I'd reach out rather than leave you guessing.\n\nLast time, the headache was juggling scheduling across all three shops. Still the main thing on your plate?\n\nIf so, I've got a couple of ideas from other 3-location shops. Worth a quick chat?\n\nFranc",
+  confirm:{btn:"✓ APPROVE & SEND",done:"Approved · re-engagement sent",badge:"Sent",title:"Send the re-engagement?",copy:"Timed to their pricing-page visits (2 in 72h). Click to send while it's hot."},
   francView:"Franc review: Re-engagement timed to their pricing-page visits (2 in 72h). Re-anchors the multi-location pain as a question — no feature dump, low-friction ask. Approve to send while it's hot.",
-  sent:"Re-engagement email queued · Franc approval pending",
+  sent:"Approved · re-engagement sent",
   auto:false,hold:false,saved:16,secs:14,
   tiles:[{l:"Source",v:"HubSpot Signal"},{l:"Signal",v:"2x Pricing"},{l:"Fit Score",v:"91/100"},{l:"Plan",v:"Grow · $99/mo"}],
   pitch:[{n:"Multi-Location Booking",c:"Each location its own page — one dashboard"},{n:"Live Availability",c:"Right location, right time, self-booked"},{n:"Central Dispatch",c:"Smart calendar across all 3 shops"}]},
@@ -392,16 +401,20 @@ var STEPS=[
   oMeta:"Cold outreach · GreenLeaf Janitorial · switcher",
   conf:"91%",
   outreach:"Hi there,\n\nCame across GreenLeaf while looking at commercial cleaning teams in your area — 12 people is a serious operation.\n\nMost teams your size tell me the same thing: the setup that worked at 3 people starts cracking at 12. Sound familiar?\n\nIf it's worth a quick chat, I've got a couple of ideas specific to multi-crew cleaning.\n\nFranc",
+  confirm:{btn:"✓ APPROVE & SEND",done:"Approved · cold email sent",badge:"Sent",title:"Send this cold email?",copy:"Switcher opener to GreenLeaf — names their 12-person team. Click to send."},
   francView:"Franc review: Short switcher opener — names their 12-person team and frames the 'outgrew our setup' pain as a question. Opens a dialogue, doesn't pitch. Approve to send.",
-  sent:"Cold email queued · Franc approval pending",
+  sent:"Approved · cold email sent",
   auto:false,hold:false,saved:20,secs:10,
   tiles:[{l:"Source",v:"Google Scrape"},{l:"Persona",v:"Switcher ✓"},{l:"Fit Score",v:"91/100"},{l:"Plan",v:"Grow · $99/mo"}],
   pitch:[{n:"Easy Migration",c:"Switch in a day — we guide the full setup"},{n:"Team Scheduling",c:"Coordinate 12 crew from one dashboard"},{n:"Live Pricing",c:"Instant quotes without calling"}]}
 ];
 
-var cur=0,done={},running=false,tok=0,typeIv=null,timers=[],
+var cur=0,done={},running=false,awaiting=false,tok=0,typeIv=null,timers=[],
     stats={h:0,a:0,s:0,t:0};
 var N=STEPS.length;
+
+// 2nd stat counter — Mio counts leads the founder approved (confirm steps)
+function countSecond(step){return step.confirm?1:0}
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
@@ -409,7 +422,11 @@ function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(type
 function el(id){return document.getElementById(id)}
 function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
 function setLabel(txt){var e=el('stageLabel');e.textContent=txt;e.classList.toggle('vis',!!txt)}
-function doneLine(step){return step.auto?['Handled automatically · no action needed','ok']:(step.hold?['Suggestion ready · flagged for human','warn']:['Draft ready · pending '+NAME+' approval','warn'])}
+function conclusionLine(step){
+  if(step.auto)return['Handled automatically · no action needed','ok'];
+  if(step.hold)return['Suggestion ready · flagged for human','warn'];
+  return['Awaiting '+NAME+' confirmation…','warn'];
+}
 
 function addLine(prefix,text,cls,delay){
   return new Promise(function(resolve){
@@ -423,6 +440,12 @@ function addLine(prefix,text,cls,delay){
     },delay||0);
     timers.push(id);
   });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
 }
 function addDiv(delay){
   return new Promise(function(resolve){
@@ -476,12 +499,14 @@ function fbHTML(step,reveal){
   var h='<div class="fb">'
     +'<div class="fb-hdr"><div class="fb-av">'+esc(step.initials)+'</div><div><div class="fb-name">'+esc(step.fbName)+'</div><div class="fb-sub">'+esc(step.fbSub)+'</div></div></div>'
     +'<div class="fb-cap">'+esc(step.post)+'</div><div class="fb-cap2">'+esc(step.postSub)+'</div>'
-    +'<div class="fb-comments">'
-    +'<div class="fbc"><div class="fbc-av">'+esc(step.topInit)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.topWho)+'</div><div class="fbc-text">'+esc(step.topComment)+'</div></div></div>';
-  if(reveal){
-    h+='<div class="fbc ai"><div class="fbc-av">'+esc(step.initials)+'</div><div class="fbc-bub"><div class="fbc-name">'+esc(step.fbHandle)+'</div><div class="fbc-text"><span id="aiText"></span></div></div></div>';
-    if(step.hiddenNote)h+='<div class="fb-hidden">🚫 '+esc(step.hiddenNote)+'</div>';
-  }
+    +'<div class="fb-comments">';
+  (step.comments||[]).forEach(function(c,i){
+    h+='<div class="fbc'+(c.flag?' flagged':'')+'" id="fbc'+i+'"><div class="fbc-av">'+esc(c.init)+'</div>'
+      +'<div class="fbc-bub"><div class="fbc-name">'+esc(c.who)+'</div><div class="fbc-text">'+esc(c.text)+'</div>'
+      +(c.flag?'<div class="fbc-flag">Flagged: '+esc(c.flag)+'</div>':'')
+      +'</div></div>';
+  });
+  if(reveal)h+='<div class="fb-airec"><span class="rh">AI Replace · recommendation</span><span id="aiText"></span></div>';
   h+='</div></div>';
   return h;
 }
@@ -509,6 +534,23 @@ function wireHTML(step,reveal){
   if(ch==='fb')return fbHTML(step,reveal);
   if(ch==='email')return emailHTML(step,reveal);
   return systemHTML(step,reveal);
+}
+
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
+
+function applyDoneEffect(step){
+  if(step.confirm&&step.confirm.effect==='removeFlagged'){
+    var nodes=document.querySelectorAll('.fbc.flagged');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.add('deleted');
+      var tag=nodes[i].querySelector('.fbc-flag');
+      if(tag){tag.textContent='✓ Removed';tag.className='fbc-flag done'}
+    }
+  }
 }
 
 function renderQueue(){
@@ -556,11 +598,6 @@ function renderContext(step,revealed){
   el('ctxBody').innerHTML=h;
 }
 
-function appendLink(step){
-  if(!step.link)return;
-  var e=el('aiText');if(!e)return;
-  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
-}
 function showFranc(step){
   var e=el('francCard');if(!e)return;
   e.style.display='block';
@@ -570,7 +607,7 @@ function showFranc(step){
 
 function updateStats(step){
   stats.h++;
-  if(!step.auto)stats.a++;
+  stats.a+=countSecond(step);
   stats.s+=step.saved;stats.t+=step.secs;
   el('stH').textContent=stats.h;
   el('stA').textContent=stats.a;
@@ -578,32 +615,94 @@ function updateStats(step){
   el('stT').textContent=stats.t+'s';
 }
 
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+
+function enterAwaiting(step){
+  awaiting=true;
+  showFranc(step);
+  el('spill').textContent='Awaiting '+NAME+'’s approval';
+  el('spill').className='spill show await';
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge','b-alert','Confirm');
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — awaiting '+NAME+' approval';
+  updateNav();
+}
+
+function finalizeAuto(step){
+  showFranc(step);
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Held':'Done'));
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+}
+
+function confirmAction(){
+  if(!awaiting)return;
+  awaiting=false;
+  var step=STEPS[cur];
+  applyDoneEffect(step);
+  appendBrain('✓',step.confirm.done||'Confirmed','ok');
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show';
+  setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+  updateNav();
+}
+
 function updateNav(){
   var step=STEPS[cur];
   var isDone=done[cur];
   var isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
   el('btnPrev').disabled=running||cur===0;
-  el('btnSkip').className='btn-sec'+(isDone?' hidden':'');
+  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
   el('btnSkip').disabled=running;
   if(running){
-    el('btnPrimary').textContent='Running...';
-    el('btnPrimary').disabled=true;
+    p.textContent='Running...';p.disabled=true;
     setBadge('navBadge','b-proc','Running');
+  } else if(awaiting){
+    p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title||'Confirm to continue';
+    el('navCopy').textContent=step.confirm.copy||'Review the draft, then click to confirm.';
   } else if(!isDone){
-    el('btnPrimary').textContent='ANALYZE';
-    el('btnPrimary').disabled=false;
+    p.textContent='ANALYZE';p.disabled=false;
     setBadge('navBadge','b-idle','Waiting');
     el('navTitle').textContent=step.sender+' loaded';
-    el('navCopy').textContent='Click Analyze to run the AI on this lead.';
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
   } else if(isLast){
-    el('btnPrimary').textContent='REPLAY ↺';
-    el('btnPrimary').disabled=false;
+    p.textContent='REPLAY ↺';p.disabled=false;
     setBadge('navBadge','b-done','Complete');
-    el('navTitle').textContent='All 5 leads handled';
+    el('navTitle').textContent='All '+N+' leads handled';
     el('navCopy').textContent='Demo complete. Click Replay to start over.';
   } else {
-    el('btnPrimary').textContent='NEXT →';
-    el('btnPrimary').disabled=false;
+    p.textContent='NEXT →';p.disabled=false;
     setBadge('navBadge','b-live','Next');
     el('navTitle').textContent=step.sender+' — done';
     el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the final lead')+'.';
@@ -611,7 +710,7 @@ function updateNav(){
 }
 
 function renderStep(){
-  tok++;clearTimers();running=false;
+  tok++;clearTimers();running=false;awaiting=false;
   var step=STEPS[cur];
   renderQueue();
   renderContext(step,false);
@@ -631,41 +730,28 @@ function renderStep(){
   updateNav();
 }
 
-function fillBrainComplete(step){
-  el('brainBody').innerHTML='';
-  step.lines.forEach(function(l){
-    var d=document.createElement('div');d.className='bl show';
-    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
-    el('brainBody').appendChild(d);
-  });
-  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
-  var dn=doneLine(step);
-  var dl=document.createElement('div');dl.className='bl show';
-  dl.innerHTML='<span class="bp">✓</span><span class="bt '+dn[1]+'">'+esc(dn[0])+'</span>';
-  el('brainBody').appendChild(dl);
-}
-
-function finishVisual(step){
-  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
-  el('oConf').textContent=step.conf;
-  el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
-  setBadge('aiBadge','b-done','Done');
-  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-proc'),step.auto?'Sent':(step.hold?'Held':'Pending'));
-  renderContext(step,true);
-}
-
 function restoreDone(step){
   fillBrainComplete(step);
-  el('oText').innerHTML=wireHTML(step,true);
+  revealOutput(step);
   el('aiText').textContent=step.outreach;
   appendLink(step);
   showFranc(step);
-  finishVisual(step);
+  if(step.confirm){
+    appendBrain('✓',step.confirm.done||'Confirmed','ok');
+    applyDoneEffect(step);
+    el('spill').textContent=step.sent;el('spill').className='spill show';
+    setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  } else {
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Held':'Done'));
+  }
+  setBadge('aiBadge','b-done','Done');
+  renderContext(step,true);
   updateNav();
 }
 
 async function runStep(){
-  if(running||done[cur])return;
+  if(running||done[cur]||awaiting)return;
   running=true;
   var t=++tok;
   var step=STEPS[cur];
@@ -679,45 +765,39 @@ async function runStep(){
     if(t!==tok)return;
   }
   await addDiv(150);if(t!==tok)return;
-  var dn=doneLine(step);
-  await addLine('✓',dn[0],dn[1],150);if(t!==tok)return;
-  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
-  el('oConf').textContent=step.conf;
-  el('oText').innerHTML=wireHTML(step,true);
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],150);if(t!==tok)return;
+  revealOutput(step);
   await sleep(220);if(t!==tok)return;
   await typeText('aiText',step.outreach,7);if(t!==tok)return;
   appendLink(step);
-  showFranc(step);
-  finishVisual(step);
-  el('statusText').textContent='AI Replace — '+step.sent;
-  done[cur]=true;
-  updateStats(step);
-  renderQueue();
   running=false;
-  updateNav();
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
 }
 
 function skipNow(){
-  if(done[cur])return;
-  clearTimers();tok++;running=false;
+  if(done[cur]||awaiting||running)return;
+  clearTimers();tok++;
   var step=STEPS[cur];
-  restoreDone(step);
-  el('statusText').textContent='AI Replace — '+step.sent;
-  done[cur]=true;
-  updateStats(step);
-  renderQueue();
-  updateNav();
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
 }
 
 function handlePrimary(){
   if(running)return;
+  if(awaiting){confirmAction();return}
   if(!done[cur]){runStep();return}
   if(cur>=N-1){replay();return}
   cur++;renderStep();
 }
 
 function replay(){
-  clearTimers();tok++;
+  clearTimers();tok++;awaiting=false;
   cur=0;done={};stats={h:0,a:0,s:0,t:0};
   el('stH').textContent='0';el('stA').textContent='0';
   el('stS').textContent='0m';el('stT').textContent='0s';
