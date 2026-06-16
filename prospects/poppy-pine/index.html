@@ -779,7 +779,7 @@ async function runStep(){
   await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
   revealOutput(step);
   await sleep(320);if(t!==tok)return;
-  await typeText('aiText',step.outreach,12);if(t!==tok)return;
+  await typeText('aiText',step.outreach,26);if(t!==tok)return;
   appendLink(step);
   running=false;
   if(step.confirm){enterAwaiting(step)}
