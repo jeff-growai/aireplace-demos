@@ -761,15 +761,15 @@ async function runStep(){
   setBadge('oBadge','b-proc','Drafting');
   el('brainBody').innerHTML='';
   for(var i=0;i<step.lines.length;i++){
-    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?100:240);
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
     if(t!==tok)return;
   }
-  await addDiv(150);if(t!==tok)return;
+  await addDiv(220);if(t!==tok)return;
   var cl=conclusionLine(step);
-  await addLine('✓',cl[0],cl[1],150);if(t!==tok)return;
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
   revealOutput(step);
-  await sleep(220);if(t!==tok)return;
-  await typeText('aiText',step.outreach,7);if(t!==tok)return;
+  await sleep(320);if(t!==tok)return;
+  await typeText('aiText',step.outreach,12);if(t!==tok)return;
   appendLink(step);
   running=false;
   if(step.confirm){enterAwaiting(step)}
