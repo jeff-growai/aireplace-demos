@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace — Poppy &amp; Pine CS Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf5f4;--white:#fff;--ink:#2a1a20;--body:#574a4e;--muted:#9a8b8f;--border:#efdde0;
+  --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
+  --brand:#d6456b;--branddk:#b12f54;--brandlt:#fce3ea;
+  --red:#c93232;--redlt:#fdf0f0;--amber:#a8681e;--amberlt:#fdf3e6;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(253,245,244,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(150,60,90,.08)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900;letter-spacing:.01em}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(252,227,234,.94);border:1px solid #f0bcce;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(214,69,107,.1)}
+.stage-label.vis{opacity:1}
+.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(290px,330px) minmax(640px,1fr) minmax(320px,390px);gap:12px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(150,60,90,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#fdf8f8;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e6c891}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#f3ebed;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.left-col{grid-column:1;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.queue-card{flex:1;min-height:0}
+.qtool{padding:8px 12px;background:var(--white);border-bottom:1px solid var(--border);font:600 10px/1 var(--mono);color:var(--muted)}
+.qbody{flex:1;overflow:hidden}
+.lead-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:7px 12px;border-bottom:1px solid #f6e8eb;background:var(--white);transition:background .25s,opacity .25s}
+.lead-row.active{background:var(--brandlt)}
+.lead-row.done{opacity:.65}
+.lav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 10px/1 var(--mono);background:var(--brand)}
+.lead-main{min-width:0}
+.lead-name{font-size:12px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-subj{font-size:11px;font-weight:650;color:var(--body);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-prev{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.lead-time{font:600 9px/1 var(--mono);color:var(--muted)}
+.lead-tag{font:800 8px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:3px 6px;background:var(--amberlt);color:var(--amber);border:1px solid #e6c891}
+.lead-row.done .lead-tag{background:var(--teallt);color:var(--tealdk);border-color:#b0d9cb}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:9px}
+.ss{border:1px solid var(--border);border-radius:9px;padding:7px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#f0bcce}
+.ss:nth-child(2){background:var(--amberlt);border-color:#e6c891}
+.ss:nth-child(3){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(4){background:var(--teallt);border-color:#b0d9cb}
+.ss-num{font:900 17px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(3) .ss-num,.ss:nth-child(4) .ss-num{color:var(--tealdk)}
+.ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
+.brain-card{flex:0 0 190px}
+.brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.outreach-card{flex:1 1 auto;min-height:0}
+.ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
+.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
+.ometa b{color:var(--tealdk)}
+.oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
+.owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
+.phone{max-width:310px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.phone-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 12px;background:#111;border-radius:22px 22px 0 0;color:#fff}
+.phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
+.phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;min-height:300px;display:flex;flex-direction:column;gap:9px;justify-content:flex-end}
+.pb{max-width:80%;padding:10px 13px;font-size:13px;line-height:1.45;border-radius:18px;white-space:pre-wrap}
+.pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
+.pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
+.email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(150,60,90,.05)}
+.email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
+.email-row .ek{padding:11px 12px;font:700 9.5px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#fdf6f7;border-right:1px solid var(--border)}
+.email-row .ev{padding:11px 13px;font-size:13px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis}
+.email-subjrow{padding:11px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13.5px;color:var(--ink);background:#fffdfe}
+.email-hold{padding:9px 14px;background:var(--amberlt);border-bottom:1px solid #e6c891;color:var(--amber);font:800 10px/1.4 var(--mono);letter-spacing:.03em}
+.email-bd{padding:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;color:var(--body);min-height:120px}
+.email-await{color:var(--muted);font-style:italic}
+.fb{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(150,60,90,.05)}
+.fb-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.fb-av{width:40px;height:40px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--mono);color:#fff;flex:0 0 auto}
+.fb-name{font-weight:800;font-size:14px;color:var(--ink)}
+.fb-sub{font:600 11px/1.3 var(--mono);color:var(--muted);margin-top:1px}
+.fb-cap{padding:0 14px 4px;font-weight:800;font-size:14px;color:var(--ink)}
+.fb-cap2{padding:0 14px 12px;font-size:13px;color:var(--body);border-bottom:1px solid var(--border)}
+.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:9px}
+.fbc{display:flex;gap:9px;align-items:flex-start;transition:opacity .35s}
+.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:var(--brand)}
+.fbc-bub{background:#f4f5f7;border:1px solid #e9e9ee;border-radius:12px;padding:9px 13px;min-width:0;flex:1}
+.fbc.flagged .fbc-bub{background:var(--redlt);border-color:#f0caca}
+.fbc.deleted{opacity:.45}
+.fbc.deleted .fbc-name,.fbc.deleted .fbc-text{text-decoration:line-through}
+.fbc-name{font-weight:800;font-size:12.5px;color:var(--ink)}
+.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:2px}
+.fbc-flag{display:inline-block;margin-top:7px;font:800 8.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:#fff;border:1px solid #f0caca;border-radius:100px;padding:5px 9px}
+.fbc-flag.done{color:var(--green);border-color:#9fd4b8;background:var(--greenlt)}
+.fb-airec{margin-top:4px;padding:11px 13px;background:var(--brandlt);border:1px solid #f0bcce;border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--body)}
+.fb-airec .rh{display:block;font:800 8.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--branddk);margin-bottom:5px}
+.sys{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(150,60,90,.05)}
+.sys-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border);background:#2a1a20}
+.sys-ic{width:28px;height:28px;border-radius:7px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.sys-ttl{font:800 11px/1 var(--mono);letter-spacing:.04em;color:#fff;flex:1}
+.sys-pill{font:800 9px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:100px;padding:5px 9px;background:rgba(168,104,30,.25);color:#f0c98a;border:1px solid rgba(168,104,30,.5)}
+.sys-pill.ok{background:rgba(26,122,74,.22);color:#7fe0a8;border-color:rgba(26,122,74,.5)}
+.sys-rows{padding:6px 14px}
+.sys-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #f6e8eb;font-size:12.5px}
+.sys-row:last-child{border-bottom:none}
+.sys-row span{color:var(--muted);font:600 11px/1.4 var(--mono)}
+.sys-row b{color:var(--ink);font-weight:800;text-align:right}
+.sys-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 14px 12px}
+.chip{font:700 10.5px/1 var(--mono);padding:6px 10px;border-radius:100px;background:#f3ebed;color:var(--body);border:1px solid var(--border)}
+.chip.x{background:var(--redlt);color:var(--red);border-color:#f0caca;text-decoration:line-through;opacity:.75}
+.chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
+.sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #f0bcce;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link:hover{background:#fbd3e0}
+.franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
+.franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.franc-card.pending{color:var(--muted);background:#fdf8f8;border-color:var(--border);font-style:italic}
+.franc-card.hold{background:var(--amberlt);border-color:#e6c891}
+.franc-card.hold b{color:var(--amber)}
+.spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
+.spill.show{opacity:1}
+.spill.hold{background:var(--amber)}
+.spill.await{background:var(--branddk)}
+.ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
+.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tile{border:1px solid var(--border);border-radius:9px;padding:8px;background:#fdf8f8}
+.tile.alert{background:var(--redlt);border-color:#f0caca}
+.tile-lbl{font:800 8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tile-val{font-size:12.5px;font-weight:850;color:var(--ink);line-height:1.2}
+.icp-box{background:var(--brandlt);border:1px solid #f0bcce;border-radius:11px;padding:9px}
+.icp-ttl{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--branddk);margin-bottom:6px}
+.icp-list{display:flex;flex-direction:column;gap:3px;font-size:10.5px;line-height:1.3;color:var(--body)}
+.icp-list span{display:flex;gap:6px}
+.icp-list b{color:var(--teal)}
+.icp-list b.f{color:var(--amber)}
+.pitch-box{border:1px solid var(--border);border-radius:11px;padding:9px;background:#fdf8f8}
+.pitch-ttl{font:800 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.pitch-item{padding:4px 0;border-top:1px solid #f6e8eb}
+.pitch-item:first-of-type{border-top:none;padding-top:0}
+.pitch-name{font-size:11.5px;font-weight:850;color:var(--ink)}
+.pitch-copy{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(253,248,248,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(150,60,90,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(214,69,107,.22);white-space:nowrap}
+.btn-primary:disabled{background:#d9c2c8;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(214,69,107,.55)}60%{box-shadow:0 0 0 14px rgba(214,69,107,0)}100%{box-shadow:0 0 0 0 rgba(214,69,107,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#fdf8f8;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#f0bcce;color:var(--branddk);background:var(--brandlt)}
+.btn-sec:disabled{opacity:.35;cursor:not-allowed}
+.btn-sec.hidden{display:none}
+.empty-msg{display:flex;align-items:center;justify-content:center;min-height:60px;color:var(--muted);font-size:12px;font-style:italic;padding:14px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">Poppy &amp; Pine</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace — Rachel's support inbox · Gorgias-connected</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="left-col">
+    <section class="card queue-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Support Inbox — Rachel</div>
+        <div class="cbadge b-live" id="qBadge">Live</div>
+      </div>
+      <div class="qtool">Gorgias-connected · email support</div>
+      <div class="qbody" id="qBody"></div>
+    </section>
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Handled</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Escalated</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0m</div><div class="ss-lbl">Mins Saved</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Deflected</div></div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="work-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Ticket loaded — click Analyze to run the AI</span></div>
+      </div>
+    </div>
+    <div class="card outreach-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">AI Output</div>
+        <div class="cbadge b-idle" id="oBadge">Ready</div>
+      </div>
+      <div class="ob">
+        <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
+        <div class="owlbl" id="oWlbl"></div>
+        <div class="otext" id="oText"><div class="empty-msg">The ticket loads after you click Analyze.</div></div>
+        <div class="franc-card pending" id="francCard" style="display:none"><b>Rachel view</b>Processing…</div>
+        <div class="spill" id="spill">Output pending</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="ctx-col">
+    <div class="card" style="flex:1">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Context &amp; Rules</div>
+        <div class="cbadge b-live" id="ctxBadge">Connected</div>
+      </div>
+      <div class="ctx-body" id="ctxBody">
+        <div class="empty-msg">Context populates when a ticket is analyzed.</div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Support inbox loaded</b><span id="navCopy">Click Analyze to run the AI on the first ticket.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var NAME="Rachel";var ITEM="ticket";
+var STEPS=[
+ {sender:"Megan R.",initials:"MR",time:"7:12am",subject:"Where's my order? (#PP-20431)",
+  preview:"Ordered the 'Seas The Day' tee — wondering where it is, need it for a trip Friday!",tag:"Shipping",tagDone:"Resolved",
+  label:"Order Status · Auto-resolve",wlbl:"Support Email · Auto-resolved",
+  status:"AI Replace — Filtering inbox before Gorgias...",
+  channel:"email",emailFrom:"support@poppypine.com",emailTo:"megan.r@gmail.com",
+  inboundFrom:"megan.r@gmail.com",inboundTo:"support@poppypine.com",
+  inbound:"Hi there! I ordered the \"Seas The Day\" tee last week (order #PP-20431) and I'm just wondering where it is? I'd love to have it for a trip this Friday if possible 🌊 Thank you!! — Megan",
+  subj:"Re: Where's my order? (#PP-20431)",
+  lines:[
+   ["›","New email caught before Gorgias AI",""],
+   ["›","Intent: order status / shipping","hi"],
+   ["›","Connecting to Shopify · order #PP-20431","dim"],
+   ["›","Found: 'Seas The Day' tee (M)","hi"],
+   ["›","Status: fulfilled · shipped Tuesday","ok"],
+   ["›","USPS tracking pulled · ETA Thursday","hi"],
+   ["›","Thursday delivery → before her Friday trip ✓","ok"],
+   ["›","Standard request · within auto-resolve scope","ok"],
+   ["›","No Gorgias AI resolution needed — deflecting","hi"],
+   ["›","Drafting reply with live tracking...",""],
+  ],
+  oMeta:"Auto-resolved · live Shopify tracking · deflected from Gorgias AI",
+  conf:"Auto",
+  outreach:"Hi Megan! 🌊\n\nGreat news — your \"Seas The Day\" tee is already on its way! It shipped Tuesday and is out with USPS now:\n\nTracking: 9400 1000 0000 0000 4471\nEstimated delivery: Thursday\n\nSo you'll have it with a day to spare before your trip. Have the best time — and send us a pic if you wear it on the water! 💛\n\n— Poppy & Pine Support",
+  francView:"Resolved automatically from live Shopify data — no human touch and no Gorgias AI resolution used. This is your highest-volume ticket type, deflected before it ever costs you a cent.",
+  sent:"Auto-resolved · tracking sent · deflected from Gorgias",
+  auto:true,saved:6,secs:1,
+  tiles:[{l:"Channel",v:"Email"},{l:"Intent",v:"Order status"},{l:"Shopify",v:"#PP-20431 shipped"},{l:"Action",v:"Auto-resolved"}],
+  pitch:[{n:"Deflects your #1 ticket",c:"Order-status emails are your highest volume — resolved before Gorgias AI ever bills"},{n:"Live Shopify data",c:"Real tracking every time — no loops, no 'I can't help with that'"},{n:"Fixed cost",c:"Unlimited resolutions for one monthly price you own"}]},
+
+ {sender:"Brooke T.",initials:"BT",time:"6:05am",subject:"Exchange — size (#PP-20502)",
+  preview:"Loves the 'Good Things Are Coming' tee but ordered M, needs a Small.",tag:"Exchange",tagDone:"Resolved",
+  label:"Exchange · Auto-resolve",wlbl:"Support Email · Auto-resolved",
+  status:"AI Replace — Checking exchange against your policy...",
+  channel:"email",emailFrom:"support@poppypine.com",emailTo:"brooke.t@gmail.com",
+  inboundFrom:"brooke.t@gmail.com",inboundTo:"support@poppypine.com",
+  inbound:"Hi! I love my \"Good Things Are Coming\" tee but I ordered a Medium and it's a little big on me — is it possible to exchange for a Small? Order #PP-20502. Thanks so much! — Brooke",
+  subj:"Re: Exchange — size (#PP-20502)",
+  lines:[
+   ["›","New email · exchange request","hi"],
+   ["›","Connecting to Shopify · order #PP-20502","dim"],
+   ["›","Order: 'Good Things Are Coming' tee (M)","hi"],
+   ["›","Purchased 9 days ago · within 30-day window","ok"],
+   ["›","Exchange policy check: unworn, tags on ✓","ok"],
+   ["›","Size Small available · reserving one","hi"],
+   ["›","Generating prepaid exchange label","ok"],
+   ["›","Within your rules · auto-resolve (no human)","ok"],
+   ["›","No Gorgias AI resolution used — deflecting","hi"],
+   ["›","Drafting exchange instructions...",""],
+  ],
+  oMeta:"Auto-resolved · exchange within policy · deflected",
+  conf:"Auto",
+  outreach:"Hi Brooke! 💛\n\nTotally happy to swap that for a Small — and I've set one aside so it's ready the moment yours is on the way back.\n\nHere's all you do:\n1. Pop the Medium in any envelope with the tags on\n2. Use the prepaid label below\n3. Your Small ships as soon as it scans in transit — no waiting\n\nNo charge for the swap. Want me to add anything else while it's open?\n\n— Poppy & Pine Support",
+  link:{label:"Prepaid exchange label · #EX-20502",url:"#"},
+  francView:"Resolved automatically inside your exchange policy — Small reserved, prepaid label issued, no human and no Gorgias AI resolution. The AI only acts within the rules you set.",
+  sent:"Auto-resolved · exchange created · deflected from Gorgias",
+  auto:true,saved:8,secs:1,
+  tiles:[{l:"Channel",v:"Email"},{l:"Type",v:"Exchange"},{l:"Policy",v:"Within window ✓"},{l:"Action",v:"Auto-resolved"}],
+  pitch:[{n:"Acts within your rules",c:"Only auto-exchanges inside the policy you define"},{n:"No per-resolution fee",c:"Gorgias AI would bill for this — your owned system doesn't"},{n:"Full audit trail",c:"Every action logged and editable from your panel"}]},
+
+ {sender:"Lauren M.",initials:"LM",time:"5:41am",subject:"Please cancel order #PP-20588",
+  preview:"Thinks she ordered twice by mistake — wants one order cancelled.",tag:"Cancel",tagDone:"Refunded",
+  label:"Cancellation · Refund Approval",wlbl:"Support Email · Awaiting Approval",
+  status:"AI Replace — Reviewing cancellation + refund...",
+  channel:"email",emailFrom:"support@poppypine.com",emailTo:"lauren.m@gmail.com",
+  inboundFrom:"lauren.m@gmail.com",inboundTo:"support@poppypine.com",
+  inbound:"Hi, I think I accidentally ordered twice — can you please cancel order #PP-20588? I only meant to place one order. So sorry for the trouble! — Lauren",
+  subj:"Re: Please cancel order #PP-20588",
+  lines:[
+   ["›","New email · cancellation request","warn"],
+   ["›","Connecting to Shopify · order #PP-20588","dim"],
+   ["›","Order: 2× 'Wildflower' tee · $34.00","hi"],
+   ["›","Status: in print queue · NOT yet shipped","ok"],
+   ["›","Eligible to cancel (unfulfilled)","ok"],
+   ["›","Likely duplicate of #PP-20587 — confirmed","warn"],
+   ["›","Refund: $34.00 to original card","hi"],
+   ["›","Refund = money movement · needs your approval","warn"],
+   ["›","Drafting cancellation confirmation...",""],
+  ],
+  oMeta:"Cancel + refund $34.00 · awaiting Rachel's approval",
+  conf:"Review",
+  outreach:"Hi Lauren! 💛\n\nNo trouble at all — it happens! I found the duplicate and have your cancellation ready.\n\nOnce confirmed, I'll cancel order #PP-20588 and refund $34.00 to your original card (you'll see it in 3–5 business days). Your other order is all set and on its way.\n\nThanks for the quick heads up!\n\n— Poppy & Pine Support",
+  confirm:{btn:"✓ CONFIRM CANCEL & REFUND",done:"Order #PP-20588 cancelled · $34.00 refunded",badge:"Refunded",title:"Cancel #PP-20588 & refund $34.00?",copy:"Unfulfilled duplicate order — eligible to cancel. Click to cancel and refund."},
+  francView:"Rachel review: the AI caught a duplicate order, confirmed it's unfulfilled and eligible, and drafted the cancellation. Because this moves money, it waits for your one-click approval — you control every refund.",
+  sent:"Order #PP-20588 cancelled · $34.00 refunded",
+  auto:false,hold:false,saved:7,secs:1,
+  tiles:[{l:"Channel",v:"Email"},{l:"Order",v:"#PP-20588"},{l:"Refund",v:"$34.00",a:true},{l:"Action",v:"Confirm refund"}],
+  pitch:[{n:"You control the money",c:"Refunds and cancellations always wait for one-click approval"},{n:"Catches duplicates",c:"Cross-checks orders before acting — fewer errors than Gorgias AI"},{n:"Owned & predictable",c:"No surprise per-resolution charges at month end"}]},
+
+ {sender:"Danielle F.",initials:"DF",time:"4:58am",subject:"Cracked print after one wash — very disappointed",
+  preview:"Print on her 'Wildflower' tee cracked after one wash. Gift for her sister. Photo attached.",tag:"Defect",tagDone:"Escalated",
+  label:"Defect Complaint · Escalate",wlbl:"Support Email · Escalated to Gorgias",
+  status:"AI Replace — Triaging a complaint...",
+  channel:"email",emailFrom:"support@poppypine.com",emailTo:"danielle.f@gmail.com",
+  inboundFrom:"danielle.f@gmail.com",inboundTo:"support@poppypine.com",
+  inbound:"I'm really disappointed. The print on my \"Wildflower\" tee started cracking and peeling after ONE wash, and I followed the care instructions exactly. This was supposed to be a birthday gift for my sister. Photo attached. I'd like to know what you're going to do about this. — Danielle",
+  subj:"Re: Cracked print after one wash",
+  lines:[
+   ["›","New email · product complaint","flag"],
+   ["›","Connecting to Shopify · order #PP-20377","dim"],
+   ["›","Order: 'Wildflower' tee · delivered 11 days ago","hi"],
+   ["›","Detected: defect report + photo attached","flag"],
+   ["›","Sentiment: upset · it was a gift","warn"],
+   ["›","AI Exclusion: defects + complaints → escalate","flag"],
+   ["›","Do NOT auto-send · human judgment needed","warn"],
+   ["›","Drafting empathetic reply + suggested fix","ok"],
+   ["›","Creating Gorgias ticket · assigning to your team","hi"],
+   ["›","Attaching order, photo & draft for the agent","ok"],
+  ],
+  oMeta:"Escalated to your team in Gorgias · draft attached",
+  conf:"Escalate",
+  holdBanner:"⚑ ESCALATED TO YOUR TEAM IN GORGIAS · draft attached, agent reviews & sends",
+  outreach:"Hi Danielle,\n\nI'm so sorry — that's not the quality we stand behind, and definitely not what you want from a birthday gift for your sister. Thank you for the photo; it really helps.\n\nWe'd love to make this right: I can send a brand-new \"Wildflower\" tee out to you right away at no cost, and there's no need to return the original. If you'd prefer a different design, or a refund instead, just say the word.\n\nWould you like the replacement sent to you, or straight to your sister?\n\n— Poppy & Pine Support",
+  francView:"Rachel view: a defect complaint on a gift — exactly what should reach a person. The AI wrote a warm, on-brand reply and a suggested fix (free replacement), then escalated the ticket to your team inside Gorgias with the order, photo and draft attached. Nothing was auto-sent.",
+  sent:"Escalated to your team in Gorgias · draft attached",
+  auto:false,hold:true,saved:10,secs:0,
+  tiles:[{l:"Channel",v:"Email"},{l:"Issue",v:"Defect + Complaint",a:true},{l:"Sent?",v:"Escalated"},{l:"Action",v:"To Gorgias team"}],
+  pitch:[{n:"Smart escalation",c:"Sensitive tickets reach a human in Gorgias — with full context attached"},{n:"Replaces Gorgias AI, not Gorgias",c:"Your team still works in Gorgias — we just stop the AI meter"},{n:"Draft ready for the agent",c:"The human edits & sends — no blank-page work, faster handling"}]},
+
+ {sender:"AI Replace · Control Panel",initials:"AR",time:"now",subject:"Session summary & Gorgias cost impact",
+  preview:"How this session maps to your Gorgias bill — and what you control.",tag:"Panel",tagDone:"Live",
+  label:"Gorgias Control Panel",wlbl:"AI Replace Control Panel",
+  status:"AI Replace — Compiling control & cost summary...",
+  channel:"system",sysTitle:"AI Replace · Gorgias Control Panel",sysState:"Idle",sysDone:"Live",
+  sysRows:[["Emails this session","4"],["Auto-resolved (no human)","3"],["Escalated to your team","1"],["Gorgias AI resolutions used","0"],["Cost model","Fixed monthly · you own it"]],
+  lines:[
+   ["›","Compiling session results...","dim"],
+   ["›","4 emails handled by your system","hi"],
+   ["›","3 auto-resolved · 0 Gorgias AI resolutions used","ok"],
+   ["›","1 escalated to your team inside Gorgias","warn"],
+   ["›","Every rule + threshold above is yours to edit","hi"],
+   ["›","Mapping deflection to your Gorgias cost...",""],
+  ],
+  oMeta:"Control & monitoring · your Gorgias cost model",
+  conf:"Live",
+  outreach:"What this means for your Gorgias bill:\n\nAll 4 emails were handled by your system — 3 resolved, 1 escalated to your team in Gorgias with a draft ready. Zero Gorgias AI resolutions used.\n\nGorgias AI bills per resolution and keeps charging even when it loops. This system resolves before a ticket ever reaches Gorgias AI — so you pay one fixed monthly cost for a system you own, not a per-resolution meter.\n\nEvery rule and threshold above is yours to edit and monitor here. Next: we plug in your real volume and Gorgias rate to project exact monthly savings.",
+  francView:"This is the part Rachel & Rich asked to see: full control and monitoring, with a direct, measurable cut to Gorgias ticket costs — at a fixed price you own and can scale.",
+  sent:"Control panel live · you own the system",
+  auto:true,summary:true,saved:0,secs:0,
+  tiles:[{l:"Source",v:"AI Replace"},{l:"Deflected",v:"3 of 4"},{l:"Gorgias AI",v:"0 used"},{l:"Cost",v:"Fixed · owned"}],
+  pitch:[{n:"Direct cost impact",c:"Every deflected ticket is a Gorgias AI resolution you don't pay for"},{n:"Total control",c:"Edit rules, templates & thresholds yourself — no vendor lock-in"},{n:"Scales flat",c:"10× the tickets, same fixed monthly cost"}]}
+];
+
+var cur=0,done={},running=false,awaiting=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,a:0,s:0,t:0};
+var N=STEPS.length;
+
+// 2nd stat counter — Poppy counts tickets escalated to a human (hold steps)
+function countSecond(step){return step.hold?1:0}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function el(id){return document.getElementById(id)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(txt){var e=el('stageLabel');e.textContent=txt;e.classList.toggle('vis',!!txt)}
+function conclusionLine(step){
+  if(step.auto)return['Handled automatically · no action needed','ok'];
+  if(step.hold)return['Suggestion ready · escalated to your team','warn'];
+  return['Awaiting '+NAME+' confirmation…','warn'];
+}
+
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function typeText(id,text,speed){
+  return new Promise(function(resolve){
+    var e=el(id);if(!e){resolve();return}
+    clearInterval(typeIv);e.textContent='';
+    var i=0;
+    typeIv=setInterval(function(){
+      e.textContent+=text[i];i++;
+      var sc=e.closest('.otext');if(sc)sc.scrollTop=sc.scrollHeight;
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||9);
+  });
+}
+
+function phoneHTML(step,reveal){
+  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+(step.channel==='ig'?'Instagram':'SMS')+'</div></div><div class="phone-screen">';
+  if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+  if(reveal)h+='<div class="pb out"><span id="aiText"></span></div>';
+  else if(!step.inbound)h+='<div class="pb-empty">AI is preparing a message…</div>';
+  h+='</div></div>';
+  return h;
+}
+function emailHTML(step,reveal){
+  var hasIn=!!step.inbound;
+  var from=(reveal||!hasIn)?step.emailFrom:step.inboundFrom;
+  var to=(reveal||!hasIn)?step.emailTo:step.inboundTo;
+  var body;
+  if(reveal)body='<span id="aiText"></span>';
+  else body=hasIn?esc(step.inbound):'<span class="email-await">Composing…</span>';
+  var hold=(reveal&&step.hold)?'<div class="email-hold">'+esc(step.holdBanner||'⚑ AI SUGGESTION — NOT SENT · held for review')+'</div>':'';
+  return '<div class="email">'
+    +'<div class="email-row"><div class="ek">From</div><div class="ev">'+esc(from)+'</div></div>'
+    +'<div class="email-row"><div class="ek">To</div><div class="ev">'+esc(to)+'</div></div>'
+    +'<div class="email-subjrow">Subject: '+esc(step.subj)+'</div>'
+    +hold
+    +'<div class="email-bd">'+body+'</div></div>';
+}
+function fbHTML(step,reveal){
+  var h='<div class="fb">'
+    +'<div class="fb-hdr"><div class="fb-av">'+esc(step.initials)+'</div><div><div class="fb-name">'+esc(step.fbName)+'</div><div class="fb-sub">'+esc(step.fbSub)+'</div></div></div>'
+    +'<div class="fb-cap">'+esc(step.post)+'</div><div class="fb-cap2">'+esc(step.postSub)+'</div>'
+    +'<div class="fb-comments">';
+  (step.comments||[]).forEach(function(c,i){
+    h+='<div class="fbc'+(c.flag?' flagged':'')+'" id="fbc'+i+'"><div class="fbc-av">'+esc(c.init)+'</div>'
+      +'<div class="fbc-bub"><div class="fbc-name">'+esc(c.who)+'</div><div class="fbc-text">'+esc(c.text)+'</div>'
+      +(c.flag?'<div class="fbc-flag">Flagged: '+esc(c.flag)+'</div>':'')
+      +'</div></div>';
+  });
+  if(reveal)h+='<div class="fb-airec"><span class="rh">AI Replace · recommendation</span><span id="aiText"></span></div>';
+  h+='</div></div>';
+  return h;
+}
+function systemHTML(step,reveal){
+  var h='<div class="sys"><div class="sys-hdr"><div class="sys-ic">'+esc(step.initials)+'</div><div class="sys-ttl">'+esc(step.sysTitle)+'</div><div class="sys-pill'+(reveal?' ok':'')+'">'+esc(reveal?step.sysDone:step.sysState)+'</div></div>';
+  h+='<div class="sys-rows">';
+  step.sysRows.forEach(function(r){h+='<div class="sys-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>'});
+  h+='</div>';
+  if(step.chips){
+    h+='<div class="sys-chips">';
+    step.chips.forEach(function(c){
+      if(!reveal&&c.add)return;
+      var cls=reveal?(c.x?' x':(c.add?' add':'')):'';
+      h+='<span class="chip'+cls+'">'+esc(c.t)+'</span>';
+    });
+    h+='</div>';
+  }
+  if(reveal)h+='<div class="sys-body"><span id="aiText"></span></div>';
+  h+='</div>';
+  return h;
+}
+function wireHTML(step,reveal){
+  var ch=step.channel;
+  if(ch==='ig'||ch==='sms')return phoneHTML(step,reveal);
+  if(ch==='fb')return fbHTML(step,reveal);
+  if(ch==='email')return emailHTML(step,reveal);
+  return systemHTML(step,reveal);
+}
+
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
+
+function applyDoneEffect(step){
+  if(step.confirm&&step.confirm.effect==='removeFlagged'){
+    var nodes=document.querySelectorAll('.fbc.flagged');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.add('deleted');
+      var tag=nodes[i].querySelector('.fbc-flag');
+      if(tag){tag.textContent='✓ Removed';tag.className='fbc-flag done'}
+    }
+  }
+}
+
+function renderQueue(){
+  var h='';
+  STEPS.forEach(function(s,i){
+    var isDone=done[i],isActive=i===cur;
+    var rowCls='lead-row'+(isActive?' active':'')+(isDone?' done':'');
+    h+='<div class="'+rowCls+'" id="lr'+i+'">'
+      +'<div class="lav">'+esc(s.initials)+'</div>'
+      +'<div class="lead-main">'
+        +'<div class="lead-name">'+esc(s.sender)+'</div>'
+        +'<div class="lead-subj">'+esc(s.subject)+'</div>'
+        +'<div class="lead-prev">'+esc(s.preview)+'</div>'
+      +'</div>'
+      +'<div class="lead-right">'
+        +'<div class="lead-time">'+esc(s.time)+'</div>'
+        +'<div class="lead-tag">'+esc(isDone?s.tagDone:s.tag)+'</div>'
+      +'</div>'
+    +'</div>';
+  });
+  el('qBody').innerHTML=h;
+}
+
+function renderContext(step,revealed){
+  var h='<div class="tile-grid">';
+  step.tiles.forEach(function(t){
+    h+='<div class="tile'+(t.a?' alert':'')+'"><div class="tile-lbl">'+esc(t.l)+'</div><div class="tile-val">'+(revealed||!t.a?esc(t.v):'--')+'</div></div>';
+  });
+  h+='</div>';
+  h+='<div class="icp-box"><div class="icp-ttl">Handling Rules</div><div class="icp-list">'
+    +'<span><b>✓</b>Shipping, tracking &amp; order status → auto-resolve</span>'
+    +'<span><b>✓</b>Exchanges within your policy → auto-resolve</span>'
+    +'<span><b class="f">⚑</b>Cancellations &amp; refunds → one-click approval</span>'
+    +'<span><b class="f">⚑</b>Defects, complaints &amp; sensitive → escalate via Gorgias</span>'
+    +'<span><b>✓</b>You set every rule, template &amp; threshold</span>'
+    +'<span><b>✓</b>Fixed monthly cost · you own it · no per-resolution billing</span>'
+    +'</div></div>';
+  if(revealed){
+    h+='<div class="pitch-box"><div class="pitch-ttl">Why this beats Gorgias AI</div>';
+    step.pitch.forEach(function(p){
+      h+='<div class="pitch-item"><div class="pitch-name">'+esc(p.n)+'</div><div class="pitch-copy">'+esc(p.c)+'</div></div>';
+    });
+    h+='</div>';
+  }
+  el('ctxBody').innerHTML=h;
+}
+
+function showFranc(step){
+  var e=el('francCard');if(!e)return;
+  e.style.display='block';
+  e.className='franc-card'+(step.hold?' hold':'');
+  e.innerHTML='<b>'+NAME+' view</b>'+esc(step.francView);
+}
+
+function updateStats(step){
+  if(step.summary)return;
+  stats.h++;
+  stats.a+=countSecond(step);
+  stats.s+=step.saved||0;stats.t+=step.secs||0;
+  el('stH').textContent=stats.h;
+  el('stA').textContent=stats.a;
+  el('stS').textContent=stats.s+'m';
+  el('stT').textContent=stats.t;
+}
+
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+
+function enterAwaiting(step){
+  awaiting=true;
+  showFranc(step);
+  el('spill').textContent='Awaiting '+NAME+'’s approval';
+  el('spill').className='spill show await';
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge','b-alert','Confirm');
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — awaiting '+NAME+' approval';
+  updateNav();
+}
+
+function finalizeAuto(step){
+  showFranc(step);
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?(step.summary?'Live':'Sent'):(step.hold?'Escalated':'Done'));
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+}
+
+function confirmAction(){
+  if(!awaiting)return;
+  awaiting=false;
+  var step=STEPS[cur];
+  applyDoneEffect(step);
+  appendBrain('✓',step.confirm.done||'Confirmed','ok');
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show';
+  setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+  updateNav();
+}
+
+function updateNav(){
+  var step=STEPS[cur];
+  var isDone=done[cur];
+  var isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
+  el('btnSkip').disabled=running;
+  if(running){
+    p.textContent='Running...';p.disabled=true;
+    setBadge('navBadge','b-proc','Running');
+  } else if(awaiting){
+    p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title||'Confirm to continue';
+    el('navCopy').textContent=step.confirm.copy||'Review the draft, then click to confirm.';
+  } else if(!isDone){
+    p.textContent='ANALYZE';p.disabled=false;
+    setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' loaded';
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
+  } else if(isLast){
+    p.textContent='REPLAY ↺';p.disabled=false;
+    setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Session complete';
+    el('navCopy').textContent='Demo complete. Click Replay to start over.';
+  } else {
+    p.textContent='NEXT →';p.disabled=false;
+    setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' — done';
+    el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the summary')+'.';
+  }
+}
+
+function renderStep(){
+  tok++;clearTimers();running=false;awaiting=false;
+  var step=STEPS[cur];
+  renderQueue();
+  renderContext(step,false);
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Ticket loaded — click Analyze to run the AI</span></div>';
+  el('oMeta').textContent='Waiting for AI reasoning';
+  el('oConf').textContent='--';
+  el('oWlbl').textContent=step.wlbl;
+  el('oText').innerHTML=wireHTML(step,false);
+  el('francCard').style.display='none';
+  el('spill').className='spill';
+  setBadge('aiBadge','b-idle','Standby');
+  setBadge('oBadge','b-idle','Ready');
+  setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace — Waiting for presenter';
+  if(done[cur]){restoreDone(step)}
+  updateNav();
+}
+
+function restoreDone(step){
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  showFranc(step);
+  if(step.confirm){
+    appendBrain('✓',step.confirm.done||'Confirmed','ok');
+    applyDoneEffect(step);
+    el('spill').textContent=step.sent;el('spill').className='spill show';
+    setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  } else {
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?(step.summary?'Live':'Sent'):(step.hold?'Escalated':'Done'));
+  }
+  setBadge('aiBadge','b-done','Done');
+  renderContext(step,true);
+  updateNav();
+}
+
+async function runStep(){
+  if(running||done[cur]||awaiting)return;
+  running=true;
+  var t=++tok;
+  var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');
+  setBadge('oBadge','b-proc','Drafting');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?100:240);
+    if(t!==tok)return;
+  }
+  await addDiv(150);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],150);if(t!==tok)return;
+  revealOutput(step);
+  await sleep(220);if(t!==tok)return;
+  await typeText('aiText',step.outreach,7);if(t!==tok)return;
+  appendLink(step);
+  running=false;
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function skipNow(){
+  if(done[cur]||awaiting||running)return;
+  clearTimers();tok++;
+  var step=STEPS[cur];
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function handlePrimary(){
+  if(running)return;
+  if(awaiting){confirmAction();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+
+function replay(){
+  clearTimers();tok++;awaiting=false;
+  cur=0;done={};stats={h:0,a:0,s:0,t:0};
+  el('stH').textContent='0';el('stA').textContent='0';
+  el('stS').textContent='0m';el('stT').textContent='0';
+  renderStep();
+}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
