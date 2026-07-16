@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Replace — And For Good CS Demo</title>
+<title>AI Replace · And For Good CS Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -202,7 +202,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
     <div class="topbar-sep"></div>
     <div class="air">AI Replace<span>.</span></div>
   </div>
-  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace — Cindy's inboxes · 3 accounts + Shopify</span></div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Cindy's inboxes · 3 accounts + Shopify</span></div>
 </div>
 <div class="stage-label" id="stageLabel"></div>
 
@@ -211,7 +211,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
     <section class="card queue-card">
       <div class="card-hdr">
         <div class="card-dot" style="background:var(--brand)"></div>
-        <div class="card-title">Inboxes — Cindy</div>
+        <div class="card-title">Inboxes · Cindy</div>
         <div class="cbadge b-live" id="qBadge">Live</div>
       </div>
       <div class="qtool">3 inboxes · hello@ · suppliers@ · cindy@ · Shopify</div>
@@ -289,10 +289,10 @@ var STEPS=[
  {sender:"Sarah J.",initials:"SJ",time:"7:18am",subject:"Need a different size",inbox:"hello@",
   preview:"Loves her Good Boyfriend Shirt but it's too big. Has no order number.",tag:"Exchange",tagDone:"Resolved",
   label:"Exchange · Found by email alone",wlbl:"hello@andforgood.com · Support Email",
-  status:"AI Replace — Searching Shopify by sender email...",
+  status:"AI Replace · Searching Shopify by sender email...",
   channel:"email",emailFrom:"hello@andforgood.com",emailTo:"sarah.jennings@gmail.com",
   inboundFrom:"sarah.jennings@gmail.com",inboundTo:"hello@andforgood.com",
-  inbound:"Hi! I got my Good Boyfriend Shirt last week and love it, but it's a bit big on me. Could I swap it for a size down? I don't have my order number handy, sorry! — Sarah",
+  inbound:"Hi! I got my Good Boyfriend Shirt last week and love it, but it's a bit big on me. Could I swap it for a size down? I don't have my order number handy, sorry!\n\nSarah",
   subj:"Re: Need a different size",
   lines:[
    ["›","New email in hello@andforgood.com","hi"],
@@ -320,7 +320,7 @@ var STEPS=[
  {sender:"Meera · Rangoli Textiles",initials:"MR",time:"6:31am",subject:"Can you resend PO #2214?",inbox:"suppliers@",
   preview:"Can't locate the signed PO for the chambray lot. Needs it plus the packing list.",tag:"Supplier",tagDone:"Resolved",
   label:"Supplier Docs · Auto-send",wlbl:"suppliers@andforgood.com · Supplier Email",
-  status:"AI Replace — Matching supplier and documents...",
+  status:"AI Replace · Matching supplier and documents...",
   channel:"email",emailFrom:"suppliers@andforgood.com",emailTo:"meera@rangolitextiles.in",
   inboundFrom:"meera@rangolitextiles.in",inboundTo:"suppliers@andforgood.com",
   inbound:"Hi Cindy, we're finalising the block print run and can't locate the signed purchase order for the chambray lot. Could you resend PO #2214 and the packing list? Thanks, Meera",
@@ -350,10 +350,10 @@ var STEPS=[
  {sender:"Arun · Coastal Linen Co.",initials:"AC",time:"5:47am",subject:"Linen delay + 12% price increase",inbox:"suppliers@",
   preview:"Mill pushed delivery 3 weeks and quoted +12% on base cloth. Needs approval.",tag:"Decision",tagDone:"Escalated",
   label:"Supplier Pricing · Escalate",wlbl:"suppliers@andforgood.com · Escalated",
-  status:"AI Replace — Reviewing a supplier decision...",
+  status:"AI Replace · Reviewing a supplier decision...",
   channel:"email",emailFrom:"suppliers@andforgood.com",emailTo:"arun@coastallinen.com",
   inboundFrom:"arun@coastallinen.com",inboundTo:"suppliers@andforgood.com",
-  inbound:"Hi Cindy, the linen mill has pushed our delivery by 3 weeks and they're quoting a 12% increase on the base cloth. We need your approval to proceed at the new rate, or we can hold the run. Please advise. — Arun",
+  inbound:"Hi Cindy, the linen mill has pushed our delivery by 3 weeks and they're quoting a 12% increase on the base cloth. We need your approval to proceed at the new rate, or we can hold the run. Please advise.\n\nArun",
   subj:"Re: Linen delay + 12% price increase",
   lines:[
    ["›","New email in suppliers@andforgood.com","hi"],
@@ -379,10 +379,10 @@ var STEPS=[
  {sender:"Nina P.",initials:"NP",time:"4:22am",subject:"Exchange, past the window?",inbox:"hello@",
   preview:"Bought Shore Pants in spring, too long. Outside the 30-day window.",tag:"Exception",tagDone:"Approved",
   label:"Policy Exception · Your Call",wlbl:"hello@andforgood.com · Awaiting Approval",
-  status:"AI Replace — Checking history and policy...",
+  status:"AI Replace · Checking history and policy...",
   channel:"email",emailFrom:"hello@andforgood.com",emailTo:"nina.p@outlook.com",
   inboundFrom:"nina.p@outlook.com",inboundTo:"hello@andforgood.com",
-  inbound:"Hello, I bought the Shore Pants back in the spring and only just tried them on properly. They're too long on me. I know it's been a while, is there anything you can do? — Nina",
+  inbound:"Hello, I bought the Shore Pants back in the spring and only just tried them on properly. They're too long on me. I know it's been a while, is there anything you can do?\n\nNina",
   subj:"Re: Exchange, past the window?",
   lines:[
    ["›","New email in hello@andforgood.com","hi"],
@@ -409,7 +409,7 @@ var STEPS=[
  {sender:"AI Replace · Inbox Panel",initials:"AR",time:"now",subject:"Multi-inbox summary & Shopify lookups",
   preview:"Answering both of your questions: multiple inboxes, and Shopify by email.",tag:"Panel",tagDone:"Live",
   label:"Inbox Control Panel",wlbl:"AI Replace Inbox Panel",
-  status:"AI Replace — Compiling inbox summary...",
+  status:"AI Replace · Compiling inbox summary...",
   channel:"system",sysTitle:"AI Replace · Inbox Control Panel",sysState:"Idle",sysDone:"Live",
   sysRows:[["Inboxes monitored","hello@ · suppliers@ · cindy@"],["Emails this session","4"],["Resolved without Cindy","3"],["Escalated to Cindy","1"],["Shopify lookups by email alone","2"]],
   lines:[
@@ -434,7 +434,7 @@ var cur=0,done={},running=false,awaiting=false,reasoned=false,tok=0,typeIv=null,
     stats={h:0,a:0,s:0,t:0};
 var N=STEPS.length;
 
-// 2nd stat counter — count emails escalated to Cindy (hold steps)
+// 2nd stat counter · count emails escalated to Cindy (hold steps)
 function countSecond(step){return step.hold?1:0}
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -507,7 +507,7 @@ function emailHTML(step,reveal){
     var h='<div class="email"><div class="email-subjrow">Subject: '+esc(step.subj)+'</div>';
     h+='<div class="ethr"><div class="ethr-hdr"><span class="ethr-from">'+esc(step.sender)+' &lt;'+esc(step.inboundFrom)+'&gt;</span><span class="ethr-tag cust">Customer</span></div><div class="ethr-body">'+esc(step.inbound)+'</div></div>';
     if(reveal){
-      if(step.hold)h+='<div class="email-hold">'+esc(step.holdBanner||'⚑ AI SUGGESTION — NOT SENT · held for review')+'</div>';
+      if(step.hold)h+='<div class="email-hold">'+esc(step.holdBanner||'⚑ AI SUGGESTION · NOT SENT · held for review')+'</div>';
       h+='<div class="ethr ai"><div class="ethr-hdr"><span class="ethr-from">'+esc(step.emailFrom)+'</span><span class="ethr-tag aiq">AI '+(step.hold?'draft':'reply')+'</span></div><div class="ethr-body"><span id="aiText"></span></div></div>';
     }
     h+='</div>';return h;
@@ -664,7 +664,7 @@ function enterAwaiting(step){
   setBadge('aiBadge','b-done','Done');
   setBadge('oBadge','b-alert','Confirm');
   renderContext(step,true);
-  el('statusText').textContent='AI Replace — awaiting '+NAME+' approval';
+  el('statusText').textContent='AI Replace · awaiting '+NAME+' approval';
   updateNav();
 }
 
@@ -675,7 +675,7 @@ function finalizeAuto(step){
   setBadge('aiBadge','b-done','Done');
   setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?(step.summary?'Live':'Sent'):(step.hold?'Escalated':'Done'));
   renderContext(step,true);
-  el('statusText').textContent='AI Replace — '+step.sent;
+  el('statusText').textContent='AI Replace · '+step.sent;
   done[cur]=true;
   updateStats(step);
   renderQueue();
@@ -690,7 +690,7 @@ function confirmAction(){
   el('spill').textContent=step.sent;
   el('spill').className='spill show';
   setBadge('oBadge','b-done',step.confirm.badge||'Sent');
-  el('statusText').textContent='AI Replace — '+step.sent;
+  el('statusText').textContent='AI Replace · '+step.sent;
   done[cur]=true;
   updateStats(step);
   renderQueue();
@@ -733,7 +733,7 @@ function updateNav(){
   } else {
     p.textContent='NEXT →';p.disabled=false;
     setBadge('navBadge','b-live','Next');
-    el('navTitle').textContent=step.sender+' — done';
+    el('navTitle').textContent=step.sender+' · done';
     el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the summary')+'.';
   }
 }
@@ -754,7 +754,7 @@ function renderStep(){
   setBadge('oBadge','b-idle','Ready');
   setBadge('navBadge','b-idle','Waiting');
   setLabel(step.label);
-  el('statusText').textContent='AI Replace — Waiting for presenter';
+  el('statusText').textContent='AI Replace · Waiting for presenter';
   if(done[cur]){restoreDone(step)}
   updateNav();
 }
@@ -799,7 +799,7 @@ async function runStep(){
   running=false;reasoned=true;
   setBadge('aiBadge','b-done','Done');
   el('oMeta').textContent='Reasoning complete · ready to draft';
-  el('statusText').textContent='AI Replace — reasoning complete · ready to draft';
+  el('statusText').textContent='AI Replace · reasoning complete · ready to draft';
   updateNav();
 }
 
