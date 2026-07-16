@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace — And For Good CS Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf9f5;--white:#fff;--ink:#1c2b26;--body:#4a544f;--muted:#8b938e;--border:#e6e4dc;
+  --teal:#108474;--tealdk:#0c665a;--teallt:#e7f4f1;
+  --brand:#108474;--branddk:#0c665a;--brandlt:#e7f4f1;
+  --red:#c93232;--redlt:#fdf0f0;--amber:#8c5c0a;--amberlt:#fef5e8;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(253,245,244,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(30,70,60,.08)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900;letter-spacing:.01em}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(231,244,241,.94);border:1px solid #b9ddd6;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(16,132,116,.1)}
+.stage-label.vis{opacity:1}
+.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(290px,330px) minmax(640px,1fr) minmax(320px,390px);gap:12px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(30,70,60,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#fbfaf6;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#eceee7;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.left-col{grid-column:1;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.queue-card{flex:1;min-height:0}
+.qtool{padding:8px 12px;background:var(--white);border-bottom:1px solid var(--border);font:600 10px/1 var(--mono);color:var(--muted)}
+.qbody{flex:1;overflow:hidden}
+.lead-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:7px 12px;border-bottom:1px solid #eef0e9;background:var(--white);transition:background .25s,opacity .25s}
+.lead-row.active{background:var(--brandlt)}
+.lead-row.done{opacity:.65}
+.lav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 10px/1 var(--mono);background:var(--brand)}
+.lead-main{min-width:0}
+.lead-name{font-size:12px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-subj{font-size:11px;font-weight:650;color:var(--body);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-prev{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.lead-time{font:600 9px/1 var(--mono);color:var(--muted)}
+.lead-tag{font:800 8px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:3px 6px;background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.lead-inbox{font:700 7.5px/1 var(--mono);color:var(--branddk);background:var(--brandlt);border:1px solid #b9ddd6;border-radius:100px;padding:3px 5px;white-space:nowrap}
+.lead-row.done .lead-tag{background:var(--teallt);color:var(--tealdk);border-color:#b0d9cb}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:9px}
+.ss{border:1px solid var(--border);border-radius:9px;padding:7px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#b9ddd6}
+.ss:nth-child(2){background:var(--amberlt);border-color:#e0c070}
+.ss:nth-child(3){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(4){background:var(--teallt);border-color:#b0d9cb}
+.ss-num{font:900 17px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(3) .ss-num,.ss:nth-child(4) .ss-num{color:var(--tealdk)}
+.ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
+.brain-card{flex:0 0 190px}
+.brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.outreach-card{flex:1 1 auto;min-height:0}
+.ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
+.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
+.ometa b{color:var(--tealdk)}
+.oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
+.owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
+.phone{max-width:310px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.phone-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 12px;background:#111;border-radius:22px 22px 0 0;color:#fff}
+.phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
+.phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;min-height:300px;display:flex;flex-direction:column;gap:9px;justify-content:flex-end}
+.pb{max-width:80%;padding:10px 13px;font-size:13px;line-height:1.45;border-radius:18px;white-space:pre-wrap}
+.pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
+.pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
+.email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(30,70,60,.05)}
+.email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
+.email-row .ek{padding:11px 12px;font:700 9.5px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#f6f5ef;border-right:1px solid var(--border)}
+.email-row .ev{padding:11px 13px;font-size:13px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis}
+.email-subjrow{padding:11px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13.5px;color:var(--ink);background:#fcfdfb}
+.email-hold{padding:9px 14px;background:var(--amberlt);border-bottom:1px solid #e0c070;color:var(--amber);font:800 10px/1.4 var(--mono);letter-spacing:.03em}
+.email-bd{padding:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;color:var(--body);min-height:120px}
+.email-await{color:var(--muted);font-style:italic}
+.fb{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(30,70,60,.05)}
+.fb-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.fb-av{width:40px;height:40px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--mono);color:#fff;flex:0 0 auto}
+.fb-name{font-weight:800;font-size:14px;color:var(--ink)}
+.fb-sub{font:600 11px/1.3 var(--mono);color:var(--muted);margin-top:1px}
+.fb-cap{padding:0 14px 4px;font-weight:800;font-size:14px;color:var(--ink)}
+.fb-cap2{padding:0 14px 12px;font-size:13px;color:var(--body);border-bottom:1px solid var(--border)}
+.fb-comments{padding:11px 14px;display:flex;flex-direction:column;gap:9px}
+.fbc{display:flex;gap:9px;align-items:flex-start;transition:opacity .35s}
+.fbc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto;background:var(--brand)}
+.fbc-bub{background:#f4f5f7;border:1px solid #e9e9ee;border-radius:12px;padding:9px 13px;min-width:0;flex:1}
+.fbc.flagged .fbc-bub{background:var(--redlt);border-color:#f0caca}
+.fbc.deleted{opacity:.45}
+.fbc.deleted .fbc-name,.fbc.deleted .fbc-text{text-decoration:line-through}
+.fbc-name{font-weight:800;font-size:12.5px;color:var(--ink)}
+.fbc-text{font-size:12.5px;color:var(--body);line-height:1.45;margin-top:2px}
+.fbc-flag{display:inline-block;margin-top:7px;font:800 8.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:#fff;border:1px solid #f0caca;border-radius:100px;padding:5px 9px}
+.fbc-flag.done{color:var(--green);border-color:#9fd4b8;background:var(--greenlt)}
+.fb-airec{margin-top:4px;padding:11px 13px;background:var(--brandlt);border:1px solid #b9ddd6;border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--body)}
+.fb-airec .rh{display:block;font:800 8.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--branddk);margin-bottom:5px}
+.sys{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(30,70,60,.05)}
+.sys-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border);background:#1c2b26}
+.sys-ic{width:28px;height:28px;border-radius:7px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.sys-ttl{font:800 11px/1 var(--mono);letter-spacing:.04em;color:#fff;flex:1}
+.sys-pill{font:800 9px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:100px;padding:5px 9px;background:rgba(168,104,30,.25);color:#f0c98a;border:1px solid rgba(168,104,30,.5)}
+.sys-pill.ok{background:rgba(26,122,74,.22);color:#7fe0a8;border-color:rgba(26,122,74,.5)}
+.sys-rows{padding:6px 14px}
+.sys-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #eef0e9;font-size:12.5px}
+.sys-row:last-child{border-bottom:none}
+.sys-row span{color:var(--muted);font:600 11px/1.4 var(--mono)}
+.sys-row b{color:var(--ink);font-weight:800;text-align:right}
+.sys-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 14px 12px}
+.chip{font:700 10.5px/1 var(--mono);padding:6px 10px;border-radius:100px;background:#eceee7;color:var(--body);border:1px solid var(--border)}
+.chip.x{background:var(--redlt);color:var(--red);border-color:#f0caca;text-decoration:line-through;opacity:.75}
+.chip.add{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
+.sys-body{padding:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body);border-top:1px solid var(--border)}
+.ethr{padding:12px 14px;border-bottom:1px solid var(--border)}
+.ethr:last-child{border-bottom:none}
+.ethr.ai{background:var(--teallt)}
+.ethr-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.ethr-from{font-size:12px;font-weight:800;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ethr-tag{font:800 8px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:100px;padding:4px 7px;flex:0 0 auto;white-space:nowrap}
+.ethr-tag.cust{background:#edeef0;color:var(--muted);border:1px solid var(--border)}
+.ethr-tag.aiq{background:#fff;color:var(--tealdk);border:1px solid #b0d9cb}
+.ethr-body{font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--body)}
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #b9ddd6;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link:hover{background:#d3ebe5}
+.franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
+.franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.franc-card.pending{color:var(--muted);background:#fbfaf6;border-color:var(--border);font-style:italic}
+.franc-card.hold{background:var(--amberlt);border-color:#e0c070}
+.franc-card.hold b{color:var(--amber)}
+.spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
+.spill.show{opacity:1}
+.spill.hold{background:var(--amber)}
+.spill.await{background:var(--branddk)}
+.ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
+.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tile{border:1px solid var(--border);border-radius:9px;padding:8px;background:#fbfaf6}
+.tile.alert{background:var(--redlt);border-color:#f0caca}
+.tile-lbl{font:800 8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tile-val{font-size:12.5px;font-weight:850;color:var(--ink);line-height:1.2}
+.icp-box{background:var(--brandlt);border:1px solid #b9ddd6;border-radius:11px;padding:9px}
+.icp-ttl{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--branddk);margin-bottom:6px}
+.icp-list{display:flex;flex-direction:column;gap:3px;font-size:10.5px;line-height:1.3;color:var(--body)}
+.icp-list span{display:flex;gap:6px}
+.icp-list b{color:var(--teal)}
+.icp-list b.f{color:var(--amber)}
+.pitch-box{border:1px solid var(--border);border-radius:11px;padding:9px;background:#fbfaf6}
+.pitch-ttl{font:800 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.pitch-item{padding:4px 0;border-top:1px solid #eef0e9}
+.pitch-item:first-of-type{border-top:none;padding-top:0}
+.pitch-name{font-size:11.5px;font-weight:850;color:var(--ink)}
+.pitch-copy{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(253,248,248,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(30,70,60,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(16,132,116,.22);white-space:nowrap}
+.btn-primary:disabled{background:#c4ccc7;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(16,132,116,.55)}60%{box-shadow:0 0 0 14px rgba(16,132,116,0)}100%{box-shadow:0 0 0 0 rgba(16,132,116,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#fbfaf6;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#b9ddd6;color:var(--branddk);background:var(--brandlt)}
+.btn-sec:disabled{opacity:.35;cursor:not-allowed}
+.btn-sec.hidden{display:none}
+.empty-msg{display:flex;align-items:center;justify-content:center;min-height:60px;color:var(--muted);font-size:12px;font-style:italic;padding:14px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">And For Good</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace — Cindy's inboxes · 3 accounts + Shopify</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="left-col">
+    <section class="card queue-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Inboxes — Cindy</div>
+        <div class="cbadge b-live" id="qBadge">Live</div>
+      </div>
+      <div class="qtool">3 inboxes · hello@ · suppliers@ · cindy@ · Shopify</div>
+      <div class="qbody" id="qBody"></div>
+    </section>
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Handled</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Escalated</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0m</div><div class="ss-lbl">Mins Saved</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Resolved</div></div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="work-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Email loaded, click Analyze to run the AI</span></div>
+      </div>
+    </div>
+    <div class="card outreach-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">AI Output</div>
+        <div class="cbadge b-idle" id="oBadge">Ready</div>
+      </div>
+      <div class="ob">
+        <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
+        <div class="owlbl" id="oWlbl"></div>
+        <div class="otext" id="oText"><div class="empty-msg">The email loads after you click Analyze.</div></div>
+        <div class="franc-card pending" id="francCard" style="display:none"><b>Cindy view</b>Processing…</div>
+        <div class="spill" id="spill">Output pending</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="ctx-col">
+    <div class="card" style="flex:1">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Context &amp; Rules</div>
+        <div class="cbadge b-live" id="ctxBadge">Connected</div>
+      </div>
+      <div class="ctx-body" id="ctxBody">
+        <div class="empty-msg">Context populates when an email is analyzed.</div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Inboxes loaded</b><span id="navCopy">Click Analyze to run the AI on the first email.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var NAME="Cindy";var ITEM="email";
+var STEPS=[
+ {sender:"Sarah J.",initials:"SJ",time:"7:18am",subject:"Need a different size",inbox:"hello@",
+  preview:"Loves her Good Boyfriend Shirt but it's too big. Has no order number.",tag:"Exchange",tagDone:"Resolved",
+  label:"Exchange · Found by email alone",wlbl:"hello@andforgood.com · Support Email",
+  status:"AI Replace — Searching Shopify by sender email...",
+  channel:"email",emailFrom:"hello@andforgood.com",emailTo:"sarah.jennings@gmail.com",
+  inboundFrom:"sarah.jennings@gmail.com",inboundTo:"hello@andforgood.com",
+  inbound:"Hi! I got my Good Boyfriend Shirt last week and love it, but it's a bit big on me. Could I swap it for a size down? I don't have my order number handy, sorry! — Sarah",
+  subj:"Re: Need a different size",
+  lines:[
+   ["›","New email in hello@andforgood.com","hi"],
+   ["›","Intent: exchange request (size)","hi"],
+   ["›","No order number provided","warn"],
+   ["›","Searching Shopify by sender email only","hi"],
+   ["›","sarah.jennings@gmail.com → customer matched","ok"],
+   ["›","Purchase history: 3 orders since Mar 2024","ok"],
+   ["›","Most recent: #AFG-4471 · Good Boyfriend Shirt · M","hi"],
+   ["›","Delivered 9 days ago · within 30-day window ✓","ok"],
+   ["›","Size S in stock · reserving one","ok"],
+   ["›","Generating prepaid exchange label","ok"],
+   ["›","Within your rules · auto-resolve","ok"],
+  ],
+  oMeta:"Auto-resolved · matched in Shopify by email alone",
+  conf:"Auto",
+  outreach:"Hi Sarah,\n\nNo problem at all, and no order number needed. I found you from your email!\n\nI can see your Good Boyfriend Shirt in a Medium from your order on the 12th, and I've set aside a Small for you.\n\nHere's all you do:\n1. Pop the Medium back in any envelope with the tags on\n2. Use the prepaid label below\n3. Your Small ships the moment it scans in transit\n\nNo charge for the swap. Anything else I can grab for you?\n\nAnd For Good",
+  link:{label:"Prepaid exchange label · #EX-4471",url:"#"},
+  francView:"Cindy view: this is the one you asked about on the call. Sarah gave no order number, so the AI searched Shopify using only her email address, found her purchase history, identified the exact shirt and size, and set up the exchange. Zero lookup from you.",
+  sent:"Auto-resolved · exchange created · no order number needed",
+  auto:true,saved:9,secs:1,
+  tiles:[{l:"Inbox",v:"hello@"},{l:"Lookup",v:"By email only"},{l:"Order",v:"#AFG-4471 · M"},{l:"Action",v:"Auto-resolved"}],
+  pitch:[{n:"Finds them by email alone",c:"No order number needed. Pulls Shopify purchase history from the sender address"},{n:"Knows your policy",c:"Only auto-exchanges inside your 30-day window"},{n:"Your most common request",c:"Size swaps handled end to end, around the clock"}]},
+
+ {sender:"Meera · Rangoli Textiles",initials:"MR",time:"6:31am",subject:"Can you resend PO #2214?",inbox:"suppliers@",
+  preview:"Can't locate the signed PO for the chambray lot. Needs it plus the packing list.",tag:"Supplier",tagDone:"Resolved",
+  label:"Supplier Docs · Auto-send",wlbl:"suppliers@andforgood.com · Supplier Email",
+  status:"AI Replace — Matching supplier and documents...",
+  channel:"email",emailFrom:"suppliers@andforgood.com",emailTo:"meera@rangolitextiles.in",
+  inboundFrom:"meera@rangolitextiles.in",inboundTo:"suppliers@andforgood.com",
+  inbound:"Hi Cindy, we're finalising the block print run and can't locate the signed purchase order for the chambray lot. Could you resend PO #2214 and the packing list? Thanks, Meera",
+  subj:"Re: Can you resend PO #2214?",
+  lines:[
+   ["›","New email in suppliers@andforgood.com","hi"],
+   ["›","Sender: Meera · Rangoli Textiles","dim"],
+   ["›","Intent: document request (PO + packing list)","hi"],
+   ["›","Supplier record matched: Rangoli Textiles","ok"],
+   ["›","Searching document store for PO #2214","dim"],
+   ["›","Found: PO-2214-signed.pdf · issued 14 Mar","ok"],
+   ["›","Found: packing-list-2214.pdf · chambray lot","ok"],
+   ["›","Both standard docs · cleared to send","ok"],
+   ["›","No pricing or terms involved · auto-resolve","ok"],
+   ["›","Attaching and drafting reply...",""],
+  ],
+  oMeta:"Auto-resolved · 2 documents attached · supplier request",
+  conf:"Auto",
+  outreach:"Hi Meera,\n\nOf course, both are attached below.\n\n1. PO #2214, signed, issued 14 March\n2. Packing list for the chambray lot\n\nShout if you need anything else for the block print run, happy to help.\n\nCindy\nAnd For Good",
+  link:{label:"PO-2214-signed.pdf · packing-list-2214.pdf",url:"#"},
+  francView:"Cindy view: a supplier chasing paperwork, found and sent without you touching it. The AI matched Meera to her supplier record, pulled both documents, and replied. This is the coordination that eats your day.",
+  sent:"Auto-resolved · 2 documents sent to supplier",
+  auto:true,saved:12,secs:1,
+  tiles:[{l:"Inbox",v:"suppliers@"},{l:"Supplier",v:"Rangoli Textiles"},{l:"Docs",v:"PO + packing list"},{l:"Action",v:"Auto-resolved"}],
+  pitch:[{n:"Handles supplier paperwork",c:"Finds and sends POs, packing lists, and certificates on request"},{n:"Knows every supplier",c:"Matches the sender to the right account and the right documents"},{n:"Your inbox, not your time",c:"The back and forth happens without you in it"}]},
+
+ {sender:"Arun · Coastal Linen Co.",initials:"AC",time:"5:47am",subject:"Linen delay + 12% price increase",inbox:"suppliers@",
+  preview:"Mill pushed delivery 3 weeks and quoted +12% on base cloth. Needs approval.",tag:"Decision",tagDone:"Escalated",
+  label:"Supplier Pricing · Escalate",wlbl:"suppliers@andforgood.com · Escalated",
+  status:"AI Replace — Reviewing a supplier decision...",
+  channel:"email",emailFrom:"suppliers@andforgood.com",emailTo:"arun@coastallinen.com",
+  inboundFrom:"arun@coastallinen.com",inboundTo:"suppliers@andforgood.com",
+  inbound:"Hi Cindy, the linen mill has pushed our delivery by 3 weeks and they're quoting a 12% increase on the base cloth. We need your approval to proceed at the new rate, or we can hold the run. Please advise. — Arun",
+  subj:"Re: Linen delay + 12% price increase",
+  lines:[
+   ["›","New email in suppliers@andforgood.com","hi"],
+   ["›","Sender: Arun · Coastal Linen Co.","dim"],
+   ["›","Detected: delivery delay of 3 weeks","warn"],
+   ["›","Detected: price increase request of 12%","flag"],
+   ["›","Impacts cost and the linen drop timeline","flag"],
+   ["›","Rule: pricing, terms & commitments → Cindy decides","flag"],
+   ["›","Do NOT auto-approve · your judgment required","warn"],
+   ["›","Drafting a holding reply so Arun isn't waiting","ok"],
+   ["›","Escalating with the numbers gathered","hi"],
+  ],
+  oMeta:"Escalated to Cindy · pricing decision required",
+  conf:"Escalate",
+  holdBanner:"⚠ ESCALATED TO CINDY · NOT SENT · pricing decision needs your call",
+  outreach:"Hi Arun,\n\nThanks for the heads up, and for flagging it early rather than after the run.\n\nI'm looping Cindy in on the 12% increase and the revised timeline so she can make the call properly. You'll hear back from us shortly.\n\nIn the meantime, please hold the run rather than proceeding at the new rate.\n\nAnd For Good",
+  francView:"Cindy view: money and commitments always come to you. The AI wrote a holding reply so Arun isn't left waiting, gathered the numbers, and escalated the decision. It will never approve a price change on your behalf.",
+  sent:"Escalated to Cindy · holding reply drafted (NOT sent)",
+  auto:false,hold:true,saved:10,secs:0,
+  tiles:[{l:"Inbox",v:"suppliers@"},{l:"Flag",v:"+12% · 3wk delay",a:true},{l:"Sent?",v:"Escalated"},{l:"Action",v:"Cindy decides"}],
+  pitch:[{n:"Never commits your money",c:"Pricing, terms, and approvals always escalate to you"},{n:"Keeps suppliers moving",c:"Drafts a holding reply so nobody sits waiting on you"},{n:"Arrives decision-ready",c:"Numbers and context gathered before it hits your desk"}]},
+
+ {sender:"Nina P.",initials:"NP",time:"4:22am",subject:"Exchange, past the window?",inbox:"hello@",
+  preview:"Bought Shore Pants in spring, too long. Outside the 30-day window.",tag:"Exception",tagDone:"Approved",
+  label:"Policy Exception · Your Call",wlbl:"hello@andforgood.com · Awaiting Approval",
+  status:"AI Replace — Checking history and policy...",
+  channel:"email",emailFrom:"hello@andforgood.com",emailTo:"nina.p@outlook.com",
+  inboundFrom:"nina.p@outlook.com",inboundTo:"hello@andforgood.com",
+  inbound:"Hello, I bought the Shore Pants back in the spring and only just tried them on properly. They're too long on me. I know it's been a while, is there anything you can do? — Nina",
+  subj:"Re: Exchange, past the window?",
+  lines:[
+   ["›","New email in hello@andforgood.com","hi"],
+   ["›","No order number provided","warn"],
+   ["›","Searching Shopify by sender email only","hi"],
+   ["›","nina.p@outlook.com → customer matched","ok"],
+   ["›","Order #AFG-3980 · Shore Pants · delivered 68 days ago","hi"],
+   ["›","Outside your 30-day exchange window","flag"],
+   ["›","History: 5 orders since 2023 · loyal customer","ok"],
+   ["›","Retention-first: store credit before any refund","ok"],
+   ["›","Policy exception = your call · needs approval","warn"],
+   ["›","Drafting a warm reply with the offer...",""],
+  ],
+  oMeta:"Policy exception · store credit · awaiting Cindy's approval",
+  conf:"Review",
+  outreach:"Hi Nina,\n\nThanks for reaching out, and I'm sorry the Shore Pants aren't sitting right.\n\nYour order was back in the spring so it's outside our usual 30 day window, but you've been shopping with us a long time and I'd rather sort this out than leave you with pants you won't wear.\n\nIf you're happy with it, I can put through store credit for the full amount so you can pick up a length that fits. Just say the word and I'll set it up.\n\nAnd For Good",
+  confirm:{btn:"✓ APPROVE STORE CREDIT",done:"Store credit approved and sent",badge:"Approved",title:"Approve goodwill store credit for Nina?",copy:"68 days, outside the window. 5 orders since 2023. Click to approve the exception."},
+  francView:"Cindy view: outside your 30 day window, so the AI didn't wave it through. It checked her history (5 orders since 2023), proposed store credit rather than cash back, and left the exception for you to approve in one click.",
+  sent:"Store credit approved and sent",
+  auto:false,hold:false,saved:8,secs:1,
+  tiles:[{l:"Inbox",v:"hello@"},{l:"Window",v:"68 days · outside",a:true},{l:"History",v:"5 orders"},{l:"Action",v:"Confirm credit"}],
+  pitch:[{n:"Retention-first",c:"Offers store credit before money leaves the business"},{n:"You approve exceptions",c:"Anything outside policy waits for your one-click call"},{n:"Rewards loyalty",c:"Checks purchase history before deciding how to treat someone"}]},
+
+ {sender:"AI Replace · Inbox Panel",initials:"AR",time:"now",subject:"Multi-inbox summary & Shopify lookups",
+  preview:"Answering both of your questions: multiple inboxes, and Shopify by email.",tag:"Panel",tagDone:"Live",
+  label:"Inbox Control Panel",wlbl:"AI Replace Inbox Panel",
+  status:"AI Replace — Compiling inbox summary...",
+  channel:"system",sysTitle:"AI Replace · Inbox Control Panel",sysState:"Idle",sysDone:"Live",
+  sysRows:[["Inboxes monitored","hello@ · suppliers@ · cindy@"],["Emails this session","4"],["Resolved without Cindy","3"],["Escalated to Cindy","1"],["Shopify lookups by email alone","2"]],
+  lines:[
+   ["›","Compiling session summary...","dim"],
+   ["›","Inboxes monitored: hello@ · suppliers@ · cindy@","hi"],
+   ["›","4 emails triaged across 3 accounts","ok"],
+   ["›","2 Shopify lookups by sender email alone","hi"],
+   ["›","3 resolved without Cindy · 1 escalated","ok"],
+   ["›","Mapping what this hands back to you...",""],
+  ],
+  oMeta:"Multi-inbox monitoring · Shopify by sender email",
+  conf:"Live",
+  outreach:"Answering your two questions from the call directly.\n\nYes, it watches every inbox you connect. Right now that's hello@, suppliers@ and cindy@, all triaged into one queue, each with its own rules. Add another account and it just picks it up.\n\nAnd yes, it finds people in Shopify from their email address alone. Two of the four emails today arrived with no order number, and both were matched to a full purchase history in seconds.\n\nOf the 4 emails, 3 were handled without you. One pricing decision came to you, with the numbers already gathered.",
+  francView:"This is the answer to what you asked on the call: every inbox you connect, and Shopify lookups from nothing but an email address. Three of four emails handled without you touching them.",
+  sent:"Inbox panel live · 3 accounts connected",
+  auto:true,summary:true,saved:0,secs:0,
+  tiles:[{l:"Inboxes",v:"3 connected"},{l:"Shopify",v:"Email lookup ✓"},{l:"Resolved",v:"3 of 4"},{l:"Escalated",v:"1"}],
+  pitch:[{n:"Every inbox, one queue",c:"hello@, suppliers@, cindy@, and any account you add later"},{n:"Email is the key",c:"Finds purchase history from the sender address, no order number"},{n:"Escalates by your rules",c:"Pricing and exceptions reach you, the rest just gets done"}]}
+];
+
+var cur=0,done={},running=false,awaiting=false,reasoned=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,a:0,s:0,t:0};
+var N=STEPS.length;
+
+// 2nd stat counter — count emails escalated to Cindy (hold steps)
+function countSecond(step){return step.hold?1:0}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function el(id){return document.getElementById(id)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(txt){var e=el('stageLabel');e.textContent=txt;e.classList.toggle('vis',!!txt)}
+function conclusionLine(step){
+  if(step.auto)return['Handled automatically · no action needed','ok'];
+  if(step.hold)return['Suggestion ready · escalated to your team','warn'];
+  return['Awaiting '+NAME+' confirmation…','warn'];
+}
+
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function typeText(id,text,speed){
+  return new Promise(function(resolve){
+    var e=el(id);if(!e){resolve();return}
+    clearInterval(typeIv);e.textContent='';
+    var i=0;
+    typeIv=setInterval(function(){
+      e.textContent+=text[i];i++;
+      var sc=e.closest('.otext');if(sc)sc.scrollTop=sc.scrollHeight;
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||9);
+  });
+}
+
+function phoneHTML(step,reveal){
+  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+(step.channel==='ig'?'Instagram':'SMS')+'</div></div><div class="phone-screen">';
+  if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+  if(reveal)h+='<div class="pb out"><span id="aiText"></span></div>';
+  else if(!step.inbound)h+='<div class="pb-empty">AI is preparing a message…</div>';
+  h+='</div></div>';
+  return h;
+}
+function emailHTML(step,reveal){
+  var hasIn=!!step.inbound;
+  if(hasIn){
+    var h='<div class="email"><div class="email-subjrow">Subject: '+esc(step.subj)+'</div>';
+    h+='<div class="ethr"><div class="ethr-hdr"><span class="ethr-from">'+esc(step.sender)+' &lt;'+esc(step.inboundFrom)+'&gt;</span><span class="ethr-tag cust">Customer</span></div><div class="ethr-body">'+esc(step.inbound)+'</div></div>';
+    if(reveal){
+      if(step.hold)h+='<div class="email-hold">'+esc(step.holdBanner||'⚑ AI SUGGESTION — NOT SENT · held for review')+'</div>';
+      h+='<div class="ethr ai"><div class="ethr-hdr"><span class="ethr-from">'+esc(step.emailFrom)+'</span><span class="ethr-tag aiq">AI '+(step.hold?'draft':'reply')+'</span></div><div class="ethr-body"><span id="aiText"></span></div></div>';
+    }
+    h+='</div>';return h;
+  }
+  var body=reveal?'<span id="aiText"></span>':'<span class="email-await">Composing…</span>';
+  return '<div class="email"><div class="email-row"><div class="ek">From</div><div class="ev">'+esc(step.emailFrom)+'</div></div><div class="email-row"><div class="ek">To</div><div class="ev">'+esc(step.emailTo)+'</div></div><div class="email-subjrow">Subject: '+esc(step.subj)+'</div><div class="email-bd">'+body+'</div></div>';
+}
+
+function fbHTML(step,reveal){
+  var h='<div class="fb">'
+    +'<div class="fb-hdr"><div class="fb-av">'+esc(step.initials)+'</div><div><div class="fb-name">'+esc(step.fbName)+'</div><div class="fb-sub">'+esc(step.fbSub)+'</div></div></div>'
+    +'<div class="fb-cap">'+esc(step.post)+'</div><div class="fb-cap2">'+esc(step.postSub)+'</div>'
+    +'<div class="fb-comments">';
+  (step.comments||[]).forEach(function(c,i){
+    h+='<div class="fbc'+(c.flag?' flagged':'')+'" id="fbc'+i+'"><div class="fbc-av">'+esc(c.init)+'</div>'
+      +'<div class="fbc-bub"><div class="fbc-name">'+esc(c.who)+'</div><div class="fbc-text">'+esc(c.text)+'</div>'
+      +(c.flag?'<div class="fbc-flag">Flagged: '+esc(c.flag)+'</div>':'')
+      +'</div></div>';
+  });
+  if(reveal)h+='<div class="fb-airec"><span class="rh">AI Replace · recommendation</span><span id="aiText"></span></div>';
+  h+='</div></div>';
+  return h;
+}
+function systemHTML(step,reveal){
+  var h='<div class="sys"><div class="sys-hdr"><div class="sys-ic">'+esc(step.initials)+'</div><div class="sys-ttl">'+esc(step.sysTitle)+'</div><div class="sys-pill'+(reveal?' ok':'')+'">'+esc(reveal?step.sysDone:step.sysState)+'</div></div>';
+  h+='<div class="sys-rows">';
+  step.sysRows.forEach(function(r){h+='<div class="sys-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>'});
+  h+='</div>';
+  if(step.chips){
+    h+='<div class="sys-chips">';
+    step.chips.forEach(function(c){
+      if(!reveal&&c.add)return;
+      var cls=reveal?(c.x?' x':(c.add?' add':'')):'';
+      h+='<span class="chip'+cls+'">'+esc(c.t)+'</span>';
+    });
+    h+='</div>';
+  }
+  if(reveal)h+='<div class="sys-body"><span id="aiText"></span></div>';
+  h+='</div>';
+  return h;
+}
+function wireHTML(step,reveal){
+  var ch=step.channel;
+  if(ch==='ig'||ch==='sms')return phoneHTML(step,reveal);
+  if(ch==='fb')return fbHTML(step,reveal);
+  if(ch==='email')return emailHTML(step,reveal);
+  return systemHTML(step,reveal);
+}
+
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+}
+
+function applyDoneEffect(step){
+  if(step.confirm&&step.confirm.effect==='removeFlagged'){
+    var nodes=document.querySelectorAll('.fbc.flagged');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.add('deleted');
+      var tag=nodes[i].querySelector('.fbc-flag');
+      if(tag){tag.textContent='✓ Removed';tag.className='fbc-flag done'}
+    }
+  }
+}
+
+function renderQueue(){
+  var h='';
+  STEPS.forEach(function(s,i){
+    var isDone=done[i],isActive=i===cur;
+    var rowCls='lead-row'+(isActive?' active':'')+(isDone?' done':'');
+    h+='<div class="'+rowCls+'" id="lr'+i+'">'
+      +'<div class="lav">'+esc(s.initials)+'</div>'
+      +'<div class="lead-main">'
+        +'<div class="lead-name">'+esc(s.sender)+'</div>'
+        +'<div class="lead-subj">'+esc(s.subject)+'</div>'
+        +'<div class="lead-prev">'+esc(s.preview)+'</div>'
+      +'</div>'
+      +'<div class="lead-right">'
+        +'<div class="lead-time">'+esc(s.time)+'</div>'
+        +'<div class="lead-tag">'+esc(isDone?s.tagDone:s.tag)+'</div>'
+        +(s.inbox?'<div class="lead-inbox">'+esc(s.inbox)+'</div>':'')
+      +'</div>'
+    +'</div>';
+  });
+  el('qBody').innerHTML=h;
+}
+
+function renderContext(step,revealed){
+  var h='<div class="tile-grid">';
+  step.tiles.forEach(function(t){
+    h+='<div class="tile'+(t.a?' alert':'')+'"><div class="tile-lbl">'+esc(t.l)+'</div><div class="tile-val">'+(revealed||!t.a?esc(t.v):'--')+'</div></div>';
+  });
+  h+='</div>';
+  h+='<div class="icp-box"><div class="icp-ttl">Handling Rules</div><div class="icp-list">'
+    +'<span><b>✓</b>Every inbox you connect → one queue</span>'
+    +'<span><b>✓</b>Shopify lookup by sender email → no order number needed</span>'
+    +'<span><b>✓</b>Exchanges within 30 days → auto-resolve</span>'
+    +'<span><b>✓</b>Supplier document requests → auto-send</span>'
+    +'<span><b class="f">⚑</b>Policy exceptions &amp; store credit → one-click approval</span>'
+    +'<span><b class="f">⚑</b>Pricing, terms &amp; commitments → always escalate to Cindy</span>'
+    +'</div></div>';
+  if(revealed){
+    h+='<div class="pitch-box"><div class="pitch-ttl">Why this replaces the PA hire</div>';
+    step.pitch.forEach(function(p){
+      h+='<div class="pitch-item"><div class="pitch-name">'+esc(p.n)+'</div><div class="pitch-copy">'+esc(p.c)+'</div></div>';
+    });
+    h+='</div>';
+  }
+  el('ctxBody').innerHTML=h;
+}
+
+function showFranc(step){
+  var e=el('francCard');if(!e)return;
+  e.style.display='block';
+  e.className='franc-card'+(step.hold?' hold':'');
+  e.innerHTML='<b>'+NAME+' view</b>'+esc(step.francView);
+}
+
+function updateStats(step){
+  if(step.summary)return;
+  stats.h++;
+  stats.a+=countSecond(step);
+  stats.s+=step.saved||0;stats.t+=step.secs||0;
+  el('stH').textContent=stats.h;
+  el('stA').textContent=stats.a;
+  el('stS').textContent=stats.s+'m';
+  el('stT').textContent=stats.t;
+}
+
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+
+function enterAwaiting(step){
+  awaiting=true;
+  showFranc(step);
+  el('spill').textContent='Awaiting '+NAME+'’s approval';
+  el('spill').className='spill show await';
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge','b-alert','Confirm');
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — awaiting '+NAME+' approval';
+  updateNav();
+}
+
+function finalizeAuto(step){
+  showFranc(step);
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?(step.summary?'Live':'Sent'):(step.hold?'Escalated':'Done'));
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+}
+
+function confirmAction(){
+  if(!awaiting)return;
+  awaiting=false;
+  var step=STEPS[cur];
+  applyDoneEffect(step);
+  appendBrain('✓',step.confirm.done||'Confirmed','ok');
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show';
+  setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  el('statusText').textContent='AI Replace — '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+  updateNav();
+}
+
+function updateNav(){
+  var step=STEPS[cur];
+  var isDone=done[cur];
+  var isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
+  el('btnSkip').disabled=running;
+  if(running){
+    p.textContent='Running...';p.disabled=true;
+    setBadge('navBadge','b-proc','Running');
+  } else if(awaiting){
+    p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title||'Confirm to continue';
+    el('navCopy').textContent=step.confirm.copy||'Review the draft, then click to confirm.';
+  } else if(reasoned){
+    var dl=step.draftBtn||(step.channel==='system'?'GENERATE':(step.inbound?'DRAFT REPLY':'DRAFT MESSAGE'));
+    p.textContent=dl;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-live','Draft');
+    el('navTitle').textContent='Reasoning complete';
+    el('navCopy').textContent='Click to have the AI draft the '+(step.inbound?'reply':'message')+'.';
+  } else if(!isDone){
+    p.textContent='ANALYZE';p.disabled=false;
+    setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' loaded';
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
+  } else if(isLast){
+    p.textContent='REPLAY ↺';p.disabled=false;
+    setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Session complete';
+    el('navCopy').textContent='Demo complete. Click Replay to start over.';
+  } else {
+    p.textContent='NEXT →';p.disabled=false;
+    setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' — done';
+    el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the summary')+'.';
+  }
+}
+
+function renderStep(){
+  tok++;clearTimers();running=false;awaiting=false;reasoned=false;
+  var step=STEPS[cur];
+  renderQueue();
+  renderContext(step,false);
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Email loaded, click Analyze to run the AI</span></div>';
+  el('oMeta').textContent='Waiting for AI reasoning';
+  el('oConf').textContent='--';
+  el('oWlbl').textContent=step.wlbl;
+  el('oText').innerHTML=wireHTML(step,false);
+  el('francCard').style.display='none';
+  el('spill').className='spill';
+  setBadge('aiBadge','b-idle','Standby');
+  setBadge('oBadge','b-idle','Ready');
+  setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace — Waiting for presenter';
+  if(done[cur]){restoreDone(step)}
+  updateNav();
+}
+
+function restoreDone(step){
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  showFranc(step);
+  if(step.confirm){
+    appendBrain('✓',step.confirm.done||'Confirmed','ok');
+    applyDoneEffect(step);
+    el('spill').textContent=step.sent;el('spill').className='spill show';
+    setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  } else {
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?(step.summary?'Live':'Sent'):(step.hold?'Escalated':'Done'));
+  }
+  setBadge('aiBadge','b-done','Done');
+  renderContext(step,true);
+  updateNav();
+}
+
+async function runStep(){
+  if(running||done[cur]||awaiting)return;
+  running=true;
+  var t=++tok;
+  var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');
+  setBadge('oBadge','b-proc','Drafting');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
+    if(t!==tok)return;
+  }
+  await addDiv(220);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
+  running=false;reasoned=true;
+  setBadge('aiBadge','b-done','Done');
+  el('oMeta').textContent='Reasoning complete · ready to draft';
+  el('statusText').textContent='AI Replace — reasoning complete · ready to draft';
+  updateNav();
+}
+
+async function runDraft(){
+  if(running||!reasoned||done[cur])return;
+  running=true;reasoned=false;
+  var t=++tok;
+  var step=STEPS[cur];
+  updateNav();
+  setBadge('oBadge','b-proc','Drafting');
+  revealOutput(step);
+  await sleep(320);if(t!==tok)return;
+  await typeText('aiText',step.outreach,26);if(t!==tok)return;
+  appendLink(step);
+  running=false;
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function skipNow(){
+  if(done[cur]||awaiting||running)return;
+  clearTimers();tok++;reasoned=false;
+  var step=STEPS[cur];
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function handlePrimary(){
+  if(running)return;
+  if(awaiting){confirmAction();return}
+  if(reasoned){runDraft();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+
+function replay(){
+  clearTimers();tok++;awaiting=false;
+  cur=0;done={};stats={h:0,a:0,s:0,t:0};
+  el('stH').textContent='0';el('stA').textContent='0';
+  el('stS').textContent='0m';el('stT').textContent='0';
+  renderStep();
+}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
