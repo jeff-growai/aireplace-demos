@@ -96,6 +96,9 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pb{max-width:80%;padding:10px 13px;font-size:13px;line-height:1.45;border-radius:18px;white-space:pre-wrap}
 .pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
 .pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.pb.pimg{align-self:flex-start;background:#ececed;padding:7px}
+.pimg-box{width:118px;height:150px;background:#dadada;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:38px}
+.pimg-cap{font-size:10px;color:#555;margin-top:4px;text-align:center;font-weight:600}
 .pstory{align-self:flex-start;max-width:82%;border-left:3px solid var(--teal);background:#f2f1ef;border-radius:10px;padding:8px 11px}
 .pstory .psl{font:700 7.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#8b8985;margin-bottom:4px}
 .pstory .psc{font-size:11.5px;font-weight:800;color:#191817;line-height:1.3}
@@ -348,40 +351,47 @@ var STEPS=[
   conf:"88%",
   outreach:"New qualified lead from @crmjewelers 👇\n\nBUYER: Marcus Velez, @marcus.velez\nWATCH: two-tone Datejust (his words). Story had expired, so please confirm the exact ref and price from his photo, attached.\nBUDGET: 12-14k, for himself\nLOCATION: Brickell, can come in\nTIMING: this week\nWANTS: full set, box and papers\nSCORE: 88/100\n\nFull DM thread and his screenshot are linked below. He's expecting your message.",
   link:{label:"Open the DM thread + his screenshot",url:"#"},
-  confirm:{btn:"✓ HAND OFF TO RAFA",done:"Sent to Raysa on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Raysa?",copy:"Marcus, 88/100, two-tone Datejust (photo), Brickell, buying this week."},
-  francView:"Dan view: Raysa gets the buyer's photo, budget, location, timing and box and papers preference in one WhatsApp message. Because the story was dead, the AI did not invent the watch. It handed Raysa the screenshot to confirm the exact ref and price. This is the context ManyChat could never show him.",
+  confirm:{btn:"✓ HAND OFF TO RAYSA",done:"Sent to Raysa on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Raysa?",copy:"Marcus, 88/100, two-tone Datejust (photo), Brickell, buying this week."},
+  francView:"Dan view: Raysa gets the buyer's photo, budget, location, timing and box and papers preference in one WhatsApp message. Because the story was dead, the AI did not invent the watch. It handed Raysa the screenshot to confirm the exact ref and price. This is the context ManyChat could never show her.",
   sent:"Sent to Raysa on WhatsApp · lead tracked",
   auto:false,hold:false,qualified:true,handoff:true,saved:12,secs:1,
   tiles:[{l:"Channel",v:"WhatsApp"},{l:"Score",v:"88/100"},{l:"Watch",v:"Photo attached"},{l:"Action",v:"Confirm handoff"}],
   pitch:[{n:"The rep sees the photo",c:"Screenshot plus answers in one WhatsApp message, even when the story is gone"},{n:"WhatsApp, where they work",c:"Your reps get the lead where they already live all day"},{n:"Nothing gets buried",c:"Every real opportunity is tracked, none die in the DMs"}]},
 
- {sender:"@j.rivera_305",initials:"JR",time:"8:12pm",subject:"Replied to a Highlight",inbox:"@crm.watches",
-  preview:"is this Batman still available? box and papers? what year?",tag:"Unknown",tagDone:"Team",
-  label:"Expired Story · Ask the Team",wlbl:"@crm.watches · Instagram DM",
-  status:"AI Replace · Resolving an old Highlight...",
-  channel:"ig",handle:"@j.rivera_305",
-  story:{label:"Replied to a Highlight",caption:"Content unavailable",sub:"Highlight posted 7 months ago",expired:true},
-  inbound:"is this Batman still available? does it come with box and papers, and what year is it?",
-  lines:[
-   ["›","New DM on @crm.watches · Instagram","hi"],
-   ["›","Reply attached to a Highlight, not a live story","warn"],
-   ["›","Highlight posted 7 months ago","warn"],
-   ["›","Story context expired · watch NOT identified","flag"],
-   ["›","'Batman' resolves to GMT-Master II 126710BLNR","hi"],
-   ["›","Checking inventory · 2 conflicting records","flag"],
-   ["›","Rule: never confirm availability, price or year on doubt","flag"],
-   ["›","Do NOT guess · holding reply only","warn"],
-   ["›","Asking your team to add the watch and its details","ok"],
+ {sender:"Carlos M.",initials:"CM",time:"8:12pm",subject:"Sent a photo · Rolex Submariner",inbox:"CRM · FB",
+  preview:"En cuanto puedo conseguir un Rolex submarino? (sent a photo)",tag:"Buyer",tagDone:"Handoff",
+  label:"Image DM · Spanish · Qualify + Handoff",wlbl:"CRM Jewelers · Facebook DM",
+  status:"AI Replace · Spanish message, qualifying the lead...",
+  channel:"ig",net:"Facebook",handle:"Carlos M.",
+  thread:[
+   {t:"img",m:"Foto · Rolex Submariner"},
+   {t:"in",m:"En cuanto puedo conseguir con ustedes un Rolex submarino?"},
+   {t:"out",m:"¡Hola! Excelente elección, el Submariner es un clásico 👊 El precio exacto de esa pieza lo confirma uno de nuestros especialistas. Antes de conectarte, ¿es para ti y en qué presupuesto estás pensando?"},
+   {t:"in",m:"para mí. entre 12 y 14 mil"},
+   {t:"out",m:"Perfecto. Dos preguntas rápidas: ¿estás en Miami o sería con envío? ¿y para cuando lo buscas?"},
+   {t:"in",m:"estoy en Miami, lo quiero esta semana. viene con caja y papeles?"}
   ],
-  oMeta:"Held for the team · context expired, inventory unclear",
-  conf:"Hold",
-  holdBanner:"⚠ HELD · NOT SENT · team needs to add the watch, details and price",
-  outreach:"Hey! Good taste, the Batman is a favourite around here 👊\n\nThat one is from an older Highlight, so let me confirm the exact piece and its details with the team rather than give you the wrong info. I'll come straight back to you today.\n\nWhile I check: are you local to Miami, or would this be shipping out to you?",
-  francView:"Dan view: the Highlight is 7 months old so the story context is gone, and your inventory has two conflicting records for that Batman. The AI refused to confirm availability, year, or box and papers. It kept him warm, started qualifying anyway, and asked your team for the watch details. This is the guardrail that stops wrong info going out.",
-  sent:"Held for the team · watch and price needed (NOT sent)",
-  auto:false,hold:true,qualified:false,handoff:false,saved:5,secs:0,
-  tiles:[{l:"Page",v:"@crm.watches"},{l:"Story",v:"Expired · 7mo",a:true},{l:"Inventory",v:"Conflicting",a:true},{l:"Action",v:"Ask the team"}],
-  pitch:[{n:"Never guesses",c:"No price, year, availability or box and papers when the data is stale"},{n:"Knows the nicknames",c:"Batman, Pepsi, Hulk, refs and abbreviations all resolve to the right watch"},{n:"Asks you for what it lacks",c:"Flags the exact watch details your team needs to add"}]},
+  lines:[
+   ["›","New DM on CRM Jewelers · Facebook","hi"],
+   ["›","Customer sent a photo · a Rolex Submariner","hi"],
+   ["›","Message is in Spanish · replying in Spanish","hi"],
+   ["›","Asking for price · never quoted over DM","flag"],
+   ["›","Do not confirm price from an image · specialist confirms","warn"],
+   ["›","Qualify first · budget, location, timing","ok"],
+   ["›","Budget 12-14k · Miami · this week · wants full set","ok"],
+   ["›","Seriousness: high · real buyer","hi"],
+   ["›","Qualified 90/100 · Raysa is busy · route to Sandra","hi"],
+   ["›","Packaging the photo + answers for Sandra","ok"],
+  ],
+  oMeta:"Qualified 90/100 · Spanish · handoff to Sandra · awaiting approval",
+  conf:"90%",
+  outreach:"¡Genial! Te estoy conectando ahora con una de nuestras especialistas. Ella te confirma la pieza exacta, el precio y el set completo con caja y papeles, y te escribe en un momento. 👊",
+  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, Rolex Submariner (photo), Miami, buying this week."},
+  francView:"Dan view: the buyer wrote in Spanish and sent a photo, so the AI answered in Spanish and never guessed a price. It qualified him fully, budget, Miami, this week, full set, and because Raysa is already on a lead it routed this one to Sandra with the photo and the answers attached. Both of your reps stay fed without lifting a finger.",
+  sent:"Handed to Sandra on WhatsApp · lead tracked",
+  auto:false,hold:false,qualified:true,handoff:true,saved:11,secs:1,
+  tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Language",v:"Spanish"},{l:"Score",v:"90/100"},{l:"Action",v:"Handoff · Sandra"}],
+  pitch:[{n:"Speaks their language",c:"Detects Spanish and replies in Spanish, instantly"},{n:"Reads the photo they send",c:"Uses the image they DM, hands it to the rep to confirm"},{n:"Feeds both reps",c:"Routes to whoever is free, Raysa or Sandra, with full context"}]},
 
  {sender:"Leo M.",initials:"LM",time:"7:55pm",subject:"Raffle entry + fan message",inbox:"CRM · FB",
   preview:"entered the raffle! been watching since 2019 🙏",tag:"Fan",tagDone:"Filtered",
@@ -439,22 +449,22 @@ var STEPS=[
   label:"Results Panel",wlbl:"AI Replace Results Panel",
   status:"AI Replace · Compiling tonight's results...",
   channel:"system",sysTitle:"AI Replace · DM Results Panel",sysState:"Idle",sysDone:"Live",
-  sysRows:[["Pages monitored","2 Instagram · 2 Facebook"],["DMs handled tonight","4"],["Average first reply","8 seconds"],["Qualified buyers","1"],["Handed to a rep","1 · Raysa on WhatsApp"],["Pipeline created","~$13,000"]],
+  sysRows:[["Pages monitored","2 Instagram · 2 Facebook"],["DMs handled tonight","4"],["Average first reply","8 seconds"],["Qualified buyers","2"],["Handed to reps","2 · Raysa & Sandra"],["Pipeline created","~$26,000"]],
   lines:[
    ["›","Compiling tonight's results...","dim"],
    ["›","4 pages monitored · 1 queue","hi"],
    ["›","4 DMs handled · average first reply 8 seconds","ok"],
-   ["›","1 real buyer · 2 filtered · 1 held for your team","ok"],
-   ["›","1 lead handed to Raysa on WhatsApp","hi"],
-   ["›","Pipeline created tonight: ~13,000","hi"],
+   ["›","2 real buyers · 2 filtered","ok"],
+   ["›","2 leads handed off · Raysa and Sandra","hi"],
+   ["›","Pipeline created tonight: ~26,000","hi"],
   ],
   oMeta:"Response time · qualified · handoffs · pipeline",
   conf:"Live",
-  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n1 was a real buyer. Qualified at 88, replied to an expired story, sent a photo of a two-tone Datejust, has 12-14k, lives in Brickell, buying this week. He is with Raysa on WhatsApp now, his screenshot attached.\n\n1 was a fan and 1 was a price-checker. Neither touched your sales team. 1 more is waiting on your team to identify a watch from an old Highlight.\n\nThat is around 13,000 of pipeline from a Tuesday night, and every one of them is tracked.",
-  francView:"Dan view: this is the number you told us you don't have. Four pages, one queue, 8 second replies, and you can finally see how much business your watch DMs are actually creating.",
+  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to an expired story and sent a photo of a two-tone Datejust, 12-14k, Brickell, this week, now with Raysa. One wrote in Spanish with a photo of a Submariner, 12-14k, Miami, this week, now with Sandra. Both reps got the photo and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 26,000 of pipeline from a Tuesday night, and every one of them is tracked.",
+  francView:"Dan view: this is the number you told us you don't have. Four pages, one queue, 8 second replies, two qualified buyers routed to Raysa and Sandra, and you can finally see how much business your watch DMs are creating.",
   sent:"Results panel live · 4 pages tracked",
   auto:true,summary:true,saved:0,secs:0,
-  tiles:[{l:"Pages",v:"4 monitored"},{l:"Avg reply",v:"8 seconds"},{l:"Qualified",v:"1 of 4"},{l:"Pipeline",v:"~$13,000"}],
+  tiles:[{l:"Pages",v:"4 monitored"},{l:"Avg reply",v:"8 seconds"},{l:"Qualified",v:"2 of 4"},{l:"Pipeline",v:"~$26,000"}],
   pitch:[{n:"You finally get the number",c:"Response time, qualified leads, handoffs and pipeline, per page"},{n:"Four pages, one queue",c:"Nothing buried, nothing lost to a spam folder"},{n:"Speed wins the sale",c:"8 seconds beats the competitor who replies tomorrow"}]}
 ];
 
@@ -525,7 +535,10 @@ function phoneHTML(step,reveal){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
   var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen">';
   if(step.story){var st=step.story;h+='<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+'</div>';}
-  if(step.thread)step.thread.forEach(function(m){h+='<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>'});
+  if(step.thread)step.thread.forEach(function(m){
+    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box">⌚</div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
+    else{h+='<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';}
+  });
   if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
   if(reveal)h+='<div class="pb out"><span id="aiText"></span></div>';
   else if(!step.inbound&&!step.thread)h+='<div class="pb-empty">AI is preparing a message...</div>';
