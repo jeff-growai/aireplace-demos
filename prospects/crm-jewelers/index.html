@@ -66,8 +66,8 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ss-num{font:900 17px/1 var(--mono);color:var(--branddk)}
 .ss:nth-child(3) .ss-num,.ss:nth-child(4) .ss-num{color:var(--tealdk)}
 .ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
-.brain-card{flex:0 0 190px}
+.work-col{grid-column:2;display:flex;flex-direction:row;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
+.brain-card{flex:1 1 0;min-width:0;min-height:0}
 .brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
 .bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
 .bl.show{opacity:1;transform:none}
@@ -80,7 +80,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .bt.dim{color:var(--muted)}
 .bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
 .bdiv.show{opacity:1}
-.outreach-card{flex:1 1 auto;min-height:0}
+.outreach-card{flex:1.2 1 0;min-width:0;min-height:0}
 .ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
 .ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
 .ometa b{color:var(--tealdk)}
