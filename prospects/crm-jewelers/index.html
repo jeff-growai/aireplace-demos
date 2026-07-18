@@ -97,7 +97,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
 .pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
 .pb.pimg{align-self:flex-start;background:#ececed;padding:7px}
-.pimg-box{width:118px;height:150px;background:#dadada;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:38px}
+.pimg-box{width:118px;height:150px;border-radius:9px;overflow:hidden;line-height:0}.pimg-box svg{width:118px;height:150px;display:block}
 .pimg-cap{font-size:10px;color:#555;margin-top:4px;text-align:center;font-weight:600}
 .pstory{align-self:flex-start;max-width:82%;border-left:3px solid var(--teal);background:#f2f1ef;border-radius:10px;padding:8px 11px}
 .pstory .psl{font:700 7.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#8b8985;margin-bottom:4px}
@@ -294,6 +294,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 
 <script>
 var NAME="Dan";var ITEM="DM";
+var WATCHSVG="<svg viewBox=\"0 0 118 150\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"118\" height=\"150\" rx=\"9\" fill=\"#eceef0\"/><g fill=\"#b9bdc2\" stroke=\"#9aa0a6\" stroke-width=\"0.5\"><rect x=\"38\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"38\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"38\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"38\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"38\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"38\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"53\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\"/><rect x=\"68\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\"/></g><rect x=\"90\" y=\"70\" width=\"7\" height=\"9\" rx=\"2\" fill=\"#b9bdc2\"/><circle cx=\"59\" cy=\"75\" r=\"35\" fill=\"#cbced2\"/><circle cx=\"59\" cy=\"75\" r=\"31\" fill=\"#161616\"/><path d=\"M59 44 A31 31 0 0 1 90 75 L83 75 A24 24 0 0 0 59 51 Z\" fill=\"#123f31\"/><circle cx=\"59\" cy=\"75\" r=\"24\" fill=\"#080808\"/><g fill=\"#eef1f2\"><circle cx=\"59\" cy=\"55\" r=\"1.9\"/><circle cx=\"59\" cy=\"95\" r=\"1.9\"/><circle cx=\"39\" cy=\"75\" r=\"1.9\"/><circle cx=\"79\" cy=\"75\" r=\"1.9\"/><circle cx=\"45\" cy=\"61\" r=\"1.4\"/><circle cx=\"73\" cy=\"61\" r=\"1.4\"/><circle cx=\"45\" cy=\"89\" r=\"1.4\"/><circle cx=\"73\" cy=\"89\" r=\"1.4\"/></g><rect x=\"73\" y=\"72\" width=\"6\" height=\"6\" rx=\"1\" fill=\"#fff\"/><line x1=\"59\" y1=\"75\" x2=\"59\" y2=\"59\" stroke=\"#e8ebec\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"59\" y1=\"75\" x2=\"71\" y2=\"80\" stroke=\"#e8ebec\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"59\" y1=\"75\" x2=\"47\" y2=\"66\" stroke=\"#2aa06a\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"59\" cy=\"75\" r=\"2.2\" fill=\"#e8ebec\"/></svg>";
 var STEPS=[
  {sender:"@marcus.velez",initials:"MV",time:"9:41pm",subject:"Replied to your story",inbox:"@crmjewelers",
   preview:"amazing piece what is the price? (story expired)",tag:"Story",tagDone:"Qualified",
@@ -358,23 +359,23 @@ var STEPS=[
   tiles:[{l:"Channel",v:"WhatsApp"},{l:"Score",v:"88/100"},{l:"Watch",v:"Photo attached"},{l:"Action",v:"Confirm handoff"}],
   pitch:[{n:"The rep sees the photo",c:"Screenshot plus answers in one WhatsApp message, even when the story is gone"},{n:"WhatsApp, where they work",c:"Your reps get the lead where they already live all day"},{n:"Nothing gets buried",c:"Every real opportunity is tracked, none die in the DMs"}]},
 
- {sender:"Carlos M.",initials:"CM",time:"8:12pm",subject:"Sent a photo · Rolex Submariner",inbox:"CRM · FB",
-  preview:"En cuanto puedo conseguir un Rolex submarino? (sent a photo)",tag:"Buyer",tagDone:"Handoff",
-  label:"Image DM · Spanish · Qualify + Handoff",wlbl:"CRM Jewelers · Facebook DM",
-  status:"AI Replace · Spanish message, qualifying the lead...",
+ {sender:"Carlos M.",initials:"CM",time:"8:12pm",subject:"Sent a photo · Rolex GMT-Master II",inbox:"CRM · FB",
+  preview:"how much can I get this GMT for? (sent a photo)",tag:"Buyer",tagDone:"Handoff",
+  label:"Image DM · Qualify + Handoff",wlbl:"CRM Jewelers · Facebook DM",
+  status:"AI Replace · Photo received, qualifying the lead...",
   channel:"ig",net:"Facebook",handle:"Carlos M.",
   thread:[
-   {t:"img",m:"Foto · Rolex Submariner"},
-   {t:"in",m:"En cuanto puedo conseguir con ustedes un Rolex submarino?"},
-   {t:"out",m:"¡Hola! Excelente elección, el Submariner es un clásico 👊 El precio exacto de esa pieza lo confirma uno de nuestros especialistas. Antes de conectarte, ¿es para ti y en qué presupuesto estás pensando?"},
-   {t:"in",m:"para mí. entre 12 y 14 mil"},
-   {t:"out",m:"Perfecto. Dos preguntas rápidas: ¿estás en Miami o sería con envío? ¿y para cuando lo buscas?"},
-   {t:"in",m:"estoy en Miami, lo quiero esta semana. viene con caja y papeles?"}
+   {t:"img",m:"Photo · Rolex GMT-Master II"},
+   {t:"in",m:"how much can I get this GMT for from you guys?"},
+   {t:"out",m:"Great choice, the GMT-Master is a classic 👊 The exact price on that piece gets confirmed by one of our specialists so you get the right number. Before I connect you, is it for you and what budget are you working with?"},
+   {t:"in",m:"for me. around 12-14k"},
+   {t:"out",m:"Perfect. Two quick things: are you here in Miami or would this ship, and how soon are you looking to buy?"},
+   {t:"in",m:"I'm in Miami, want it this week. does it come with box and papers?"}
   ],
   lines:[
    ["›","New DM on CRM Jewelers · Facebook","hi"],
-   ["›","Customer sent a photo · a Rolex Submariner","hi"],
-   ["›","Message is in Spanish · replying in Spanish","hi"],
+   ["›","Customer sent a photo · a Rolex GMT-Master II","hi"],
+   ["›","Reading the image the customer attached","dim"],
    ["›","Asking for price · never quoted over DM","flag"],
    ["›","Do not confirm price from an image · specialist confirms","warn"],
    ["›","Qualify first · budget, location, timing","ok"],
@@ -383,15 +384,15 @@ var STEPS=[
    ["›","Qualified 90/100 · Raysa is busy · route to Sandra","hi"],
    ["›","Packaging the photo + answers for Sandra","ok"],
   ],
-  oMeta:"Qualified 90/100 · Spanish · handoff to Sandra · awaiting approval",
+  oMeta:"Qualified 90/100 · photo attached · handoff to Sandra · awaiting approval",
   conf:"90%",
-  outreach:"¡Genial! Te estoy conectando ahora con una de nuestras especialistas. Ella te confirma la pieza exacta, el precio y el set completo con caja y papeles, y te escribe en un momento. 👊",
-  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, Rolex Submariner (photo), Miami, buying this week."},
-  francView:"Dan view: the buyer wrote in Spanish and sent a photo, so the AI answered in Spanish and never guessed a price. It qualified him fully, budget, Miami, this week, full set, and because Raysa is already on a lead it routed this one to Sandra with the photo and the answers attached. Both of your reps stay fed without lifting a finger.",
+  outreach:"Love it. I'm connecting you with one of our specialists now. They'll confirm the exact watch, the price, and the full box and papers set from your photo, and reach out shortly 👊",
+  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, Rolex GMT-Master (photo), Miami, buying this week."},
+  francView:"Dan view: the buyer sent a photo and asked for a price, so the AI used the image as context and never guessed a number. It qualified him fully, budget, Miami, this week, full set, and because Raysa is already on a lead it routed this one to Sandra with the photo and the answers attached. Both of your reps stay fed without lifting a finger.",
   sent:"Handed to Sandra on WhatsApp · lead tracked",
   auto:false,hold:false,qualified:true,handoff:true,saved:11,secs:1,
-  tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Language",v:"Spanish"},{l:"Score",v:"90/100"},{l:"Action",v:"Handoff · Sandra"}],
-  pitch:[{n:"Speaks their language",c:"Detects Spanish and replies in Spanish, instantly"},{n:"Reads the photo they send",c:"Uses the image they DM, hands it to the rep to confirm"},{n:"Feeds both reps",c:"Routes to whoever is free, Raysa or Sandra, with full context"}]},
+  tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Watch",v:"Photo → rep"},{l:"Score",v:"90/100"},{l:"Action",v:"Handoff · Sandra"}],
+  pitch:[{n:"Reads the photo they send",c:"Uses the image the customer DMs, hands it to the rep to confirm"},{n:"Never quotes a price",c:"Asks nothing it cannot verify, the specialist confirms the exact ref"},{n:"Feeds both reps",c:"Routes to whoever is free, Raysa or Sandra, with full context"}]},
 
  {sender:"Leo M.",initials:"LM",time:"7:55pm",subject:"Raffle entry + fan message",inbox:"CRM · FB",
   preview:"entered the raffle! been watching since 2019 🙏",tag:"Fan",tagDone:"Filtered",
@@ -460,7 +461,7 @@ var STEPS=[
   ],
   oMeta:"Response time · qualified · handoffs · pipeline",
   conf:"Live",
-  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to an expired story and sent a photo of a two-tone Datejust, 12-14k, Brickell, this week, now with Raysa. One wrote in Spanish with a photo of a Submariner, 12-14k, Miami, this week, now with Sandra. Both reps got the photo and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 26,000 of pipeline from a Tuesday night, and every one of them is tracked.",
+  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to an expired story and sent a photo of a two-tone Datejust, 12-14k, Brickell, this week, now with Raysa. One sent a photo of a GMT-Master and asked the price, 12-14k, Miami, this week, now with Sandra. Both reps got the photo and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 26,000 of pipeline from a Tuesday night, and every one of them is tracked.",
   francView:"Dan view: this is the number you told us you don't have. Four pages, one queue, 8 second replies, two qualified buyers routed to Raysa and Sandra, and you can finally see how much business your watch DMs are creating.",
   sent:"Results panel live · 4 pages tracked",
   auto:true,summary:true,saved:0,secs:0,
@@ -536,7 +537,7 @@ function phoneHTML(step,reveal){
   var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen">';
   if(step.story){var st=step.story;h+='<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+'</div>';}
   if(step.thread)step.thread.forEach(function(m){
-    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box">⌚</div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
+    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box">'+WATCHSVG+'</div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
     else{h+='<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';}
   });
   if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
