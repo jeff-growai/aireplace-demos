@@ -67,7 +67,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ss:nth-child(3) .ss-num,.ss:nth-child(4) .ss-num{color:var(--tealdk)}
 .ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
-.brain-card{flex:0 0 210px;min-height:0}
+.brain-card{flex:0 0 166px;min-height:0}
 .ctx-card{flex:0 0 auto}
 .brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
 .bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
@@ -93,7 +93,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
 .phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
 .phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
-.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(360px,58vh,580px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(300px,44vh,470px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}
 .phone-screen.inboxmode>*:first-child{margin-top:0}
 .pinbox{width:100%}
 .pih{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#9a978f;padding:2px 2px 11px}
@@ -257,16 +257,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
         <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Handoffs</div></div>
       </div>
     </section>
-  <div class="card brain-card">
-      <div class="card-hdr">
-        <div class="card-dot" style="background:var(--teal)"></div>
-        <div class="card-title">AI Replace · Reasoning</div>
-        <div class="cbadge b-idle" id="aiBadge">Standby</div>
-      </div>
-      <div class="brain-body" id="brainBody">
-        <div class="bl show"><span class="bp">›</span><span class="bt dim">DM loaded, click Analyze to run the AI</span></div>
-      </div>
-    </div>
         <section class="card ctx-card">
       <div class="card-hdr">
         <div class="card-dot" style="background:var(--brand)"></div>
@@ -280,6 +270,16 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
   </aside>
 
   <section class="work-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">DM loaded, click Analyze to run the AI</span></div>
+      </div>
+    </div>
     <div class="card outreach-card">
       <div class="card-hdr">
         <div class="card-dot" style="background:var(--brand)"></div>
