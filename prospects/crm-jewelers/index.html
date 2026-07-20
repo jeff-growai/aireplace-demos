@@ -92,7 +92,18 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
 .phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
 .phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
-.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(340px,56vh,560px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}.phone-screen::-webkit-scrollbar{width:0;background:transparent}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(340px,56vh,560px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}
+.phone-screen.inboxmode>*:first-child{margin-top:0}
+.pinbox{width:100%}
+.pih{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#9a978f;padding:2px 2px 11px}
+.pirow{display:flex;align-items:center;gap:10px;padding:11px 9px;border-radius:11px;background:#f4f5f7}
+.piav{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font:900 11px/1 var(--mono);flex:0 0 auto}
+.pimain{min-width:0;flex:1}
+.piname{font-size:13px;font-weight:800;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pipre{font-size:12.5px;font-weight:800;color:var(--tealdk);margin-top:2px}
+.piright{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex:0 0 auto}
+.pitime{font:600 9.5px/1 var(--mono);color:#9a978f}
+.pidot{width:9px;height:9px;border-radius:50%;background:var(--teal)}.phone-screen::-webkit-scrollbar{width:0;background:transparent}
 .pb{max-width:80%;padding:10px 13px;font-size:13px;line-height:1.45;border-radius:18px;white-space:pre-wrap}
 .pb.in{align-self:flex-start;background:#ececed;color:#111;border-bottom-left-radius:5px}
 .pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
@@ -548,6 +559,14 @@ function bubbleHTML(m){
   if(m.t==='img')return '<div class="pb in pimg"><div class="pimg-box"><img src="'+esc(m.u)+'" alt="" onerror="this.outerHTML=WATCHSVG"></div><div class="pimg-cap">'+esc(m.m)+'</div></div>';
   return '<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';
 }
+function inboxHTML(step){
+  var hasIn=!!step.inbound||(step.thread&&step.thread.some(function(m){return m.t==='in'||m.t==='img'}));
+  if(!hasIn)return '<div class="pb-empty">No messages yet</div>';
+  return '<div class="pinbox"><div class="pih">Messages</div>'
+    +'<div class="pirow"><div class="piav">'+esc(step.initials)+'</div>'
+    +'<div class="pimain"><div class="piname">'+esc(step.handle)+'</div><div class="pipre">New Message</div></div>'
+    +'<div class="piright"><div class="pitime">'+esc(step.time)+'</div><span class="pidot"></span></div></div></div>';
+}
 function typingHTML(){return '<div class="pb out ptyping" id="ptyp"><span></span><span></span><span></span></div>';}
 function phoneHTML(step,reveal,instant){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
@@ -557,7 +576,7 @@ function phoneHTML(step,reveal,instant){
     if(step.thread)step.thread.forEach(function(m){h+=bubbleHTML(m)});
     if(step.inbound&&!step.thread)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
     h+='<div class="pb out"><span id="aiText"></span></div>';
-  }
+  } else { h+=inboxHTML(step); }
   h+='</div></div>';
   return h;
 }
@@ -638,6 +657,7 @@ function isPhone(step){var c=step.channel;return c==='ig'||c==='sms'||c==='wa';}
 async function playConversation(step,t){
   var scr=document.getElementById('phScreen');
   if(!scr)return;
+  scr.innerHTML='';scr.classList.remove('inboxmode');
   if(step.story){scr.insertAdjacentHTML('beforeend',storyHTML(step.story));scrollPhone();await sleep(650);if(t!==tok)return;}
   var th=step.thread||[];
   for(var i=0;i<th.length;i++){
