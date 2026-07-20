@@ -28,7 +28,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
 .stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(239,238,234,.94);border:1px solid #d9d7d1;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(176,136,59,.1)}
 .stage-label.vis{opacity:1}
-.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(480px,1fr) minmax(400px,460px);gap:12px;align-items:stretch}
+.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
 .card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(30,28,24,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#faf9f7;flex:0 0 auto}
 .card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
@@ -88,7 +88,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .oconf{align-self:start;border:1px solid #e0cfa5;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
 .owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 .otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
-.phone{max-width:380px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.phone{max-width:440px;margin:0 auto;background:#111;border-radius:30px;padding:9px;box-shadow:0 18px 44px rgba(0,0,0,.28)}
 .phone-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 12px;background:#111;border-radius:22px 22px 0 0;color:#fff}
 .phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
 .phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
