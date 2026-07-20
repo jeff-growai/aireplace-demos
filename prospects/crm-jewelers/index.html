@@ -105,6 +105,11 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pstory.expired{border-left-color:#c9c7c2}
 .pstory .psbox{display:flex;align-items:center;justify-content:center;height:74px;background:#eceae6;border:1px dashed #cfccc6;border-radius:8px;color:#a49f97;font-size:11px;font-weight:700;margin:2px 0 5px}
 .pstory .pssub{font-size:10.5px;color:#a49f97;font-weight:600}.psrec{margin-top:8px;border-top:1px dashed #cfccc6;padding-top:8px}.psrec .psrl{font:800 7.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--tealdk);margin-bottom:5px}.psrec img{width:112px;height:auto;border-radius:7px;display:block}
+.pb.ptyping{display:flex;gap:4px;align-items:center;padding:13px 15px;min-width:54px}
+.pb.ptyping span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.8);animation:ptd 1.2s infinite}
+.pb.ptyping span:nth-child(2){animation-delay:.18s}
+.pb.ptyping span:nth-child(3){animation-delay:.36s}
+@keyframes ptd{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
 .pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
 .email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(30,28,24,.05)}
 .email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
@@ -536,17 +541,23 @@ function typeText(id,text,speed){
   });
 }
 
-function phoneHTML(step,reveal){
+function storyHTML(st){
+  return '<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+(st.img?'<div class="psrec"><div class="psrl">'+esc(st.imgLabel||"Recovered")+'</div><img src="'+esc(st.img)+'" alt=""></div>':'')+'</div>';
+}
+function bubbleHTML(m){
+  if(m.t==='img')return '<div class="pb in pimg"><div class="pimg-box"><img src="'+esc(m.u)+'" alt="" onerror="this.outerHTML=WATCHSVG"></div><div class="pimg-cap">'+esc(m.m)+'</div></div>';
+  return '<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';
+}
+function typingHTML(){return '<div class="pb out ptyping" id="ptyp"><span></span><span></span><span></span></div>';}
+function phoneHTML(step,reveal,instant){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
-  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen">';
-  if(step.story){var st=step.story;h+='<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+(st.img?'<div class="psrec"><div class="psrl">'+esc(st.imgLabel||"Recovered")+'</div><img src="'+esc(st.img)+'" alt=""></div>':'')+'</div>';}
-  if(step.thread)step.thread.forEach(function(m){
-    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box"><img src="'+esc(m.u)+'" alt="" onerror="this.outerHTML=WATCHSVG"></div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
-    else{h+='<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';}
-  });
-  if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
-  if(reveal)h+='<div class="pb out"><span id="aiText"></span></div>';
-  else if(!step.inbound&&!step.thread)h+='<div class="pb-empty">AI is preparing a message...</div>';
+  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen" id="phScreen">';
+  if(instant){
+    if(step.story)h+=storyHTML(step.story);
+    if(step.thread)step.thread.forEach(function(m){h+=bubbleHTML(m)});
+    if(step.inbound&&!step.thread)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+    h+='<div class="pb out"><span id="aiText"></span></div>';
+  }
   h+='</div></div>';
   return h;
 }
@@ -598,9 +609,9 @@ function systemHTML(step,reveal){
   h+='</div>';
   return h;
 }
-function wireHTML(step,reveal){
+function wireHTML(step,reveal,instant){
   var ch=step.channel;
-  if(ch==='ig'||ch==='sms'||ch==='wa')return phoneHTML(step,reveal);
+  if(ch==='ig'||ch==='sms'||ch==='wa')return phoneHTML(step,reveal,instant);
   if(ch==='fb')return fbHTML(step,reveal);
   if(ch==='email')return emailHTML(step,reveal);
   return systemHTML(step,reveal);
@@ -621,6 +632,29 @@ function applyDoneEffect(step){
       if(tag){tag.textContent='✓ Removed';tag.className='fbc-flag done'}
     }
   }
+}
+
+function isPhone(step){var c=step.channel;return c==='ig'||c==='sms'||c==='wa';}
+async function playConversation(step,t){
+  var scr=document.getElementById('phScreen');
+  if(!scr)return;
+  if(step.story){scr.insertAdjacentHTML('beforeend',storyHTML(step.story));scrollPhone();await sleep(650);if(t!==tok)return;}
+  var th=step.thread||[];
+  for(var i=0;i<th.length;i++){
+    var m=th[i];
+    if(m.t==='out'){
+      scr.insertAdjacentHTML('beforeend',typingHTML());scrollPhone();
+      await sleep(750);if(t!==tok)return;
+      var d=document.getElementById('ptyp');if(d)d.remove();
+    }
+    scr.insertAdjacentHTML('beforeend',bubbleHTML(m));scrollPhone();
+    await sleep(m.t==='out'?520:700);if(t!==tok)return;
+  }
+  if(step.inbound&&!step.thread){scr.insertAdjacentHTML('beforeend','<div class="pb in">'+esc(step.inbound)+'</div>');scrollPhone();await sleep(700);if(t!==tok)return;}
+  scr.insertAdjacentHTML('beforeend',typingHTML());scrollPhone();
+  await sleep(850);if(t!==tok)return;
+  var d2=document.getElementById('ptyp');if(d2)d2.remove();
+  scr.insertAdjacentHTML('beforeend','<div class="pb out"><span id="aiText"></span></div>');scrollPhone();
 }
 
 function renderQueue(){
@@ -699,10 +733,10 @@ function fillBrainComplete(step){
   appendBrain('✓',cl[0],cl[1]);
 }
 
-function revealOutput(step){
+function revealOutput(step,instant){
   el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
   el('oConf').textContent=step.conf;
-  el('oText').innerHTML=wireHTML(step,true);scrollPhone();
+  el('oText').innerHTML=wireHTML(step,true,instant);scrollPhone();
 }
 
 function enterAwaiting(step){
@@ -810,7 +844,7 @@ function renderStep(){
 
 function restoreDone(step){
   fillBrainComplete(step);
-  revealOutput(step);
+  revealOutput(step,true);
   el('aiText').textContent=step.outreach;
   appendLink(step);
   showFranc(step);
@@ -861,6 +895,7 @@ async function runDraft(){
   setBadge('oBadge','b-proc','Drafting');
   revealOutput(step);
   await sleep(320);if(t!==tok)return;
+  if(isPhone(step)){await playConversation(step,t);if(t!==tok)return;}
   await typeText('aiText',step.outreach,26);if(t!==tok)return;
   appendLink(step);
   running=false;
@@ -873,7 +908,7 @@ function skipNow(){
   clearTimers();tok++;reasoned=false;
   var step=STEPS[cur];
   fillBrainComplete(step);
-  revealOutput(step);
+  revealOutput(step,true);
   el('aiText').textContent=step.outreach;
   appendLink(step);
   if(step.confirm){enterAwaiting(step)}
