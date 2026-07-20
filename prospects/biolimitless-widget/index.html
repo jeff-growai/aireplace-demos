@@ -293,7 +293,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink);min-height:10
     <span class="pbar-label" id="pLabel">The #1 question</span>
     <span class="pbar-count" id="pCount">1 / 5</span>
   </div>
-  <div class="pbar-note" id="pNote"><b>Presenter note</b>Loading…</div>
   <div class="pbar-acts">
     <button class="pb-primary glow" id="pPrimary">▶ AI REPLY</button>
     <button class="pb-sec" id="pSkip">SHOW NOW</button>
@@ -406,7 +405,6 @@ function renderScenario(){
   var step=STEPS[cur];
   el('pLabel').textContent=started?step.label:'Ready when you are';
   el('pCount').textContent=(cur+1)+' / '+N;
-  el('pNote').innerHTML='<b>Presenter note</b>'+esc(started?step.note:INTRO);
   drawScenario();
   updateControls();
 }
@@ -416,7 +414,6 @@ function startDemo(){
   started=true;
   var step=STEPS[cur];
   el('pLabel').textContent=step.label;
-  el('pNote').innerHTML='<b>Presenter note</b>'+esc(step.note);
   el('cwBody').innerHTML='<div class="cw-note">New chat · '+esc(step.page)+'</div>';
   simulateArrival();
 }
