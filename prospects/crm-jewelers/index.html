@@ -104,7 +104,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pstory .psc{font-size:11.5px;font-weight:800;color:#191817;line-height:1.3}
 .pstory.expired{border-left-color:#c9c7c2}
 .pstory .psbox{display:flex;align-items:center;justify-content:center;height:74px;background:#eceae6;border:1px dashed #cfccc6;border-radius:8px;color:#a49f97;font-size:11px;font-weight:700;margin:2px 0 5px}
-.pstory .pssub{font-size:10.5px;color:#a49f97;font-weight:600}
+.pstory .pssub{font-size:10.5px;color:#a49f97;font-weight:600}.psrec{margin-top:8px;border-top:1px dashed #cfccc6;padding-top:8px}.psrec .psrl{font:800 7.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--tealdk);margin-bottom:5px}.psrec img{width:96px;height:auto;border-radius:7px;display:block}
 .pb-empty{align-self:center;color:var(--muted);font-size:12px;font-style:italic;margin:auto 0}
 .email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(30,28,24,.05)}
 .email-row{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border)}
@@ -293,107 +293,108 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 </div>
 
 <script>
-var NAME="Dan";var ITEM="DM";var IMGURL="https://assets.cdn.filesafe.space/Hrt1JM3X905K2gaLdM3J/media/6a5e45eaa705e59dad257cb6.png";
+var NAME="Dan";var ITEM="DM";
 var WATCHSVG="<svg viewBox=\"0 0 118 150\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"118\" height=\"150\" rx=\"9\" fill=\"#f1f1f1\"/><g stroke=\"#9aa0a6\" stroke-width=\"0.5\"><rect x=\"38\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"5\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"38\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"16\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"38\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"27\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"38\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"112\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"38\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"123\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"38\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/><rect x=\"53\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><rect x=\"68\" y=\"134\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#c2c6cb\"/></g><rect x=\"90\" y=\"70\" width=\"7\" height=\"9\" rx=\"2\" fill=\"#cf9d80\"/><circle cx=\"59\" cy=\"75\" r=\"35\" fill=\"#cbced2\"/><circle cx=\"59\" cy=\"75\" r=\"31\" fill=\"#14100c\"/><path d=\"M28 75 A31 31 0 0 1 90 75 Z\" fill=\"#5c3b28\"/><circle cx=\"59\" cy=\"75\" r=\"23.5\" fill=\"#0a0a0a\"/><g fill=\"#e2b590\"><circle cx=\"59\" cy=\"55\" r=\"1.9\"/><circle cx=\"59\" cy=\"95\" r=\"1.9\"/><circle cx=\"39\" cy=\"75\" r=\"1.9\"/><circle cx=\"79\" cy=\"75\" r=\"1.9\"/><circle cx=\"45\" cy=\"61\" r=\"1.4\"/><circle cx=\"73\" cy=\"61\" r=\"1.4\"/><circle cx=\"45\" cy=\"89\" r=\"1.4\"/><circle cx=\"73\" cy=\"89\" r=\"1.4\"/></g><rect x=\"72.5\" y=\"72\" width=\"6.5\" height=\"6\" rx=\"1\" fill=\"#fff\"/><line x1=\"59\" y1=\"75\" x2=\"59\" y2=\"59\" stroke=\"#e8c9ac\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"59\" y1=\"75\" x2=\"71\" y2=\"80\" stroke=\"#e8c9ac\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"59\" y1=\"75\" x2=\"47\" y2=\"66\" stroke=\"#e2b590\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"59\" cy=\"75\" r=\"2.2\" fill=\"#e8c9ac\"/></svg>";
 var STEPS=[
  {sender:"@marcus.velez",initials:"MV",time:"9:41pm",subject:"Replied to your story",inbox:"@crmjewelers",
   preview:"amazing piece what is the price? (story expired)",tag:"Story",tagDone:"Qualified",
-  label:"Expired Story · Qualify First",wlbl:"@crmjewelers · Instagram DM",
-  status:"AI Replace · Story expired, qualifying the lead...",
+  label:"Expired Story · Recovered",wlbl:"@crmjewelers · Instagram DM",
+  status:"AI Replace · Story expired, resolving the story ID...",
   channel:"ig",handle:"@marcus.velez",
-  story:{label:"Replied to your story",caption:"Content unavailable",sub:"Story expired 154 hours ago",expired:true},
+  story:{label:"Replied to your story",caption:"Content unavailable",sub:"Story expired 154 hours ago",expired:true,
+   img:"https://assets.cdn.filesafe.space/Hrt1JM3X905K2gaLdM3J/media/6a5e45eaa705e59dad257cb6.png",
+   imgLabel:"Recovered from your story archive"},
   thread:[
    {t:"in",m:"Hi amazing piece what is the price?"},
-   {t:"out",m:"Hey, really glad it caught your eye 🙌 That story just expired on our end, so rather than guess I'll get you to the right specialist with the exact piece. Could you drop a quick screenshot of the watch? While you grab it, is it for you, and what range were you thinking of spending?"},
-   {t:"in",m:"📎 Photo · this two-tone Datejust. for me, around 12-14k"},
-   {t:"out",m:"Got it, thanks for the photo 👊 Two quick things so the right specialist can help: are you here in Miami or would this ship, and how soon are you looking to buy?"},
-   {t:"in",m:"I'm in Miami, next couple weeks. does it come with box and papers?"}
+   {t:"out",m:"Great eye, that's the Patek Nautilus with the factory diamond setting from our INVENTORY story 👊 That one went up a little while back, so I'll have a specialist confirm it is still available and give you the exact number. Before I connect you, is it for you and what range are you working with?"},
+   {t:"in",m:"for me. I can go up to 200 for the right piece"},
+   {t:"out",m:"Perfect. Two quick things so the right specialist can help: are you here in Miami or would this ship, and how soon are you looking to buy?"},
+   {t:"in",m:"Miami, ready to move this week. does it come with box and papers?"}
   ],
   lines:[
    ["›","New DM on @crmjewelers · reply to a story","hi"],
-   ["›","Resolving story ID 17924...","dim"],
-   ["›","Story expired 154 hours ago · content unavailable","flag"],
-   ["›","Cannot identify the watch from an expired story","flag"],
-   ["›","Rule: never quote price on an unverifiable piece","flag"],
-   ["›","Qualify first · ask for a screenshot + budget","ok"],
-   ["›","Screenshot received · forwarding to the specialist","ok"],
-   ["›","Budget 12-14k · local Miami · buying in 2 weeks","ok"],
-   ["›","Wants full set · high intent · real buyer","hi"],
-   ["›","Qualified 88/100 · do not confirm model or price","ok"],
-   ["›","Drafting the handoff message to the buyer...",""],
+   ["›","ManyChat shows: Content unavailable","flag"],
+   ["›","Story expired 154 hours ago","flag"],
+   ["›","Resolving story ID 17924 against your archive...","dim"],
+   ["›","Recovered: INVENTORY story · Patek Nautilus","hi"],
+   ["›","Factory diamond setting · posted 154 hours ago","ok"],
+   ["›","Too old to confirm price or availability","warn"],
+   ["›","Rule: never confirm stock on an expired post","flag"],
+   ["›","Qualify first · budget, location, timing","ok"],
+   ["›","Budget up to 200k · Miami · this week · full set","ok"],
+   ["›","Qualified 94/100 · packaging for a rep","hi"],
   ],
-  oMeta:"Auto · story expired · qualified without a price",
+  oMeta:"Auto · story recovered · qualified without a price",
   conf:"Auto",
-  outreach:"Perfect, thank you. I'm getting you straight to one of our watch specialists now. They'll confirm the exact watch, the price, and the full box and papers set from your photo, and reach out shortly. Talk soon 👊",
-  francView:"Dan view: this is the exact ManyChat problem. The story expired 154 hours ago and showed Content unavailable, so nobody could tell what he meant. The AI never guessed. It asked for a screenshot, qualified him fully on budget, location, timing and box and papers, and is handing the photo plus the answers to a specialist. Qualified in under two minutes, and a price was never quoted.",
-  sent:"Qualified in DM · photo captured · ready for a rep",
+  outreach:"Love it. I'm getting you straight to one of our specialists now. They'll confirm that exact piece is still available, the price, and the full box and papers set, and reach out shortly. Talk soon 👊",
+  francView:"Dan view: this is the exact ManyChat problem. The story expired 154 hours ago and ManyChat just says Content unavailable, so nobody could tell what he meant. AI Replace resolved the story ID against your own archive and recovered it, the Patek Nautilus with the factory diamond setting. It named the piece, refused to confirm price or availability on something that old, and qualified him at up to 200k in under two minutes.",
+  sent:"Story recovered · qualified in DM · ready for a rep",
   auto:true,qualified:false,handoff:false,saved:9,secs:0,
-  tiles:[{l:"Reply time",v:"8 seconds"},{l:"Story",v:"Expired 154h",a:true},{l:"Watch",v:"Photo → rep"},{l:"Action",v:"Qualified"}],
-  pitch:[{n:"Survives a dead story",c:"When the story expires and shows Content unavailable, it qualifies anyway"},{n:"Never guesses a price",c:"Asks for a photo and hands it to a specialist to confirm"},{n:"Qualifies in the DM",c:"Budget, location, timing and box and papers before a human is pulled in"}]},
+  tiles:[{l:"Reply time",v:"8 seconds"},{l:"Story",v:"Expired 154h",a:true},{l:"Recovered",v:"Patek Nautilus"},{l:"Action",v:"Qualified"}],
+  pitch:[{n:"Recovers dead stories",c:"ManyChat says Content unavailable. It resolves the story ID and finds the piece"},{n:"Never guesses a price",c:"Names the watch, but availability and price go to a specialist"},{n:"Qualifies in the DM",c:"Budget, location, timing and box and papers before a human is pulled in"}]},
 
  {sender:"Raysa · Sales Rep",initials:"RS",time:"9:46pm",subject:"Qualified lead ready",inbox:"WhatsApp",
-  preview:"Marcus, two-tone Datejust (photo), 12-14k, Miami, this week.",tag:"Handoff",tagDone:"Sent",
+  preview:"Marcus, Patek Nautilus from your story, up to 200k, Miami.",tag:"Handoff",tagDone:"Sent",
   label:"Qualified Buyer · Handoff",wlbl:"WhatsApp · to Raysa (sales rep)",
   status:"AI Replace · Packaging the qualified lead...",
   channel:"wa",handle:"Raysa · Sales Rep",
   lines:[
    ["›","@marcus.velez qualified in DM","hi"],
-   ["›","Story was expired · watch not auto-identified","warn"],
-   ["›","Customer sent a photo · attached for you","ok"],
-   ["›","Budget: 12-14k, for himself","ok"],
-   ["›","Location: Brickell · can come to the store","ok"],
+   ["›","Story recovered from your archive · 154h old","ok"],
+   ["›","Piece: Patek Nautilus · factory diamond setting","hi"],
+   ["›","Budget: up to 200k, for himself","ok"],
+   ["›","Location: Miami · can come to the store","ok"],
    ["›","Timing: this week","ok"],
    ["›","Wants full set, box and papers","ok"],
-   ["›","Qualification score: 88/100 · real buyer","hi"],
-   ["›","Rep confirms the exact watch + price from the photo","warn"],
+   ["›","Qualification score: 94/100 · real buyer","hi"],
+   ["›","You confirm it is still in stock + the price","warn"],
    ["›","Routing to Raysa on WhatsApp · needs your OK","warn"],
   ],
-  oMeta:"Qualified 88/100 · handoff to Raysa · awaiting approval",
-  conf:"88%",
-  outreach:"New qualified lead from @crmjewelers 👇\n\nBUYER: Marcus Velez, @marcus.velez\nWATCH: two-tone Datejust (his words). Story had expired, so please confirm the exact ref and price from his photo, attached.\nBUDGET: 12-14k, for himself\nLOCATION: Brickell, can come in\nTIMING: this week\nWANTS: full set, box and papers\nSCORE: 88/100\n\nFull DM thread and his screenshot are linked below. He's expecting your message.",
-  link:{label:"Open the DM thread + his screenshot",url:"#"},
-  confirm:{btn:"✓ HAND OFF TO RAYSA",done:"Sent to Raysa on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Raysa?",copy:"Marcus, 88/100, two-tone Datejust (photo), Brickell, buying this week."},
-  francView:"Dan view: Raysa gets the buyer's photo, budget, location, timing and box and papers preference in one WhatsApp message. Because the story was dead, the AI did not invent the watch. It handed Raysa the screenshot to confirm the exact ref and price. This is the context ManyChat could never show her.",
+  oMeta:"Qualified 94/100 · handoff to Raysa · awaiting approval",
+  conf:"94%",
+  outreach:"New qualified lead from @crmjewelers 👇\n\nBUYER: Marcus Velez, @marcus.velez\nWATCH: Patek Nautilus, factory diamond setting. Recovered from our INVENTORY story, posted 154 hours ago, so please confirm it is still available and the price.\nBUDGET: up to 200k, for himself\nLOCATION: Miami, can come in\nTIMING: this week\nWANTS: full set, box and papers\nSCORE: 94/100\n\nThe story he replied to and the full DM thread are linked below. He's expecting your message.",
+  link:{label:"Open the DM thread + the recovered story",url:"#"},
+  confirm:{btn:"✓ HAND OFF TO RAYSA",done:"Sent to Raysa on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Raysa?",copy:"Marcus, 94/100, Patek Nautilus from your story, Miami, up to 200k."},
+  francView:"Dan view: Raysa gets the recovered story, the piece, the budget, the location, the timing and the box and papers preference in one WhatsApp message. She opens it already knowing exactly what she is selling. This is the context ManyChat could never show her.",
   sent:"Sent to Raysa on WhatsApp · lead tracked",
   auto:false,hold:false,qualified:true,handoff:true,saved:12,secs:1,
-  tiles:[{l:"Channel",v:"WhatsApp"},{l:"Score",v:"88/100"},{l:"Watch",v:"Photo attached"},{l:"Action",v:"Confirm handoff"}],
-  pitch:[{n:"The rep sees the photo",c:"Screenshot plus answers in one WhatsApp message, even when the story is gone"},{n:"WhatsApp, where they work",c:"Your reps get the lead where they already live all day"},{n:"Nothing gets buried",c:"Every real opportunity is tracked, none die in the DMs"}]},
+  tiles:[{l:"Channel",v:"WhatsApp"},{l:"Score",v:"94/100"},{l:"Watch",v:"Patek Nautilus"},{l:"Action",v:"Confirm handoff"}],
+  pitch:[{n:"The rep sees the story",c:"The recovered post plus the answers in one WhatsApp message"},{n:"WhatsApp, where they work",c:"Your reps get the lead where they already live all day"},{n:"Nothing gets buried",c:"Every real opportunity is tracked, none die in the DMs"}]},
 
- {sender:"Carlos M.",initials:"CM",time:"8:12pm",subject:"Sent a screenshot of your story",inbox:"CRM · FB",
-  preview:"how much for this one? (screenshot of your INVENTORY story)",tag:"Buyer",tagDone:"Handoff",
-  label:"Story Screenshot · Qualify + Handoff",wlbl:"CRM Jewelers · Facebook DM",
-  status:"AI Replace · Matching the screenshot to your story...",
+ {sender:"Carlos M.",initials:"CM",time:"8:12pm",subject:"Sent a photo of a watch",inbox:"CRM · FB",
+  preview:"how much can I get this one for? (sent a photo)",tag:"Buyer",tagDone:"Handoff",
+  label:"Customer Photo · Qualify + Handoff",wlbl:"CRM Jewelers · Facebook DM",
+  status:"AI Replace · Photo received, qualifying the lead...",
   channel:"ig",net:"Facebook",handle:"Carlos M.",
   thread:[
-   {t:"img",m:"Screenshot · your INVENTORY story"},
-   {t:"in",m:"how much for this one?"},
-   {t:"out",m:"Great eye, that's the Patek Nautilus with the factory diamond setting from our INVENTORY story 👊 That one was posted a while back, so I'll have a specialist confirm it is still available and give you the exact number. Before I connect you, is it for you and what range are you working with?"},
-   {t:"in",m:"for me. I can go up to 200 for the right piece"},
+   {t:"img",m:"Photo sent by the customer",u:"https://assets.cdn.filesafe.space/Hrt1JM3X905K2gaLdM3J/media/6a5e47d41a0f0480508e612e.png"},
+   {t:"in",m:"how much can I get this one for?"},
+   {t:"out",m:"Great taste 👊 Let me get you to the right specialist who can confirm that exact piece and the price straight from your photo. Before I connect you, is it for you and what budget are you working with?"},
+   {t:"in",m:"for me. around 12-14k"},
    {t:"out",m:"Perfect. Two quick things: are you here in Miami or would this ship, and how soon are you looking to buy?"},
-   {t:"in",m:"Miami, ready to move this week. does it come with box and papers?"}
+   {t:"in",m:"I'm in Miami, want it this week. does it come with box and papers?"}
   ],
   lines:[
    ["›","New DM on CRM Jewelers · Facebook","hi"],
-   ["›","Customer sent a screenshot, not a story reply","dim"],
-   ["›","Matching the image to your own story archive...","dim"],
-   ["›","Matched: INVENTORY highlight · posted 7 weeks ago","hi"],
-   ["›","Piece: Patek Nautilus · factory diamond setting","hi"],
-   ["›","7 weeks old · availability and price not confirmable","flag"],
-   ["›","Rule: never confirm price or stock on an old post","flag"],
+   ["›","Customer sent a photo · no story attached","dim"],
+   ["›","No story context to resolve · image only","warn"],
+   ["›","Do not identify the model from a photo","flag"],
+   ["›","Rule: price and ref confirmed by a specialist","flag"],
+   ["›","Photo saved · attaching for the rep","ok"],
    ["›","Qualify first · budget, location, timing","ok"],
-   ["›","Budget up to 200k · Miami · this week · wants full set","ok"],
-   ["›","Qualified 94/100 · Raysa is busy · route to Sandra","hi"],
-   ["›","Packaging the screenshot + answers for Sandra","ok"],
+   ["›","Budget 12-14k · Miami · this week · wants full set","ok"],
+   ["›","Seriousness: high · real buyer","hi"],
+   ["›","Qualified 90/100 · Raysa is busy · route to Sandra","hi"],
   ],
-  oMeta:"Qualified 94/100 · story matched · handoff to Sandra · awaiting approval",
-  conf:"94%",
-  outreach:"Love it. I'm connecting you with one of our specialists now. They'll confirm that exact piece is still available, the price, and the full box and papers set, and reach out shortly 👊",
-  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 94/100, Patek Nautilus from your INVENTORY story, Miami, up to 200k."},
-  francView:"Dan view: he screenshotted a story you posted 7 weeks ago and asked the price. The AI matched that screenshot back to your own INVENTORY highlight and named the piece, then still refused to confirm price or availability on something that old. It qualified him at up to 200k, Miami, buying this week, and routed it to Sandra with the screenshot attached.",
+  oMeta:"Qualified 90/100 · photo attached · handoff to Sandra · awaiting approval",
+  conf:"90%",
+  outreach:"Love it. I'm connecting you with one of our specialists now. They'll confirm the exact watch, the price, and the full box and papers set from your photo, and reach out shortly 👊",
+  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, photo attached, Miami, buying this week."},
+  francView:"Dan view: no story here, just a photo the customer sent. The AI did not try to guess the model or the price from an image. It saved the photo for the rep, qualified him fully on budget, Miami, this week and full set, and because Raysa is already on a lead it routed this one to Sandra. Both of your reps stay fed without lifting a finger.",
   sent:"Handed to Sandra on WhatsApp · lead tracked",
   auto:false,hold:false,qualified:true,handoff:true,saved:11,secs:1,
-  tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Story",v:"Matched · 7w old",a:true},{l:"Score",v:"94/100"},{l:"Action",v:"Handoff · Sandra"}],
-  pitch:[{n:"Matches your own stories",c:"Recognises a screenshot of a story you posted weeks ago"},{n:"Never confirms old stock",c:"A 7 week old piece, so price and availability go to a specialist"},{n:"Feeds both reps",c:"Routes to whoever is free, Raysa or Sandra, with full context"}]},
+  tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Watch",v:"Photo → rep"},{l:"Score",v:"90/100"},{l:"Action",v:"Handoff · Sandra"}],
+  pitch:[{n:"Handles photo DMs",c:"Customers send pictures all day. Every one gets qualified"},{n:"Never guesses from an image",c:"The photo goes to the specialist to confirm the ref and the price"},{n:"Feeds both reps",c:"Routes to whoever is free, Raysa or Sandra, with full context"}]},
 
  {sender:"Leo M.",initials:"LM",time:"7:55pm",subject:"Raffle entry + fan message",inbox:"CRM · FB",
   preview:"entered the raffle! been watching since 2019 🙏",tag:"Fan",tagDone:"Filtered",
@@ -462,7 +463,7 @@ var STEPS=[
   ],
   oMeta:"Response time · qualified · handoffs · pipeline",
   conf:"Live",
-  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to an expired story and sent a photo of a two-tone Datejust, 12-14k, Brickell, this week, now with Raysa. One screenshotted your INVENTORY story from 7 weeks ago, a Patek Nautilus, up to 200k, Miami, this week, now with Sandra. Both reps got the photo and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 213,000 of pipeline from a Tuesday night, and every one of them is tracked.",
+  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to a story that had expired 154 hours ago, we recovered it from your archive, the Patek Nautilus, up to 200k, Miami, this week, now with Raysa. One sent a photo and asked the price, 12-14k, Miami, this week, now with Sandra. Both reps got the piece and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 213,000 of pipeline from a Tuesday night, and every one of them is tracked.",
   francView:"Dan view: this is the number you told us you don't have. Four pages, one queue, 8 second replies, two qualified buyers routed to Raysa and Sandra, and you can finally see how much business your watch DMs are creating.",
   sent:"Results panel live · 4 pages tracked",
   auto:true,summary:true,saved:0,secs:0,
@@ -536,9 +537,9 @@ function typeText(id,text,speed){
 function phoneHTML(step,reveal){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
   var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen">';
-  if(step.story){var st=step.story;h+='<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+'</div>';}
+  if(step.story){var st=step.story;h+='<div class="pstory'+(st.expired?' expired':'')+'"><div class="psl">'+esc(st.label)+'</div>'+(st.expired?'<div class="psbox">'+esc(st.caption)+'</div><div class="pssub">'+esc(st.sub)+'</div>':'<div class="psc">'+esc(st.caption)+'</div>')+(st.img?'<div class="psrec"><div class="psrl">'+esc(st.imgLabel||"Recovered")+'</div><img src="'+esc(st.img)+'" alt=""></div>':'')+'</div>';}
   if(step.thread)step.thread.forEach(function(m){
-    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box"><img src="'+IMGURL+'" alt="" onerror="this.outerHTML=WATCHSVG"></div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
+    if(m.t==='img'){h+='<div class="pb in pimg"><div class="pimg-box"><img src="'+esc(m.u)+'" alt="" onerror="this.outerHTML=WATCHSVG"></div><div class="pimg-cap">'+esc(m.m)+'</div></div>';}
     else{h+='<div class="pb '+(m.t==='in'?'in':'out')+'">'+esc(m.m)+'</div>';}
   });
   if(step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
