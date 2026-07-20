@@ -28,7 +28,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
 .stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(239,238,234,.94);border:1px solid #d9d7d1;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(176,136,59,.1)}
 .stage-label.vis{opacity:1}
-.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(290px,330px) minmax(640px,1fr) minmax(320px,390px);gap:12px;align-items:stretch}
+.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(480px,1fr) minmax(400px,460px);gap:12px;align-items:stretch}
 .card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(30,28,24,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#faf9f7;flex:0 0 auto}
 .card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
@@ -66,8 +66,9 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ss-num{font:900 17px/1 var(--mono);color:var(--branddk)}
 .ss:nth-child(3) .ss-num,.ss:nth-child(4) .ss-num{color:var(--tealdk)}
 .ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.work-col{grid-column:2;display:flex;flex-direction:row;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
-.brain-card{flex:0.85 1 0;min-width:0;min-height:0}
+.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
+.brain-card{flex:0 0 210px;min-height:0}
+.ctx-card{flex:0 0 auto}
 .brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
 .bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
 .bl.show{opacity:1;transform:none}
@@ -80,7 +81,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .bt.dim{color:var(--muted)}
 .bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
 .bdiv.show{opacity:1}
-.outreach-card{flex:1.35 1 0;min-width:0;min-height:0}
+.outreach-card{flex:1 1 auto;min-height:0}
 .ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
 .ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
 .ometa b{color:var(--tealdk)}
@@ -92,7 +93,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .phone-hdr .pa{width:28px;height:28px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
 .phone-hdr .ph{font-weight:800;font-size:13.5px;color:#fff}
 .phone-hdr .pc{margin-left:auto;font:700 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9aa;opacity:.8}
-.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(340px,56vh,560px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}
+.phone-screen{background:#fff;border-radius:4px 4px 22px 22px;padding:16px 13px;height:clamp(360px,58vh,580px);overflow-y:auto;display:flex;flex-direction:column;gap:9px;justify-content:flex-start}.phone-screen>*:first-child{margin-top:auto}
 .phone-screen.inboxmode>*:first-child{margin-top:0}
 .pinbox{width:100%}
 .pih{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#9a978f;padding:2px 2px 11px}
@@ -189,7 +190,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 #francCard,#spill{display:none!important}
 .ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
 .ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
-.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .tile{border:1px solid var(--border);border-radius:9px;padding:8px;background:#faf9f7}
 .tile.alert{background:var(--redlt);border-color:#f0caca}
 .tile-lbl{font:800 8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
@@ -256,10 +257,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
         <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Handoffs</div></div>
       </div>
     </section>
-  </aside>
-
-  <section class="work-col">
-    <div class="card brain-card">
+  <div class="card brain-card">
       <div class="card-hdr">
         <div class="card-dot" style="background:var(--teal)"></div>
         <div class="card-title">AI Replace · Reasoning</div>
@@ -269,6 +267,19 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
         <div class="bl show"><span class="bp">›</span><span class="bt dim">DM loaded, click Analyze to run the AI</span></div>
       </div>
     </div>
+        <section class="card ctx-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">This DM</div>
+        <div class="cbadge b-live" id="ctxBadge">Connected</div>
+      </div>
+      <div class="ctx-body" id="ctxBody">
+        <div class="empty-msg">Context populates when a DM is analyzed.</div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="work-col">
     <div class="card outreach-card">
       <div class="card-hdr">
         <div class="card-dot" style="background:var(--brand)"></div>
@@ -285,18 +296,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
     </div>
   </section>
 
-  <aside class="ctx-col">
-    <div class="card" style="flex:1">
-      <div class="card-hdr">
-        <div class="card-dot" style="background:var(--brand)"></div>
-        <div class="card-title">Context &amp; Rules</div>
-        <div class="cbadge b-live" id="ctxBadge">Connected</div>
-      </div>
-      <div class="ctx-body" id="ctxBody">
-        <div class="empty-msg">Context populates when a DM is analyzed.</div>
-      </div>
-    </div>
-  </aside>
+  
 </main>
 
 <div class="nav-ctrl">
@@ -705,21 +705,6 @@ function renderContext(step,revealed){
     h+='<div class="tile'+(t.a?' alert':'')+'"><div class="tile-lbl">'+esc(t.l)+'</div><div class="tile-val">'+(revealed||!t.a?esc(t.v):'--')+'</div></div>';
   });
   h+='</div>';
-  h+='<div class="icp-box"><div class="icp-ttl">Handling Rules</div><div class="icp-list">'
-    +'<span><b>✓</b>Story &amp; Highlight replies → watch identified from the story</span>'
-    +'<span><b>✓</b>Basic questions → answered in seconds, 24/7</span>'
-    +'<span><b>✓</b>Fans, raffles &amp; collabs → filtered, never reach a rep</span>'
-    +'<span><b>✓</b>Sellers &amp; price-checkers → invited into the store</span>'
-    +'<span><b class="f">⚑</b>Price, availability, year, box &amp; papers → never confirmed on doubt</span>'
-    +'<span><b class="f">⚑</b>Qualified buyers → handed to a rep on WhatsApp with your OK</span>'
-    +'</div></div>';
-  if(revealed){
-    h+='<div class="pitch-box"><div class="pitch-ttl">Why this fixes the DMs</div>';
-    step.pitch.forEach(function(p){
-      h+='<div class="pitch-item"><div class="pitch-name">'+esc(p.n)+'</div><div class="pitch-copy">'+esc(p.c)+'</div></div>';
-    });
-    h+='</div>';
-  }
   el('ctxBody').innerHTML=h;
 }
 
