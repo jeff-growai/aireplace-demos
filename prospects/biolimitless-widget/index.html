@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace · BioLimitless Concierge Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f7fc;--white:#fff;--ink:#141827;--body:#3f444b;--muted:#8b93a1;--border:#dfe4ee;
+  --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
+  --brand:#3a54e6;--branddk:#2840b8;--brandlt:#eaeeff;
+  --red:#c92c2c;--redlt:#fdeeee;--amber:#8c5c0a;--amberlt:#fef5e8;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(253,245,244,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(30,50,120,.08)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900;letter-spacing:.01em}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(234,238,255,.94);border:1px solid #c3ccf5;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(58,84,230,.1)}
+.stage-label.vis{opacity:1}
+.scene{width:100vw;height:100vh;padding:78px 14px 72px;display:grid;grid-template-columns:minmax(290px,330px) minmax(560px,1fr) minmax(320px,390px);gap:12px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(30,50,120,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#f8faff;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#eef0f6;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.left-col{grid-column:1;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.queue-card{flex:1;min-height:0}
+.qtool{padding:8px 12px;background:var(--white);border-bottom:1px solid var(--border);font:600 10px/1 var(--mono);color:var(--muted)}
+.qbody{flex:1;overflow:hidden}
+.lead-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:7px 12px;border-bottom:1px solid #eaeef7;background:var(--white);transition:background .25s,opacity .25s}
+.lead-row.active{background:var(--brandlt)}
+.lead-row.done{opacity:.65}
+.lav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 10px/1 var(--mono);background:var(--brand)}
+.lead-main{min-width:0}
+.lead-name{font-size:12px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-subj{font-size:11px;font-weight:650;color:var(--body);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-prev{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.lead-time{font:600 9px/1 var(--mono);color:var(--muted)}
+.lead-tag{font:800 8px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:3px 6px;background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.lead-row.done .lead-tag{background:var(--teallt);color:var(--tealdk);border-color:#b0d9cb}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:9px}
+.ss{border:1px solid var(--border);border-radius:9px;padding:7px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#c3ccf5}
+.ss:nth-child(2){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(3){background:var(--teallt);border-color:#b0d9cb}
+.ss:nth-child(4){background:var(--amberlt);border-color:#e0c070}
+.ss-num{font:900 17px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(2) .ss-num,.ss:nth-child(3) .ss-num{color:var(--tealdk)}
+.ss:nth-child(4) .ss-num{color:var(--amber)}
+.ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;align-self:stretch;height:calc(100vh - 150px)}
+.brain-card{flex:0 0 176px}
+.brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.outreach-card{flex:1 1 auto;min-height:0}
+.ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
+.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
+.ometa b{color:var(--tealdk)}
+.oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
+.owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
+.wgt{max-width:400px;margin:0 auto;background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 22px 50px rgba(30,50,120,.20);overflow:hidden;display:flex;flex-direction:column}
+.wgt-hdr{display:flex;align-items:center;gap:11px;padding:13px 15px;background:linear-gradient(135deg,var(--brand),var(--branddk));color:#fff}
+.wgt-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font:900 14px/1 var(--mono);color:#fff;flex:0 0 auto}
+.wgt-hd{min-width:0}
+.wgt-name{font-weight:800;font-size:14px;color:#fff}
+.wgt-sub{font:600 10px/1.3 var(--mono);color:rgba(255,255,255,.82);margin-top:2px}
+.wgt-dot{margin-left:auto;width:9px;height:9px;border-radius:50%;background:#7fe0a8;box-shadow:0 0 0 3px rgba(127,224,168,.28);flex:0 0 auto}
+.wgt-screen{background:#f6f8fd;padding:14px 13px;display:flex;flex-direction:column;gap:9px;height:clamp(300px,46vh,500px);overflow-y:auto;justify-content:flex-start}
+.wgt-screen>*:first-child{margin-top:auto}
+.wgt-note{align-self:center;font:700 8.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:100px;padding:4px 11px;margin-bottom:3px}
+.wb{max-width:83%;padding:11px 14px;font-size:13px;line-height:1.5;border-radius:16px;white-space:pre-wrap}
+.wb.in{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.wb.out{align-self:flex-start;background:#fff;color:var(--ink);border:1px solid var(--border);border-bottom-left-radius:5px}
+.wb-empty{align-self:flex-start;color:var(--muted);font-size:12px;font-style:italic}
+.wgt-hold{align-self:stretch;background:var(--amberlt);border:1px solid #e0c070;color:var(--amber);font:800 9.5px/1.4 var(--mono);letter-spacing:.02em;border-radius:9px;padding:8px 11px}
+.quiz-cta{display:flex;align-items:center;gap:11px;margin-top:10px;padding:12px 14px;border-radius:13px;background:linear-gradient(135deg,var(--teal),var(--tealdk));color:#fff;text-decoration:none;box-shadow:0 8px 20px rgba(10,140,110,.25)}
+.quiz-cta .qc-ic{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
+.quiz-cta .qc-tx{display:flex;flex-direction:column;flex:1;min-width:0}
+.quiz-cta .qc-tx b{font:800 13px/1.2 var(--sans)}
+.quiz-cta .qc-tx span{font:600 9.5px/1.3 var(--mono);color:rgba(255,255,255,.85);margin-top:2px}
+.quiz-cta .qc-ar{font-size:17px;font-weight:900;flex:0 0 auto}
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:7px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #c3ccf5;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
+.franc-card b{display:block;color:var(--tealdk);font:900 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.franc-card.pending{color:var(--muted);background:#f8faff;border-color:var(--border);font-style:italic}
+.franc-card.hold{background:var(--amberlt);border-color:#e0c070}
+.franc-card.hold b{color:var(--amber)}
+.spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
+.spill.show{opacity:1}
+.spill.hold{background:var(--amber)}
+.spill.await{background:var(--branddk)}
+.ctx-col{grid-column:3;display:flex;flex-direction:column;gap:12px;align-self:stretch}
+.ctx-body{padding:9px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
+.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tile{border:1px solid var(--border);border-radius:9px;padding:8px;background:#f8faff}
+.tile.alert{background:var(--redlt);border-color:#f0caca}
+.tile-lbl{font:800 8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tile-val{font-size:12.5px;font-weight:850;color:var(--ink);line-height:1.2}
+.icp-box{background:var(--brandlt);border:1px solid #c3ccf5;border-radius:11px;padding:9px}
+.icp-ttl{font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--branddk);margin-bottom:6px}
+.icp-list{display:flex;flex-direction:column;gap:3px;font-size:10.5px;line-height:1.3;color:var(--body)}
+.icp-list span{display:flex;gap:6px}
+.icp-list b{color:var(--teal)}
+.icp-list b.f{color:var(--amber)}
+.pitch-box{border:1px solid var(--border);border-radius:11px;padding:9px;background:#f8faff}
+.pitch-ttl{font:800 8.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.pitch-item{padding:4px 0;border-top:1px solid #eaeef7}
+.pitch-item:first-of-type{border-top:none;padding-top:0}
+.pitch-name{font-size:11.5px;font-weight:850;color:var(--ink)}
+.pitch-copy{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(253,248,248,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(30,50,120,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(58,84,230,.22);white-space:nowrap}
+.btn-primary:disabled{background:#c2c9e0;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(58,84,230,.55)}60%{box-shadow:0 0 0 14px rgba(58,84,230,0)}100%{box-shadow:0 0 0 0 rgba(58,84,230,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#f8faff;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#c3ccf5;color:var(--branddk);background:var(--brandlt)}
+.btn-sec:disabled{opacity:.35;cursor:not-allowed}
+.btn-sec.hidden{display:none}
+.empty-msg{display:flex;align-items:center;justify-content:center;min-height:60px;color:var(--muted);font-size:12px;font-style:italic;padding:14px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">BioLimitless</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Dr. Nepute's site concierge · answers "where do I start?"</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="left-col">
+    <section class="card queue-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Live Chat · biolimitless.com</div>
+        <div class="cbadge b-live" id="qBadge">Live</div>
+      </div>
+      <div class="qtool">On-site widget · educate first, then route</div>
+      <div class="qbody" id="qBody"></div>
+    </section>
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Visitors Helped</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Routed to Quiz</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0m</div><div class="ss-lbl">Mins Saved</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Escalated</div></div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="work-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Chat loaded · click Analyze to run the AI</span></div>
+      </div>
+    </div>
+    <div class="card outreach-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">AI Output · Chat Widget</div>
+        <div class="cbadge b-idle" id="oBadge">Ready</div>
+      </div>
+      <div class="ob">
+        <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
+        <div class="owlbl" id="oWlbl"></div>
+        <div class="otext" id="oText"><div class="empty-msg">The chat loads after you click Analyze.</div></div>
+        <div class="franc-card pending" id="francCard" style="display:none"><b>Dr. Nepute view</b>Processing…</div>
+        <div class="spill" id="spill">Output pending</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="ctx-col">
+    <div class="card" style="flex:1">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Context &amp; Playbook</div>
+        <div class="cbadge b-live" id="ctxBadge">Connected</div>
+      </div>
+      <div class="ctx-body" id="ctxBody">
+        <div class="empty-msg">Context populates when a chat is analyzed.</div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Website chat loaded</b><span id="navCopy">Click Analyze to run the AI on the first chat.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var NAME="Dr. Nepute";var ITEM="chat";
+var STEPS=[
+ {sender:"Jordan",initials:"JD",time:"9:12am",subject:"Where do I start?",
+  preview:"Loves the brand, overwhelmed by the wall of products.",tag:"New Chat",tagDone:"Routed",
+  label:"The #1 Question · Educate + Route",wlbl:"Website Chat · biolimitless.com",
+  status:"AI Replace · Reading the site chat...",
+  channel:"widget",handle:"BioLimitless Concierge",pageNote:"Home page",
+  inbound:"Hey, I just found you guys and I love what you're about. But honestly there are so many products, I have no idea where to begin. Where do I even start?",
+  lines:[
+   ["›","New chat on biolimitless.com · Home","hi"],
+   ["›","Visitor intent: \"where do I start?\"","hi"],
+   ["›","This is the #1 reason visitors bounce","warn"],
+   ["›","Rule: educate first, never dump the product wall","ok"],
+   ["›","Approach: start with the Self, not a product","ok"],
+   ["›","Best next step: Self-Care Assessment (clinical intake)","hi"],
+   ["›","Returns: starting point + the protocol to follow","ok"],
+   ["›","Drafting a warm reply + assessment CTA...",""],
+  ],
+  oMeta:"Auto · educated, then routed to the assessment",
+  conf:"Auto",
+  outreach:"Totally get it, and honestly that's the best question you can ask.\n\nHere's the thing: at BioLimitless we don't start with a product, we start with you. Understand what's actually going on in your body first, then follow the protocol that fits, instead of grabbing a random supplement off the shelf.\n\nThe fastest way to find your starting point is our Self-Care Assessment. It's the digitized version of Dr. Nepute's in-clinic intake, and at the end it tells you exactly where you are and which protocol to follow. Think of it as a physician in your pocket.\n\nWant to start there? It takes about 5 minutes.",
+  link:{kind:"quiz",label:"Take the Self-Care Assessment",sub:"Your personalized starting point · ~5 min",url:"#"},
+  francView:"This is the exact bounce you described. Instead of a wall of products, the visitor gets your philosophy in two lines and one clear next step: the assessment. Educate first, then route. No human touched it.",
+  sent:"Auto-handled · routed to the Self-Care Assessment",
+  auto:true,routed:true,saved:5,secs:1,
+  tiles:[{l:"Page",v:"Home"},{l:"Intent",v:"Where to start"},{l:"Route",v:"Self-Care Assessment"},{l:"Action",v:"Educated + routed"}],
+  pitch:[{n:"Answers the #1 question",c:"Turns 'where do I start?' into a guided first step, not a bounce"},{n:"Educates before it sells",c:"Leads with your approach, then routes to the assessment"},{n:"A physician in their pocket",c:"Every visitor gets the clinical intake, 24/7"}]},
+
+ {sender:"Alicia",initials:"AL",time:"8:47am",subject:"Something for more energy?",
+  preview:"Dragging by 2pm every day, wants an energy fix.",tag:"New Chat",tagDone:"Routed",
+  label:"Goal-Based · Route to Assessment",wlbl:"Website Chat · biolimitless.com",
+  status:"AI Replace · Matching the goal to an assessment...",
+  channel:"widget",handle:"BioLimitless Concierge",pageNote:"Products page",
+  inbound:"I think I mostly just want more energy. I'm dragging by 2pm every single day. Do you have something for that?",
+  lines:[
+   ["›","New chat · goal-based question","hi"],
+   ["›","Stated goal: more energy · 2pm crash","hi"],
+   ["›","'Low energy' has multiple drivers, not one SKU","warn"],
+   ["›","Rule: sell the solution, not a blind bottle","ok"],
+   ["›","Match: Energy & Fatigue assessment (1 of 15)","hi"],
+   ["›","Returns a protocol + how to run it","ok"],
+   ["›","Compliance: goal-based · no medical claims","ok"],
+   ["›","Drafting reply + routing to the assessment...",""],
+  ],
+  oMeta:"Auto · goal matched to the right assessment",
+  conf:"Auto",
+  outreach:"That 2pm crash is one of the most common things we hear, so you're in good company.\n\nI could point you at a product, but low energy usually isn't one thing. It can come from how you're sleeping, your stress load, or what's happening at the cellular level. Guessing wastes your money and your time.\n\nSo instead of selling you a bottle and hoping, let's find the actual driver. Our Energy & Fatigue assessment walks through it and hands you back a protocol built around your result, including how to run it, not just what to take.\n\nThat's the part most people miss: the plan and the implementation, together.",
+  link:{kind:"quiz",label:"Start the Energy & Fatigue check-in",sub:"1 of 15 focused assessments · ~4 min",url:"#"},
+  francView:"She asked for a product. The AI reframed it to the real goal and routed her to the Energy & Fatigue check-in, so the recommendation comes from her result, not a guess. This is selling the solution, exactly like you asked.",
+  sent:"Auto-handled · routed to Energy & Fatigue assessment",
+  auto:true,routed:true,saved:6,secs:1,
+  tiles:[{l:"Goal",v:"More energy"},{l:"Driver",v:"Unknown · assess"},{l:"Route",v:"Energy & Fatigue"},{l:"Action",v:"Routed to quiz"}],
+  pitch:[{n:"Solution, not a SKU",c:"Routes to the right assessment instead of guessing a product"},{n:"Protects the customer",c:"No blind purchase · the protocol comes from their result"},{n:"Uses all 15 quizzes",c:"Matches the goal to the exact condition check-in"}]},
+
+ {sender:"Bex",initials:"BX",time:"8:20am",subject:"Bloated every day",
+  preview:"Asks if Master Microbiotics will fix daily bloating.",tag:"New Chat",tagDone:"Routed",
+  label:"Condition Question · Route + Educate",wlbl:"Website Chat · biolimitless.com",
+  status:"AI Replace · Mapping the symptom to a check-in...",
+  channel:"widget",handle:"BioLimitless Concierge",pageNote:"Gut Health page",
+  inbound:"Ok this might be TMI but I'm bloated basically every day and it's driving me crazy. Would Master Microbiotics just fix that?",
+  lines:[
+   ["›","New chat · condition-specific question","hi"],
+   ["›","Symptom: daily bloating","warn"],
+   ["›","Visitor named a product: Master Microbiotics","dim"],
+   ["›","Rule: don't promise a fix · find the driver first","ok"],
+   ["›","Match: Gut Health assessment (1 of 15)","hi"],
+   ["›","Assessment confirms if that product fits","ok"],
+   ["›","Compliance: no treatment or cure claims","ok"],
+   ["›","Drafting reply + Gut Health CTA...",""],
+  ],
+  oMeta:"Auto · symptom routed to the Gut Health check-in",
+  conf:"Auto",
+  outreach:"Not TMI at all. Gut stuff is one of the top reasons people come to us, and daily bloating is worth taking seriously.\n\nMaster Microbiotics helps a lot of people, but I don't want to hand you a product and cross my fingers. Bloating can trace back to a few different things, and the right move depends on which one it is for you.\n\nOur Gut Health assessment is built exactly for this. It points to the likely driver and gives you a step-by-step protocol to follow, so you know what to take and how to actually use it.\n\nIf Master Microbiotics is the right fit, it will tell you. If something else fits better, even better.",
+  link:{kind:"quiz",label:"Take the Gut Health check-in",sub:"1 of 15 condition assessments · ~4 min",url:"#"},
+  francView:"She practically asked the AI to upsell her, and it slowed down instead. It won't claim a product fixes a symptom. It routes her to the Gut Health check-in, which still converts if the product fits, but honestly. That builds trust in a category full of hype.",
+  sent:"Auto-handled · routed to Gut Health assessment",
+  auto:true,routed:true,saved:6,secs:1,
+  tiles:[{l:"Symptom",v:"Daily bloating"},{l:"Asked about",v:"Master Microbiotics"},{l:"Route",v:"Gut Health quiz"},{l:"Action",v:"Routed to quiz"}],
+  pitch:[{n:"Honest routing",c:"Won't claim a product fixes a symptom · finds the driver first"},{n:"Condition-aware",c:"Maps symptoms to the right one of your 15 assessments"},{n:"Still sells",c:"If the product fits, the assessment confirms it and converts"}]},
+
+ {sender:"Renee",initials:"RN",time:"7:58am",subject:"On thyroid meds, which peptide?",
+  preview:"Hashimoto's + levothyroxine · which peptide is safe?",tag:"Medical",tagDone:"Escalated",
+  label:"Medical Question · Compliance Guardrail",wlbl:"Website Chat · Compliance Hold",
+  status:"AI Replace · Triaging a health question...",
+  channel:"widget",handle:"BioLimitless Concierge",pageNote:"Peptides page",
+  inbound:"I have Hashimoto's and I'm on levothyroxine. Which of your peptides is safe for me to take with my thyroid?",
+  lines:[
+   ["›","New chat · health / medical question","flag"],
+   ["›","Detected: diagnosed condition (Hashimoto's)","flag"],
+   ["›","Detected: prescription drug (levothyroxine)","flag"],
+   ["›","Asking which peptide is 'safe' to combine","warn"],
+   ["›","Compliance: NO medical or interaction claims","flag"],
+   ["›","AI Exclusion: route to a provider, do not advise","flag"],
+   ["›","Send a safe reply + flag the team","warn"],
+   ["›","Drafting a compliant reply · zero claims","ok"],
+   ["›","Routing to a BioLimitless provider","hi"],
+  ],
+  oMeta:"Compliance guardrail · safe reply sent · routed to a provider",
+  conf:"Escalate",
+  holdBanner:"⚠ COMPLIANCE GUARDRAIL · no medical claims · safe reply sent + routed to a provider",
+  outreach:"Thank you for trusting me with that, and I want to give you a genuinely safe answer, not a guess.\n\nBecause you've mentioned a diagnosed condition and a prescription medication, I'm not the right one to tell you which peptide is safe to combine with your levothyroxine. That's a real clinical question, and it deserves a real clinician.\n\nHere's what I'd suggest: our team can connect you with a BioLimitless provider who can look at your full picture, your thyroid, your medication, and your goals, and guide you properly. I've flagged your message so someone reaches out personally.\n\nPlease don't start anything new alongside your medication until you've talked it through with them or your own doctor.",
+  francView:"Dr. Nepute view: a diagnosed condition AND a prescription drug in one message. The AI made zero medical claims and zero interaction advice. It sent a safe, caring reply and routed her to a provider, then flagged your team. This guardrail is what keeps the brand out of trouble.",
+  sent:"Safe reply sent · routed to a provider · team flagged",
+  auto:false,hold:true,routed:false,saved:9,secs:0,
+  tiles:[{l:"Flag",v:"Condition + Rx",a:true},{l:"Claim made?",v:"None"},{l:"Route",v:"Provider"},{l:"Action",v:"Escalated"}],
+  pitch:[{n:"Compliance guardrail",c:"Never advises on conditions or drug interactions"},{n:"Protects the brand",c:"Medical questions go to a provider, with full context"},{n:"Knows its limits",c:"Educates the routine, routes the clinical · by your rules"}]},
+
+ {sender:"Marco",initials:"MC",time:"7:31am",subject:"I'm ready to fix this",
+  preview:"Put his health off for years, wants to start for real.",tag:"Hot Lead",tagDone:"Captured",
+  label:"High-Intent · Capture + Notify Team",wlbl:"Website Chat · Awaiting Approval",
+  status:"AI Replace · Qualifying a high-intent visitor...",
+  channel:"widget",handle:"BioLimitless Concierge",pageNote:"Pricing page",
+  inbound:"Honestly I've put my health off for years and I'm done waiting. I want to actually fix this, not just read about it. Can you get me started for real?",
+  lines:[
+   ["›","New chat · high-intent visitor","hi"],
+   ["›","Signal: ready to start · years of delay","hi"],
+   ["›","On the pricing page · buying intent HIGH","hi"],
+   ["›","Plan: assessment → protocol → coach check-in","ok"],
+   ["›","Visitor wants implementation, not just a product","ok"],
+   ["›","Action: capture email · send assessment · notify team","hi"],
+   ["›","Sending = new contact + outreach · needs approval","warn"],
+   ["›","Drafting the start plan + capture...",""],
+  ],
+  oMeta:"High-intent · capture + notify · awaiting approval",
+  conf:"Review",
+  outreach:"That's the moment that changes everything, and I'm glad you're here for it.\n\nHere's how I'll get you started for real, not just browsing:\n\n1. You take the Self-Care Assessment so we know your true starting point.\n2. It maps you to the exact protocol to follow, with the how, not just the what.\n3. I'll have a BioLimitless coach check in so you actually implement it and don't stall out.\n\nIf you drop your email, I'll send your assessment link now and give the team a heads up to look out for you. Deal?",
+  link:{kind:"quiz",label:"Self-Care Assessment",sub:"Sent to your inbox on confirm",url:"#"},
+  confirm:{btn:"✓ SEND ASSESSMENT & NOTIFY TEAM",done:"Assessment link sent · coach notified",badge:"Sent",title:"Send the assessment and notify the team?",copy:"Captures the visitor's email, sends the assessment link, and pings a coach to follow up."},
+  francView:"Dr. Nepute view: this is the visitor who usually closes the tab and forgets. The AI turned that into a real start: assessment, protocol, and a coach to make sure they implement it. Because it captures an email and pings your team, it waits for your one-click approval.",
+  sent:"Assessment sent · coach notified · lead captured",
+  auto:false,hold:false,routed:true,saved:8,secs:1,
+  tiles:[{l:"Intent",v:"HIGH · ready",a:true},{l:"Plan",v:"Assess → protocol → coach"},{l:"Capture",v:"Email + notify"},{l:"Action",v:"Confirm to send"}],
+  pitch:[{n:"Captures the ready buyer",c:"Turns high intent into a booked start, not a lost tab"},{n:"You approve the send",c:"Email capture and outreach wait for one click"},{n:"Implementation built in",c:"Sells the plan and the follow-through, like you want"}]}
+];
+
+var cur=0,done={},running=false,awaiting=false,reasoned=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,a:0,s:0,t:0};
+var N=STEPS.length;
+
+// 2nd stat · count chats routed into a quiz/assessment
+function countSecond(step){return step.routed?1:0}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function el(id){return document.getElementById(id)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(txt){var e=el('stageLabel');e.textContent=txt;e.classList.toggle('vis',!!txt)}
+function conclusionLine(step){
+  if(step.auto)return['Handled automatically · visitor routed','ok'];
+  if(step.hold)return['Safe reply sent · routed to a provider','warn'];
+  return['Awaiting '+NAME+' confirmation…','warn'];
+}
+
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function typeText(id,text,speed){
+  return new Promise(function(resolve){
+    var e=el(id);if(!e){resolve();return}
+    clearInterval(typeIv);e.textContent='';
+    var i=0;
+    typeIv=setInterval(function(){
+      e.textContent+=text[i];i++;
+      var sc=e.closest('.otext');if(sc)sc.scrollTop=sc.scrollHeight;
+      var wg=e.closest('.wgt-screen');if(wg)wg.scrollTop=wg.scrollHeight;
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||9);
+  });
+}
+
+function widgetHTML(step,reveal){
+  var h='<div class="wgt"><div class="wgt-hdr"><div class="wgt-av">◆</div><div class="wgt-hd"><div class="wgt-name">'+esc(step.handle||'BioLimitless Concierge')+'</div><div class="wgt-sub">Selfcare Reimagined · replies instantly</div></div><div class="wgt-dot"></div></div><div class="wgt-screen">';
+  h+='<div class="wgt-note">Visitor on biolimitless.com · '+esc(step.pageNote||'Home')+'</div>';
+  if(step.inbound)h+='<div class="wb in">'+esc(step.inbound)+'</div>';
+  if(reveal){
+    if(step.hold)h+='<div class="wgt-hold">'+esc(step.holdBanner||'⚑ AI SUGGESTION · held for review')+'</div>';
+    h+='<div class="wb out"><span id="aiText"></span></div>';
+  } else if(!step.inbound){
+    h+='<div class="wb-empty">Concierge is typing…</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+function wireHTML(step,reveal){
+  return widgetHTML(step,reveal);
+}
+
+function appendLink(step){
+  if(!step.link)return;
+  var e=el('aiText');if(!e)return;
+  if(step.link.kind==='quiz'){
+    e.insertAdjacentHTML('afterend','<a class="quiz-cta" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener"><span class="qc-ic">◆</span><span class="qc-tx"><b>'+esc(step.link.label)+'</b><span>'+esc(step.link.sub||'')+'</span></span><span class="qc-ar">→</span></a>');
+  } else {
+    e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">📄 '+esc(step.link.label)+'</a>');
+  }
+}
+
+function renderQueue(){
+  var h='';
+  STEPS.forEach(function(s,i){
+    var isDone=done[i],isActive=i===cur;
+    var rowCls='lead-row'+(isActive?' active':'')+(isDone?' done':'');
+    h+='<div class="'+rowCls+'" id="lr'+i+'">'
+      +'<div class="lav">'+esc(s.initials)+'</div>'
+      +'<div class="lead-main">'
+        +'<div class="lead-name">'+esc(s.sender)+'</div>'
+        +'<div class="lead-subj">'+esc(s.subject)+'</div>'
+        +'<div class="lead-prev">'+esc(s.preview)+'</div>'
+      +'</div>'
+      +'<div class="lead-right">'
+        +'<div class="lead-time">'+esc(s.time)+'</div>'
+        +'<div class="lead-tag">'+esc(isDone?s.tagDone:s.tag)+'</div>'
+      +'</div>'
+    +'</div>';
+  });
+  el('qBody').innerHTML=h;
+}
+
+function renderContext(step,revealed){
+  var h='<div class="tile-grid">';
+  step.tiles.forEach(function(t){
+    h+='<div class="tile'+(t.a?' alert':'')+'"><div class="tile-lbl">'+esc(t.l)+'</div><div class="tile-val">'+(revealed||!t.a?esc(t.v):'--')+'</div></div>';
+  });
+  h+='</div>';
+  h+='<div class="icp-box"><div class="icp-ttl">Concierge Playbook</div><div class="icp-list">'
+    +'<span><b>✓</b>"Where do I start?" → educate + Self-Care Assessment</span>'
+    +'<span><b>✓</b>Goal ("more energy") → route to the matching quiz</span>'
+    +'<span><b>✓</b>Condition ("bloating") → 1 of 15 condition quizzes</span>'
+    +'<span><b>✓</b>Product &amp; ingredient facts → answer from KB</span>'
+    +'<span><b class="f">⚑</b>Medical / on medication → never claim · route to a provider</span>'
+    +'<span><b class="f">⚑</b>Ready to start → capture email · notify the team</span>'
+    +'</div></div>';
+  if(revealed){
+    h+='<div class="pitch-box"><div class="pitch-ttl">Why this converts</div>';
+    step.pitch.forEach(function(p){
+      h+='<div class="pitch-item"><div class="pitch-name">'+esc(p.n)+'</div><div class="pitch-copy">'+esc(p.c)+'</div></div>';
+    });
+    h+='</div>';
+  }
+  el('ctxBody').innerHTML=h;
+}
+
+function showFranc(step){
+  var e=el('francCard');if(!e)return;
+  e.style.display='block';
+  e.className='franc-card'+(step.hold?' hold':'');
+  e.innerHTML='<b>'+NAME+' view</b>'+esc(step.francView);
+}
+
+function updateStats(step){
+  if(step.summary)return;
+  stats.h++;
+  stats.a+=countSecond(step);
+  stats.s+=step.saved||0;
+  stats.t+=step.hold?1:0;
+  el('stH').textContent=stats.h;
+  el('stA').textContent=stats.a;
+  el('stS').textContent=stats.s+'m';
+  el('stT').textContent=stats.t;
+}
+
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+
+function enterAwaiting(step){
+  awaiting=true;
+  showFranc(step);
+  el('spill').textContent='Awaiting '+NAME+'’s approval';
+  el('spill').className='spill show await';
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge','b-alert','Confirm');
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace · awaiting '+NAME+' approval';
+  updateNav();
+}
+
+function finalizeAuto(step){
+  showFranc(step);
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Escalated':'Done'));
+  renderContext(step,true);
+  el('statusText').textContent='AI Replace · '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+}
+
+function confirmAction(){
+  if(!awaiting)return;
+  awaiting=false;
+  var step=STEPS[cur];
+  appendBrain('✓',step.confirm.done||'Confirmed','ok');
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show';
+  setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  el('statusText').textContent='AI Replace · '+step.sent;
+  done[cur]=true;
+  updateStats(step);
+  renderQueue();
+  updateNav();
+}
+
+function updateNav(){
+  var step=STEPS[cur];
+  var isDone=done[cur];
+  var isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
+  el('btnSkip').disabled=running;
+  if(running){
+    p.textContent='Running...';p.disabled=true;
+    setBadge('navBadge','b-proc','Running');
+  } else if(awaiting){
+    p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title||'Confirm to continue';
+    el('navCopy').textContent=step.confirm.copy||'Review the draft, then click to confirm.';
+  } else if(reasoned){
+    var dl=step.draftBtn||'DRAFT REPLY';
+    p.textContent=dl;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-live','Draft');
+    el('navTitle').textContent='Reasoning complete';
+    el('navCopy').textContent='Click to have the AI draft the reply.';
+  } else if(!isDone){
+    p.textContent='ANALYZE';p.disabled=false;
+    setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' · '+step.subject;
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
+  } else if(isLast){
+    p.textContent='REPLAY ↺';p.disabled=false;
+    setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Session complete';
+    el('navCopy').textContent='Demo complete. Click Replay to start over.';
+  } else {
+    p.textContent='NEXT →';p.disabled=false;
+    setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' · done';
+    el('navCopy').textContent='Click Next to continue to '+(cur+1<N?STEPS[cur+1].sender:'the summary')+'.';
+  }
+}
+
+function renderStep(){
+  tok++;clearTimers();running=false;awaiting=false;reasoned=false;
+  var step=STEPS[cur];
+  renderQueue();
+  renderContext(step,false);
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Chat loaded · click Analyze to run the AI</span></div>';
+  el('oMeta').textContent='Waiting for AI reasoning';
+  el('oConf').textContent='--';
+  el('oWlbl').textContent=step.wlbl;
+  el('oText').innerHTML=wireHTML(step,false);
+  el('francCard').style.display='none';
+  el('spill').className='spill';
+  setBadge('aiBadge','b-idle','Standby');
+  setBadge('oBadge','b-idle','Ready');
+  setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace · Waiting for presenter';
+  if(done[cur]){restoreDone(step)}
+  updateNav();
+}
+
+function restoreDone(step){
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  showFranc(step);
+  if(step.confirm){
+    appendBrain('✓',step.confirm.done||'Confirmed','ok');
+    el('spill').textContent=step.sent;el('spill').className='spill show';
+    setBadge('oBadge','b-done',step.confirm.badge||'Sent');
+  } else {
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('oBadge',step.auto?'b-done':(step.hold?'b-alert':'b-done'),step.auto?'Sent':(step.hold?'Escalated':'Done'));
+  }
+  setBadge('aiBadge','b-done','Done');
+  renderContext(step,true);
+  updateNav();
+}
+
+async function runStep(){
+  if(running||done[cur]||awaiting)return;
+  running=true;
+  var t=++tok;
+  var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');
+  setBadge('oBadge','b-proc','Drafting');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
+    if(t!==tok)return;
+  }
+  await addDiv(220);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
+  running=false;reasoned=true;
+  setBadge('aiBadge','b-done','Done');
+  el('oMeta').textContent='Reasoning complete · ready to draft';
+  el('statusText').textContent='AI Replace · reasoning complete · ready to draft';
+  updateNav();
+}
+
+async function runDraft(){
+  if(running||!reasoned||done[cur])return;
+  running=true;reasoned=false;
+  var t=++tok;
+  var step=STEPS[cur];
+  updateNav();
+  setBadge('oBadge','b-proc','Drafting');
+  revealOutput(step);
+  await sleep(320);if(t!==tok)return;
+  await typeText('aiText',step.outreach,26);if(t!==tok)return;
+  appendLink(step);
+  running=false;
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function skipNow(){
+  if(done[cur]||awaiting||running)return;
+  clearTimers();tok++;reasoned=false;
+  var step=STEPS[cur];
+  fillBrainComplete(step);
+  revealOutput(step);
+  el('aiText').textContent=step.outreach;
+  appendLink(step);
+  if(step.confirm){enterAwaiting(step)}
+  else{finalizeAuto(step);updateNav()}
+}
+
+function handlePrimary(){
+  if(running)return;
+  if(awaiting){confirmAction();return}
+  if(reasoned){runDraft();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+
+function replay(){
+  clearTimers();tok++;awaiting=false;
+  cur=0;done={};stats={h:0,a:0,s:0,t:0};
+  el('stH').textContent='0';el('stA').textContent='0';
+  el('stS').textContent='0m';el('stT').textContent='0';
+  renderStep();
+}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
