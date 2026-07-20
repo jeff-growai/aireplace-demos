@@ -353,32 +353,7 @@ var STEPS=[
   sent:"Auto · competitor hidden",
   auto:true,saved:7,secs:1,
   tiles:[{l:"Commenter",v:"Business Page",a:true},{l:"Flag",v:"Competitor link"},{l:"Ad spend",v:"Protected"},{l:"Action",v:"Hidden"}],
-  pitch:[{n:"Stops budget skimming",c:"Competitors cannot ride your ad to poach buyers"},{n:"Knows a page from a person",c:"Flags business pages dropping links"},{n:"Protects every dollar",c:"Matters more the harder you scale spend"}]},
-
- {sender:"Founders Wellness Co.",initials:"FW",time:"11:30pm",subject:"On: Peptides ad",
-  preview:"Get it from the original founder here 👉 link",tag:"Impersonation",tagDone:"Hidden",
-  label:"Former Company · Detect + Flag",wlbl:"Meta Ad · Custom Peptides · Awaiting Approval",
-  status:"AI Replace · Cross-checking commenter identity...",draftBtn:"REVIEW + DRAFT",
-  ad:AD_B,cmt:{who:"Founders Wellness Co.",init:"FW",badge:"Page",text:"Same formula, better price. Get it straight from the original founder 👉 founderswellness.co",time:"4m"},
-  verdict:"former",action:"flag",flagLabel:"Former company · implies you still run it",
-  confirm:{btn:"🗑 CONFIRM HIDE + FLAG",done:"Hidden · impersonation flagged to you",badge:"Hidden",title:"Hide this and flag it?",copy:"Hides the comment and flags the impersonation angle for your review."},
-  lines:[
-   ["›","New comment on your Peptides ad","hi"],
-   ["›","Commenter: Founders Wellness Co. (business Page)","warn"],
-   ["›","Cross-check: a company you founded","flag"],
-   ["›","You no longer run it · now a competitor","flag"],
-   ["›","Language: 'the original founder' = you","flag"],
-   ["›","Risk: buyers think this is still you","flag"],
-   ["›","The exact pattern you flagged to watch for","warn"],
-   ["›","Hiding + flagging the impersonation for review","hi"],
-  ],
-  oMeta:"Former company · impersonation · awaiting your ok",conf:"Review",
-  outreach:"This is Founders Wellness Co., the company you founded and no longer run. It is commenting on your paid ads with 'get it from the original founder,' which makes buyers believe this is still you. That confusion sends the customers you paid for straight to them. I have it ready to hide, and I am flagging the impersonation angle so you can decide how far to take it. This is the pattern you asked me to watch for.",
-  francView:"Dr. Nepute view: this is the one that matters. Your former company is using your name recognition against you, on ads you are paying for, and your customers cannot tell the difference. The AI recognized the page, the founder language, and the confusion it creates. It hides on your one click and keeps the record so you can act on the impersonation.",
-  sent:"Hidden · impersonation flagged for review",
-  auto:false,saved:9,secs:1,
-  tiles:[{l:"Commenter",v:"Former company",a:true},{l:"Impersonation",v:"Implies it's you"},{l:"Ad spend",v:"Being poached"},{l:"Action",v:"Hide + flag"}],
-  pitch:[{n:"Catches the hard one",c:"Recognizes your former company hijacking your ads"},{n:"Protects your name",c:"Flags when buyers are led to think it is still you"},{n:"You stay in control",c:"Hides on one click, keeps the record for you"}]}
+  pitch:[{n:"Stops budget skimming",c:"Competitors cannot ride your ad to poach buyers"},{n:"Knows a page from a person",c:"Flags business pages dropping links"},{n:"Protects every dollar",c:"Matters more the harder you scale spend"}]}
 ];
 
 var cur=0,done={},running=false,awaiting=false,reasoned=false,tok=0,typeIv=null,timers=[],
@@ -527,7 +502,6 @@ function renderContext(step,revealed){
     +'<span><b>✓</b>Positive / buying signal → engage + route to funnel</span>'
     +'<span><b>✓</b>Product question → answer (no meds claim) + route</span>'
     +'<span><b class="f">⚑</b>Competitor links → detect + hide</span>'
-    +'<span><b class="f">⚑</b>Former company / impersonation → hide + flag to you</span>'
     +'<span><b>✓</b>Runs on every ad, 24/7, as you scale</span>'
     +'</div></div>';
   if(revealed){
