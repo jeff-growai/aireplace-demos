@@ -133,6 +133,15 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink);min-height:10
 .cw-sys{align-self:center;text-align:center;font:700 10.5px/1.4 var(--mono);color:var(--tealdk);background:var(--teallt);border:1px solid #b0d9cb;border-radius:11px;padding:9px 13px;max-width:92%;opacity:0;transition:opacity .3s}
 .cw-sys.show{opacity:1}
 .cw-sys.guard{color:var(--amber);background:var(--amberlt);border-color:#e0c070}
+.typing.vin{align-self:flex-end;background:var(--brandlt);border-color:#c3ccf5}
+.typing.vin .tcap{color:var(--branddk)}
+.typing.vin .dots i{background:#9fb0f0}
+.cw-start{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 18px}
+.cw-start .sic{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--teal));display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;box-shadow:0 12px 28px rgba(58,84,230,.28)}
+.cw-start h4{font-size:16.5px;font-weight:850;color:var(--ink)}
+.cw-start p{font-size:12.5px;color:var(--muted);line-height:1.55;max-width:255px}
+.cw-start .sbtn{margin-top:4px;border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 12px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:14px 24px;cursor:pointer;box-shadow:0 10px 24px rgba(58,84,230,.32);animation:cglow 1.6s ease-in-out infinite}
+.cw-start .sbtn:hover{background:var(--branddk)}
 .cw-foot{display:flex;align-items:center;gap:9px;padding:11px 13px;border-top:1px solid var(--border);background:#fff}
 .cw-input{flex:1;border:1px solid var(--border);border-radius:100px;background:#f6f8fd;padding:10px 14px;font-size:12.5px;color:var(--muted)}
 .cw-send{width:36px;height:36px;border-radius:50%;background:var(--brand);border:none;color:#fff;font-size:15px;cursor:default;flex:0 0 auto}
@@ -335,8 +344,9 @@ var STEPS=[
   note:"The visitor who usually closes the tab and forgets. Because this captures an email and pings your team, it waits for your one-click approval. Click Capture to fire it live."}
 ];
 
-var cur=0,played=[],running=false,awaiting=false,tok=0,typeIv=null,timers=[],minimized=false;
+var cur=0,started=false,arrived=[],played=[],running=false,awaiting=false,tok=0,typeIv=null,timers=[],minimized=false;
 var N=STEPS.length;
+var INTRO="Click Start to simulate the concierge handling five real visitors, from the first hello. Next brings in each visitor, AI Reply answers, and Show now skips an animation.";
 
 function el(id){return document.getElementById(id)}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -347,13 +357,19 @@ function scrollBody(){var b=el('cwBody');b.scrollTop=b.scrollHeight}
 function openWidget(){minimized=false;el('cw').classList.remove('hidden');el('launcher').classList.add('hidden')}
 function minimizeWidget(){minimized=true;el('cw').classList.add('hidden');el('launcher').classList.remove('hidden')}
 
-function bubble(cls,text,show){
+function bubble(cls,html,show){
   var d=document.createElement('div');d.className='bub '+cls+(show?' show':'');
-  d.innerHTML=text;el('cwBody').appendChild(d);scrollBody();return d;
+  d.innerHTML=html;el('cwBody').appendChild(d);scrollBody();return d;
 }
-function ctaHTML(step){
-  if(!step.cta)return'';
-  return '<a class="cta" href="#" onclick="return false"><span class="cic">◆</span><span class="ctx"><b>'+esc(step.cta.label)+'</b><span>'+esc(step.cta.sub||'')+'</span></span><span class="car">→</span></a>';
+function ctaNode(step){
+  if(!step.cta)return null;
+  var d=document.createElement('div');d.className='cta';
+  d.innerHTML='<span class="cic">◆</span><span class="ctx"><b>'+esc(step.cta.label)+'</b><span>'+esc(step.cta.sub||'')+'</span></span><span class="car">→</span>';
+  return d;
+}
+function sysNode(step){
+  var s=document.createElement('div');s.className='cw-sys'+(step.sysGuard?' guard':'');
+  s.innerHTML=(step.sysGuard?'⚠ ':'✓ ')+esc(step.sys);return s;
 }
 
 function typeInto(node,text,speed){
@@ -366,66 +382,85 @@ function typeInto(node,text,speed){
   });
 }
 
-function baseBody(step){
+function startCard(){
+  el('cwBody').innerHTML='<div class="cw-start"><div class="sic">◆</div><h4>Meet the BioLimitless Concierge</h4><p>See how it handles five real visitors, starting with the very first hello.</p><button class="sbtn" id="startBtn">▶ Click here to start</button></div>';
+  var sb=el('startBtn');if(sb)sb.addEventListener('click',startDemo);
+}
+
+// draw the committed state of the current scenario, no animation
+function drawScenario(){
+  var step=STEPS[cur];
+  if(!started){startCard();return}
   el('cwBody').innerHTML='<div class="cw-note">New chat · '+esc(step.page)+'</div>';
-  bubble('in show',esc(step.inbound),true);
+  if(arrived[cur]||played[cur])bubble('in show',esc(step.inbound),true);
+  if(played[cur]){
+    bubble('out show',esc(step.reply).replace(/\n/g,'<br>'),true);
+    var c=ctaNode(step);if(c){c.classList.add('show');el('cwBody').appendChild(c)}
+    var s=(step.sys)?sysNode(step):null;if(s){s.classList.add('show');el('cwBody').appendChild(s)}
+  }
+  scrollBody();
 }
 
 function renderScenario(){
   tok++;clearTimers();running=false;awaiting=false;
   var step=STEPS[cur];
-  el('pLabel').textContent=step.label.split(' · ')[0].replace(/·/g,'').trim()||step.sender;
-  el('pLabel').textContent=step.label;
+  el('pLabel').textContent=started?step.label:'Ready when you are';
   el('pCount').textContent=(cur+1)+' / '+N;
-  el('pNote').innerHTML='<b>Presenter note</b>'+esc(step.note);
-  baseBody(step);
-  if(played[cur]){restoreScenario(step)}
+  el('pNote').innerHTML='<b>Presenter note</b>'+esc(started?step.note:INTRO);
+  drawScenario();
   updateControls();
 }
 
-function restoreScenario(step){
-  bubble('out show',esc(step.reply).replace(/\n/g,'<br>'),true);
-  if(step.cta){var c=document.createElement('div');c.innerHTML=ctaHTML(step);var node=c.firstChild;node.classList.add('show');el('cwBody').appendChild(node)}
-  if(step.sys){var s=document.createElement('div');s.className='cw-sys show'+(step.sysGuard?' guard':'');s.innerHTML=(step.sysGuard?'⚠ ':'✓ ')+esc(step.sys);el('cwBody').appendChild(s)}
-  scrollBody();
+function startDemo(){
+  if(started||running)return;
+  started=true;
+  var step=STEPS[cur];
+  el('pLabel').textContent=step.label;
+  el('pNote').innerHTML='<b>Presenter note</b>'+esc(step.note);
+  el('cwBody').innerHTML='<div class="cw-note">New chat · '+esc(step.page)+'</div>';
+  simulateArrival();
+}
+
+// a visitor "arrives": typing indicator on the right, then their message
+async function simulateArrival(){
+  if(running)return;
+  if(minimized)openWidget();
+  running=true;var t=++tok;var step=STEPS[cur];updateControls();
+  var typ=document.createElement('div');typ.className='typing vin';
+  typ.innerHTML='<div class="tcap">'+esc(step.sender)+' is typing…</div><div class="dots"><i></i><i></i><i></i></div>';
+  el('cwBody').appendChild(typ);scrollBody();
+  await sleep(1250);if(t!==tok)return;
+  typ.remove();
+  var vb=bubble('in',esc(step.inbound),false);
+  requestAnimationFrame(function(){vb.classList.add('show')});
+  arrived[cur]=true;running=false;scrollBody();updateControls();
 }
 
 async function playReply(){
-  if(running||played[cur])return;
+  if(running||played[cur]||!arrived[cur])return;
   if(minimized)openWidget();
-  running=true;var t=++tok;var step=STEPS[cur];
-  updateControls();
-  // typing indicator
+  running=true;var t=++tok;var step=STEPS[cur];updateControls();
   var typ=document.createElement('div');typ.className='typing';
   typ.innerHTML='<div class="tcap">AI Replace · '+esc(step.thinking||'thinking')+'</div><div class="dots"><i></i><i></i><i></i></div>';
   el('cwBody').appendChild(typ);scrollBody();
   await sleep(1500);if(t!==tok)return;
   typ.remove();
-  // reply bubble types in
   var out=bubble('out show','',true);
   await typeInto(out,step.reply,24);if(t!==tok)return;
-  out.innerHTML=esc(step.reply).replace(/\n/g,'<br>');
-  scrollBody();
+  out.innerHTML=esc(step.reply).replace(/\n/g,'<br>');scrollBody();
   await sleep(240);if(t!==tok)return;
   if(step.cta){
-    var c=document.createElement('div');c.innerHTML=ctaHTML(step);var node=c.firstChild;
-    el('cwBody').appendChild(node);scrollBody();
-    requestAnimationFrame(function(){node.classList.add('show')});
+    var c=ctaNode(step);el('cwBody').appendChild(c);scrollBody();
+    requestAnimationFrame(function(){c.classList.add('show')});
     await sleep(260);if(t!==tok)return;
   }
   running=false;
-  if(step.confirm){awaiting=true;updateControls();}
-  else{finishScenario(step);}
+  if(step.confirm){awaiting=true;updateControls()}
+  else{if(step.sys)appendSys(step);played[cur]=true;updateControls()}
 }
 
-function finishScenario(step){
-  if(step.sys&&!step.confirm){appendSys(step)}
-  played[cur]=true;updateControls();
-}
 function appendSys(step){
-  var s=document.createElement('div');s.className='cw-sys'+(step.sysGuard?' guard':'');
-  s.innerHTML=(step.sysGuard?'⚠ ':'✓ ')+esc(step.sys);
-  el('cwBody').appendChild(s);scrollBody();
+  var s=sysNode(step);el('cwBody').appendChild(s);scrollBody();
   requestAnimationFrame(function(){s.classList.add('show')});
 }
 
@@ -437,36 +472,48 @@ function confirmStep(){
 }
 
 function skipNow(){
-  if(played[cur]||running)return;
+  if(!started||played[cur]||running)return;
   if(minimized)openWidget();
   clearTimers();tok++;running=false;awaiting=false;
-  var step=STEPS[cur];
-  baseBody(step);
-  restoreScenario(step);
-  played[cur]=true;updateControls();
+  arrived[cur]=true;played[cur]=true;
+  drawScenario();updateControls();
+}
+
+function advance(){
+  cur++;renderScenario();
+  if(started&&!arrived[cur]&&!played[cur])simulateArrival();
 }
 
 function updateControls(){
   var step=STEPS[cur];var p=el('pPrimary');
   p.className='pb-primary';
-  el('pPrev').disabled=running||cur===0;
-  el('pSkip').className='pb-sec'+((played[cur]||awaiting||running)?' hidden':'');
-  el('pSkip').disabled=running;
+  el('pPrev').disabled=running||cur===0||!started;
+  var skip=el('pSkip');
+  skip.className='pb-sec'+((!started||played[cur]||awaiting||running||!arrived[cur])?' hidden':'');
+  skip.disabled=running;
+  if(!started){p.textContent='▶ CLICK HERE TO START';p.disabled=false;p.classList.add('glow');return}
   if(running){p.textContent='Running…';p.disabled=true;return}
   if(awaiting){p.textContent=step.confirmBtn||'✓ CONFIRM';p.disabled=false;p.classList.add('glow','confirm');return}
+  if(!arrived[cur]){p.textContent='▶ BRING VISITOR IN';p.disabled=false;p.classList.add('glow');return}
   if(!played[cur]){p.textContent='▶ AI REPLY';p.disabled=false;p.classList.add('glow');return}
   if(cur>=N-1){p.textContent='↺ REPLAY';p.disabled=false;return}
-  p.textContent='NEXT →';p.disabled=false;p.classList.add('glow');
+  p.textContent='NEXT VISITOR →';p.disabled=false;p.classList.add('glow');
 }
 
 function handlePrimary(){
   if(running)return;
+  if(!started){startDemo();return}
   if(awaiting){confirmStep();return}
+  if(!arrived[cur]){simulateArrival();return}
   if(!played[cur]){playReply();return}
   if(cur>=N-1){replay();return}
-  cur++;renderScenario();
+  advance();
 }
-function replay(){cur=0;played=[];renderScenario()}
+
+function replay(){
+  clearTimers();tok++;cur=0;started=false;arrived=[];played=[];awaiting=false;running=false;
+  renderScenario();
+}
 
 el('pPrimary').addEventListener('click',handlePrimary);
 el('pSkip').addEventListener('click',skipNow);
