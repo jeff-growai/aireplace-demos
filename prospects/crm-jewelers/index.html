@@ -570,7 +570,7 @@ function inboxHTML(step){
 function typingHTML(){return '<div class="pb out ptyping" id="ptyp"><span></span><span></span><span></span></div>';}
 function phoneHTML(step,reveal,instant){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
-  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen" id="phScreen">';
+  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen'+(instant?'':' inboxmode')+'" id="phScreen">';
   if(instant){
     if(step.story)h+=storyHTML(step.story);
     if(step.thread)step.thread.forEach(function(m){h+=bubbleHTML(m)});
