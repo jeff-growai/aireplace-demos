@@ -560,8 +560,10 @@ function updateNav(){
   var step=STEPS[cur],isDone=done[cur],isLast=cur===N-1;
   var p=el('btnPrimary');p.className='btn-primary';
   el('btnPrev').disabled=running||cur===0;
-  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
-  el('btnSkip').disabled=running;
+  // Skip stays live DURING animations so the presenter can cut the slow reveal short
+  el('btnSkip').className='btn-sec'+((isDone||awaiting)?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
   if(running){p.textContent='Running...';p.disabled=true;setBadge('navBadge','b-proc','Running');}
   else if(awaiting){p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
     setBadge('navBadge','b-alert','Confirm');
@@ -643,8 +645,9 @@ async function runDraft(){
   if(step.confirm){enterAwaiting(step)}else{finalizeAuto(step);updateNav()}
 }
 function skipNow(){
-  if(done[cur]||awaiting||running)return;
-  clearTimers();tok++;reasoned=false;
+  if(done[cur]||awaiting)return;
+  // tok++ aborts any in-flight reasoning / typing, then we jump to the finished state
+  clearTimers();tok++;running=false;reasoned=false;
   var step=STEPS[cur];
   fillBrainComplete(step);revealOutput(step);
   el('aiText').textContent=step.outreach;appendLink(step);
