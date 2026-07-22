@@ -544,8 +544,9 @@ function finalize(step){
 }
 
 function skipNow(){
-  if(done[cur]||running)return;
-  clearTimers();tok++;reasoned=false;
+  if(done[cur])return;
+  // tok++ aborts any in-flight reasoning / typing, then we jump to the finished state
+  clearTimers();tok++;running=false;reasoned=false;
   var step=STEPS[cur];
   fillBrainComplete(step);
   setBadge('aiBadge','b-done','Done');
@@ -562,8 +563,10 @@ function updateNav(){
   var p=el('btnPrimary');
   p.className='btn-primary';
   el('btnPrev').disabled=running||cur===0;
-  el('btnSkip').className='btn-sec'+((isDone||running)?' hidden':'');
-  el('btnSkip').disabled=running;
+  // Skip stays live DURING animations so the presenter can cut the slow reveal short
+  el('btnSkip').className='btn-sec'+(isDone?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
   if(running){
     p.textContent='Running...';p.disabled=true;
     setBadge('navBadge','b-proc','Running');
