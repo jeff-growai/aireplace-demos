@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace · OptiWize Comment & DM FAQs</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f5;--white:#fff;--ink:#1c1a17;--body:#4a453e;--muted:#948d84;--border:#e8e1d8;
+  --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
+  --brand:#c2521c;--branddk:#9b400f;--brandlt:#fdefe6;
+  --red:#c22b2b;--redlt:#fdeeee;--amber:#8c5c0a;--amberlt:#fef5e8;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(255,253,250,.95);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(120,70,30,.07)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(253,239,230,.95);border:1px solid #f0cdb2;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(194,82,28,.12)}
+.stage-label.vis{opacity:1}
+.scene{width:min(1180px,96vw);margin:0 auto;height:100vh;padding:68px 0 76px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:14px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(120,70,30,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#fdfbf8;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#f2eee9;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.left-col{grid-column:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+.queue-card{flex:1;min-height:0}
+.qtool{padding:8px 12px;background:var(--white);border-bottom:1px solid var(--border);font:600 9.5px/1.4 var(--mono);color:var(--muted)}
+.qbody{flex:1;overflow:auto}
+.lead-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:8px 12px;border-bottom:1px solid #f3efe9;background:var(--white);transition:background .25s,opacity .25s}
+.lead-row.active{background:var(--brandlt)}
+.lead-row.done{opacity:.6}
+.lav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 10px/1 var(--mono);background:var(--brand)}
+.lead-main{min-width:0}
+.lead-name{font-size:12px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.ch-chip{font:800 7.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:3px 5px;flex:0 0 auto}
+.ch-chip.cmt{background:var(--brandlt);color:var(--branddk);border:1px solid #f0cdb2}
+.ch-chip.dm{background:#eef0ff;color:#3a45a8;border:1px solid #c9cef0}
+.lead-subj{font-size:11px;font-weight:650;color:var(--body);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-prev{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.lead-time{font:600 9px/1 var(--mono);color:var(--muted)}
+.lead-tag{font:800 8px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:3px 6px;background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.lead-row.done .lead-tag{background:var(--teallt);color:var(--tealdk);border-color:#b0d9cb}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px}
+.ss{border:1px solid var(--border);border-radius:9px;padding:8px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#f0cdb2}
+.ss:nth-child(2){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(3){background:var(--teallt);border-color:#b0d9cb}
+.ss:nth-child(4){background:var(--amberlt);border-color:#e0c070}
+.ss-num{font:900 18px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(2) .ss-num,.ss:nth-child(3) .ss-num{color:var(--tealdk)}
+.ss:nth-child(4) .ss-num{color:var(--amber)}
+.ss-lbl{font-size:7.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.work-col{grid-column:2;display:flex;flex-direction:column;gap:12px;min-height:0}
+.brain-card{flex:0 0 172px}
+.brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.outreach-card{flex:1 1 auto;min-height:0}
+.ob{padding:13px;display:flex;flex-direction:column;flex:1;min-height:0}
+.ometa{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:7px;font:600 10px/1.5 var(--mono);color:var(--muted)}
+.ometa b{color:var(--tealdk)}
+.oconf{align-self:start;border:1px solid #b0d9cb;background:var(--teallt);color:var(--tealdk);border-radius:100px;padding:5px 9px;font:800 10px/1 var(--mono)}
+.owlbl{font:800 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.otext{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 2px}
+/* ---- social post + comment ---- */
+.post{border:1px solid var(--border);border-radius:13px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(120,70,30,.05);max-width:560px}
+.post-hdr{display:flex;align-items:center;gap:10px;padding:11px 13px 8px}
+.post-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#e0873f);display:flex;align-items:center;justify-content:center;color:#fff;font:900 12px/1 var(--mono);flex:0 0 auto}
+.post-name{font-weight:800;font-size:13px;color:var(--ink)}
+.post-sub{font:600 9.5px/1.3 var(--mono);color:var(--muted);margin-top:1px}
+.post-more{margin-left:auto;color:var(--muted);font-weight:900;letter-spacing:1px}
+.post-cap{padding:0 13px 10px;font-size:12.5px;font-weight:650;color:var(--ink);line-height:1.45}
+.post-img{height:132px;background:linear-gradient(140deg,#8a3b12 0%,#5c2a12 55%,#33180b 100%);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+.post-img .pk{font:800 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:7px}
+.post-img .ph2{font-size:15px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.2}
+.post-img .ps{font-size:9.5px;color:rgba(255,255,255,.6);margin-top:5px}
+.post-tag{position:absolute;top:9px;left:9px;font:800 8px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--branddk);border-radius:100px;padding:5px 9px}
+.post-bar{display:flex;align-items:center;gap:13px;padding:8px 13px;font:700 10.5px/1 var(--mono);color:var(--muted);border-bottom:1px solid var(--border)}
+.post-cmts{padding:11px 13px;display:flex;flex-direction:column;gap:4px}
+.pc{display:flex;gap:9px;align-items:flex-start}
+.pc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px/1 var(--mono);flex:0 0 auto}
+.pc-main{flex:1;min-width:0}
+.pc-bub{background:#f4f1ec;border-radius:13px;padding:8px 11px}
+.pc-bub.brandbub{background:var(--brandlt);border:1px solid #f0cdb2}
+.pc-name{font-weight:800;font-size:11.5px;color:var(--ink)}
+.pc-text{font-size:11.5px;color:var(--body);line-height:1.45;margin-top:3px;white-space:pre-wrap}
+.pc-meta{font:600 8.5px/1 var(--mono);color:var(--muted);margin-top:5px;padding-left:3px}
+.pc.reply{margin-left:28px;margin-top:9px}
+.pc-chip{margin:9px 0 2px 65px;display:inline-block;background:#eef0ff;color:#3a45a8;border:1px solid #c9cef0;border-radius:100px;padding:5px 10px;font:800 8.5px/1 var(--mono)}
+/* ---- DM phone ---- */
+.phone{max-width:360px;margin:0 auto;background:#14110e;border-radius:26px;padding:8px;box-shadow:0 18px 44px rgba(0,0,0,.26)}
+.ph-hdr{display:flex;align-items:center;gap:9px;padding:10px 12px 11px;color:#fff}
+.ph-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#e0873f);display:flex;align-items:center;justify-content:center;font:900 10px/1 var(--mono);color:#fff;flex:0 0 auto}
+.ph-h{font-weight:800;font-size:13px;color:#fff}
+.ph-c{margin-left:auto;font:700 8.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#a09a92}
+.ph-screen{background:#fff;border-radius:4px 4px 19px 19px;padding:14px 12px;display:flex;flex-direction:column;gap:9px;height:clamp(280px,42vh,420px);overflow-y:auto;justify-content:flex-start}
+.ph-screen>*:first-child{margin-top:auto}
+.pb{max-width:82%;padding:10px 13px;font-size:12.5px;line-height:1.5;border-radius:16px;white-space:pre-wrap}
+.pb.in{align-self:flex-start;background:#f0edE8;background:#f0ede8;color:#14110e;border-bottom-left-radius:5px}
+.pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.pb-hold{align-self:stretch;background:var(--amberlt);border:1px solid #e0c070;color:var(--amber);font:800 9.5px/1.4 var(--mono);border-radius:9px;padding:8px 11px}
+/* ---- links ---- */
+.link-row{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:11px}
+.guide-link{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #f0cdb2;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link:hover{background:#fbe2d0}
+.spill{font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--teal);border-radius:100px;padding:7px 12px;opacity:0;transition:opacity .25s;margin-top:9px;align-self:flex-start}
+.spill.show{opacity:1}
+.spill.hold{background:var(--amber)}
+.empty-msg{display:flex;align-items:center;justify-content:center;min-height:60px;color:var(--muted);font-size:12px;font-style:italic;padding:14px}
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(960px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(255,253,250,.97);border:1px solid var(--border);box-shadow:0 12px 32px rgba(120,70,30,.13);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(194,82,28,.25);white-space:nowrap}
+.btn-primary:disabled{background:#d8cec4;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(194,82,28,.5)}60%{box-shadow:0 0 0 14px rgba(194,82,28,0)}100%{box-shadow:0 0 0 0 rgba(194,82,28,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#fdfbf8;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#f0cdb2;color:var(--branddk);background:var(--brandlt)}
+.btn-sec.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">OptiWize</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Jaime's comments + DMs · 24/7</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="left-col">
+    <section class="card queue-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Comments &amp; DMs · OptiWize</div>
+        <div class="cbadge b-live" id="qBadge">Live</div>
+      </div>
+      <div class="qtool">Facebook + Instagram · answered around the clock</div>
+      <div class="qbody" id="qBody"></div>
+    </section>
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Answered</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Routed to Buy</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0m</div><div class="ss-lbl">Mins Saved</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Escalated</div></div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="work-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Question loaded · click Analyze to run the AI</span></div>
+      </div>
+    </div>
+    <div class="card outreach-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">AI Output</div>
+        <div class="cbadge b-idle" id="oBadge">Ready</div>
+      </div>
+      <div class="ob">
+        <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
+        <div class="owlbl" id="oWlbl"></div>
+        <div class="otext" id="oText"><div class="empty-msg">The question loads after you click Analyze.</div></div>
+        <div class="spill" id="spill">Output pending</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Comment feed loaded</b><span id="navCopy">Click Analyze to run the AI on the first question.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var NAME="Jaime";var ITEM="question";
+var POST_A={name:"OptiWize",sub:"Sponsored · Facebook",cap:"One formula. Horses, livestock, dogs, and you. 10-in-1 joint support built for performance.",
+  kicker:"Purpose-Built · Performance-Driven",head:"OptiWize 10-in-1 Collagen Plus",sub2:"Collagen · MSM · HA · Glucosamine · Chondroitin",tag:"Ad · Collagen Plus",likes:"2.1k",cmts:"184",shares:"73"};
+var POST_B={name:"OptiWize",sub:"Sponsored · Instagram",cap:"Trusted in the barn, the arena, and at home. Same formula, scaled to who needs it.",
+  kicker:"Equine · Livestock · Pet · Human",head:"Built for every athlete you own",sub2:"Including the two-legged one",tag:"Ad · Multi-Species",likes:"1.6k",cmts:"142",shares:"51"};
+
+var STEPS=[
+ {sender:"Dana R.",initials:"DR",av:"#4c9be8",time:"11:42pm",channel:"comment",
+  subject:"Comment · will this work for my dog?",
+  preview:"9 year old lab. Thinks it might be horses only.",tag:"Product Q",tagDone:"Answered",
+  label:"Comment · Species Routing",wlbl:"Facebook Ad · public comment reply",
+  status:"AI Replace · Reading a new comment...",draftBtn:"DRAFT REPLY",
+  post:POST_A,cmt:{who:"Dana R.",text:"Will this work for my 9 year old lab? Or is this just for horses?",time:"4m"},
+  dmChip:"DM sent · pet serving guide + link",
+  lines:[
+   ["›","New comment on your Collagen Plus ad","hi"],
+   ["›","Question type: species fit","hi"],
+   ["›","Knowledge base: one formula, four audiences","ok"],
+   ["›","Equine · livestock · pet · human","dim"],
+   ["›","Match: senior dog · pet serving size","ok"],
+   ["›","Rule: answer publicly, send the detail by DM","ok"],
+   ["›","Public answer keeps it visible for the next 50 people","hi"],
+   ["›","Drafting the reply in your voice...",""],
+  ],
+  oMeta:"Auto · answered publicly + DM sent",conf:"Auto",
+  outreach:"Great question Dana! 🐾 Yes, the same 10-in-1 formula is made for dogs too, we just scale the serving to their weight. For a 9 year old lab you'd want the pet size, and senior dogs are honestly who we hear the best feedback from.\n\nI've sent you a DM with the exact serving for his weight and a link so you can see the label.",
+  sent:"Auto · comment answered + DM sent",
+  auto:true,routed:true,saved:6},
+
+ {sender:"Wade T.",initials:"WT",av:"#c2521c",time:"10:18pm",channel:"comment",
+  subject:"Comment · dosing for a 1,200 lb horse",
+  preview:"Wants the feeding rate for a gelding.",tag:"Dosing",tagDone:"Answered",
+  label:"Comment · Dosing by Weight",wlbl:"Facebook Ad · public comment reply",
+  status:"AI Replace · Looking up the feeding rate...",draftBtn:"DRAFT REPLY",
+  post:POST_A,cmt:{who:"Wade T.",text:"how much do you feed a 1200 lb gelding? and how long is the loading dose",time:"12m"},
+  links:[{label:"Equine feeding chart · by body weight",url:"#"}],
+  lines:[
+   ["›","New comment · dosing question","hi"],
+   ["›","Species: equine · body weight 1,200 lb","hi"],
+   ["›","Highest volume question you get","dim"],
+   ["›","Pulling the equine feeding chart","ok"],
+   ["›","Loading period then maintenance","ok"],
+   ["›","Answer with the number, then link the chart","ok"],
+   ["›","No vague 'DM us' brush off","hi"],
+   ["›","Drafting the reply...",""],
+  ],
+  oMeta:"Auto · exact feeding rate from the chart",conf:"Auto",
+  outreach:"Hey Wade! For a 1,200 lb horse you're looking at 2 scoops a day for the first 30 days as the loading period, then down to 1 scoop a day for maintenance.\n\nEasiest way to do it is split it across his morning and evening feed. Full chart by body weight is linked below if you've got others in different weight classes.",
+  sent:"Auto · dosing answered publicly",
+  auto:true,routed:false,saved:5},
+
+ {sender:"Jerry M.",initials:"JM",av:"#5c8a3a",time:"9:04pm",channel:"comment",
+  subject:"Comment · where can I buy it?",
+  preview:"Asks if it's Amazon only or at the feed store.",tag:"Where to buy",tagDone:"Routed",
+  label:"Comment · Retail Routing",wlbl:"Instagram Ad · public comment reply",
+  status:"AI Replace · Checking where it's stocked...",draftBtn:"DRAFT REPLY",
+  post:POST_B,cmt:{who:"Jerry M.",text:"Can I get this at Valley Vet or is it Amazon only? I'd rather grab it locally",time:"21m"},
+  dmChip:"DM sent · direct link + WLCM10",
+  links:[{label:"Shop direct · optiwizehealth.com",url:"#"}],
+  lines:[
+   ["›","New comment · purchase intent","hi"],
+   ["›","He is ready to buy · do not lose him","hi"],
+   ["›","Stocked: Amazon, Valley Vet, Big Dee's","ok"],
+   ["›","Also: Western Ranch Supply, HF&C Feed","ok"],
+   ["›","He prefers local · lead with the retailers","ok"],
+   ["›","Direct also carries the WLCM10 first order code","hi"],
+   ["›","Answer publicly, DM the link and the code","ok"],
+   ["›","Drafting the reply...",""],
+  ],
+  oMeta:"Auto · retail options + direct link",conf:"Auto",
+  outreach:"You've got options Jerry! We're carried at Valley Vet, Big Dee's, Western Ranch Supply and HF&C Feed, plus Amazon if that's easier.\n\nIf you'd rather order direct we ship fast and I can get you 10% off your first one. Sending you the link and the code in a DM now 👍",
+  sent:"Auto · routed to retail + DM sent",
+  auto:true,routed:true,saved:6},
+
+ {sender:"@marla.ridesbay",initials:"MR",av:"#8e5cb6",time:"8:37pm",channel:"dm",net:"Instagram",
+  subject:"DM · can I take this myself?",
+  preview:"Uses the equine version on her mare, wants it for her knees.",tag:"Product Q",tagDone:"Answered",
+  label:"DM · Cross-Sell to Human Line",wlbl:"Instagram DM · direct reply",
+  status:"AI Replace · Reading a new DM...",draftBtn:"DRAFT REPLY",
+  inbound:"Hey! I've been giving the equine one to my mare for about 6 months and she moves so much better. Random question, can I take this myself? My knees are shot lol",
+  links:[{label:"Human 10-in-1 capsules · shop",url:"#"}],
+  lines:[
+   ["›","New DM on Instagram","hi"],
+   ["›","Existing customer · equine, 6 months","ok"],
+   ["›","Asking whether the equine product is human safe","warn"],
+   ["›","Rule: never tell her to take the horse version","flag"],
+   ["›","There is a human capsule line · route her there","ok"],
+   ["›","Same 10-in-1 base, formulated for people","ok"],
+   ["›","Warm existing customer · high intent","hi"],
+   ["›","Drafting the reply...",""],
+  ],
+  oMeta:"Auto · routed to the human capsule line",conf:"Auto",
+  outreach:"That's so good to hear about your mare 🐴 six months is right where people start noticing a real difference.\n\nAnd yes, but please don't take her scoops. We make a human version, the 10-in-1 capsules, same core formula just built for people rather than a 1,200 lb athlete.\n\nI've linked it below. A lot of our barn customers end up on both.",
+  sent:"Auto · answered + cross-sold to human line",
+  auto:true,routed:true,saved:7},
+
+ {sender:"@bethanyk_",initials:"BK",av:"#d17a1e",time:"7:52pm",channel:"dm",net:"Instagram",
+  subject:"DM · how long until I see results?",
+  preview:"Just ordered for her older dog, wants a timeline.",tag:"Product Q",tagDone:"Answered",
+  label:"DM · Expectation Setting",wlbl:"Instagram DM · direct reply",
+  status:"AI Replace · Reading a new DM...",draftBtn:"DRAFT REPLY",
+  inbound:"just placed my first order for my 11 yr old shepherd. how long before I should expect to see anything? don't want to give up too early",
+  lines:[
+   ["›","New DM · post purchase question","hi"],
+   ["›","Top reason people quit early is no timeline","warn"],
+   ["›","Give an honest window, not a promise","ok"],
+   ["›","Typical feedback: first changes around 3 to 6 weeks","ok"],
+   ["›","No claim that it treats or cures anything","flag"],
+   ["›","Consistency matters more than dose size","ok"],
+   ["›","Setting the expectation protects the reorder","hi"],
+   ["›","Drafting the reply...",""],
+  ],
+  oMeta:"Auto · honest timeline, no health claim",conf:"Auto",
+  outreach:"Congrats on the order, and good on you for asking 🙌\n\nMost people tell us they start noticing something around the 3 to 6 week mark, and it tends to be small things first, getting up easier, more willing on stairs, that kind of thing. Some see it sooner, some take a little longer.\n\nThe one thing that matters most is giving it every day without gaps. If you're at week 4 and unsure, message me here and I'll check in with you rather than you quietly giving up.",
+  sent:"Auto · expectation set, reorder protected",
+  auto:true,routed:false,saved:6},
+
+ {sender:"@cole.performance",initials:"CP",av:"#c22b2b",time:"6:29pm",channel:"dm",net:"Instagram",
+  subject:"DM · arthritis diagnosis + on bute",
+  preview:"Asks if it will fix arthritis and mix with medication.",tag:"Medical",tagDone:"Escalated",
+  label:"DM · Vet Claim Guardrail",wlbl:"Instagram DM · held for your team",
+  status:"AI Replace · Triaging a health question...",draftBtn:"DRAFT REPLY",
+  inbound:"my mare just got diagnosed with arthritis in both hocks and the vet has her on bute. will this fix her joints? and is it safe to give with the bute?",
+  hold:true,
+  holdBanner:"⚠ HELD · diagnosed condition + medication · this reply was NOT auto sent",
+  lines:[
+   ["›","New DM · health question","flag"],
+   ["›","Detected: veterinary diagnosis (arthritis, hocks)","flag"],
+   ["›","Detected: prescription medication (bute)","flag"],
+   ["›","Asking will it 'fix' + is it safe to combine","warn"],
+   ["›","Rule: no treatment claims, ever","flag"],
+   ["›","Rule: no drug interaction advice, ever","flag"],
+   ["›","AI Exclusion: route to her vet + flag for your team","flag"],
+   ["›","Drafting a safe, warm reply with zero claims","ok"],
+  ],
+  oMeta:"Held · vet claim guardrail · routed to her vet",conf:"Hold",
+  outreach:"Sorry to hear about your mare, hocks are tough and I know that diagnosis is hard to get.\n\nI want to be straight with you rather than tell you what you want to hear. I can't tell you it will fix arthritis, and I'm not the right one to say whether it's fine alongside bute. That's genuinely a question for her vet, and since they already know her case they can answer it properly in about a minute.\n\nWhat I can do is send you our full ingredient panel so you can forward it straight to them. If they give you the go ahead, I'll help you get the loading rate right for her weight.\n\nI've also flagged this to our team so someone here follows up with you personally.",
+  sent:"Held for your team · routed to her vet (NOT sent)",
+  auto:false,routed:false,saved:0}
+];
+
+var cur=0,done={},running=false,reasoned=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,rt:0,s:0,esc:0};
+var N=STEPS.length;
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function el(id){return document.getElementById(id)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(t){var e=el('stageLabel');e.textContent=t;e.classList.toggle('vis',!!t)}
+function conclusionLine(step){
+  if(step.hold)return['Draft ready · held for your team','warn'];
+  if(step.channel==='comment')return['Reply ready to post','ok'];
+  return['Reply ready to send','ok'];
+}
+
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  var d2=document.createElement('div');d2.className='bl show';
+  d2.innerHTML='<span class="bp">✓</span><span class="bt '+cl[1]+'">'+esc(cl[0])+'</span>';
+  el('brainBody').appendChild(d2);
+}
+function typeText(id,text,speed){
+  return new Promise(function(resolve){
+    var e=el(id);if(!e){resolve();return}
+    clearInterval(typeIv);e.textContent='';
+    var i=0;
+    typeIv=setInterval(function(){
+      e.textContent+=text[i];i++;
+      var sc=e.closest('.otext');if(sc)sc.scrollTop=sc.scrollHeight;
+      var ph=e.closest('.ph-screen');if(ph)ph.scrollTop=ph.scrollHeight;
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||26);
+  });
+}
+
+function postHTML(step,reveal){
+  var p=step.post,c=step.cmt;
+  var h='<div class="post">'
+   +'<div class="post-hdr"><div class="post-av">OW</div><div><div class="post-name">'+esc(p.name)+'</div><div class="post-sub">'+esc(p.sub)+'</div></div><div class="post-more">•••</div></div>'
+   +'<div class="post-cap">'+esc(p.cap)+'</div>'
+   +'<div class="post-img"><span class="post-tag">'+esc(p.tag)+'</span><div class="pk">'+esc(p.kicker)+'</div><div class="ph2">'+esc(p.head)+'</div><div class="ps">'+esc(p.sub2)+'</div></div>'
+   +'<div class="post-bar"><span>👍 '+esc(p.likes)+'</span><span>💬 '+esc(p.cmts)+'</span><span>↗ '+esc(p.shares)+'</span></div>'
+   +'<div class="post-cmts">'
+   +'<div class="pc"><div class="pc-av" style="background:'+esc(step.av)+'">'+esc(step.initials)+'</div><div class="pc-main">'
+     +'<div class="pc-bub"><div class="pc-name">'+esc(c.who)+'</div><div class="pc-text">'+esc(c.text)+'</div></div>'
+     +'<div class="pc-meta">'+esc(c.time)+' · Like · Reply</div></div></div>';
+  if(reveal){
+    h+='<div class="pc reply"><div class="pc-av" style="background:linear-gradient(135deg,var(--brand),#e0873f)">OW</div><div class="pc-main">'
+      +'<div class="pc-bub brandbub"><div class="pc-name">OptiWize</div><div class="pc-text"><span id="aiText"></span></div></div>'
+      +'<div class="pc-meta">Just now · Like · Reply</div></div></div>';
+    if(step.dmChip)h+='<div class="pc-chip">✉ '+esc(step.dmChip)+'</div>';
+  }
+  return h+'</div></div>';
+}
+function dmHTML(step,reveal){
+  var h='<div class="phone"><div class="ph-hdr"><div class="ph-av">'+esc(step.initials)+'</div><div class="ph-h">'+esc(step.sender)+'</div><div class="ph-c">'+esc(step.net||'Instagram')+'</div></div><div class="ph-screen">';
+  h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+  if(reveal){
+    if(step.hold)h+='<div class="pb-hold">'+esc(step.holdBanner)+'</div>';
+    h+='<div class="pb out"><span id="aiText"></span></div>';
+  }
+  return h+'</div></div>';
+}
+function wireHTML(step,reveal){
+  return step.channel==='comment'?postHTML(step,reveal):dmHTML(step,reveal);
+}
+function appendLink(step){
+  var list=step.links||(step.link?[step.link]:null);
+  if(!list)return;
+  var e=el('aiText');if(!e)return;
+  var h='';
+  for(var i=0;i<list.length;i++){
+    h+='<a class="guide-link" href="'+esc(list[i].url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(list[i].label)+'</a>';
+  }
+  var host=el('oText');
+  host.insertAdjacentHTML('beforeend','<div class="link-row">'+h+'</div>');
+}
+
+function renderQueue(){
+  var h='';
+  STEPS.forEach(function(s,i){
+    var isDone=done[i],isActive=i===cur;
+    var chip=s.channel==='comment'?'<span class="ch-chip cmt">Comment</span>':'<span class="ch-chip dm">DM</span>';
+    h+='<div class="lead-row'+(isActive?' active':'')+(isDone?' done':'')+'">'
+      +'<div class="lav" style="background:'+esc(s.av)+'">'+esc(s.initials)+'</div>'
+      +'<div class="lead-main"><div class="lead-name">'+esc(s.sender)+chip+'</div>'
+      +'<div class="lead-subj">'+esc(s.subject)+'</div>'
+      +'<div class="lead-prev">'+esc(s.preview)+'</div></div>'
+      +'<div class="lead-right"><div class="lead-time">'+esc(s.time)+'</div>'
+      +'<div class="lead-tag">'+esc(isDone?s.tagDone:s.tag)+'</div></div></div>';
+  });
+  el('qBody').innerHTML=h;
+}
+function recountStats(){
+  stats={h:0,rt:0,s:0,esc:0};
+  for(var i=0;i<N;i++){if(!done[i])continue;var s=STEPS[i];
+    stats.h++;if(s.routed)stats.rt++;stats.s+=s.saved||0;if(s.hold)stats.esc++;}
+  el('stH').textContent=stats.h;el('stA').textContent=stats.rt;
+  el('stS').textContent=stats.s+'m';el('stT').textContent=stats.esc;
+}
+
+function revealOutput(step){
+  el('oMeta').innerHTML='<b>'+esc(step.oMeta)+'</b>';
+  el('oConf').textContent=step.conf;
+  el('oText').innerHTML=wireHTML(step,true);
+}
+function finalize(step){
+  el('spill').textContent=step.sent;
+  el('spill').className='spill show'+(step.hold?' hold':'');
+  setBadge('aiBadge','b-done','Done');
+  setBadge('oBadge',step.hold?'b-alert':'b-done',step.hold?'Held':(step.channel==='comment'?'Posted':'Sent'));
+  el('statusText').textContent='AI Replace · '+step.sent;
+  done[cur]=true;recountStats();renderQueue();
+}
+
+function updateNav(){
+  var step=STEPS[cur],isDone=done[cur],isLast=cur===N-1;
+  var p=el('btnPrimary');p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  el('btnSkip').className='btn-sec'+(isDone?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
+  if(running){p.textContent='Running...';p.disabled=true;setBadge('navBadge','b-proc','Running');}
+  else if(reasoned){p.textContent=step.draftBtn||'DRAFT';p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-live','Draft');
+    el('navTitle').textContent='Reasoning complete';
+    el('navCopy').textContent='Click to have the AI write the '+(step.channel==='comment'?'public reply':'DM reply')+'.';}
+  else if(!isDone){p.textContent='ANALYZE';p.disabled=false;setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' · '+step.subject;
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';}
+  else if(isLast){p.textContent='REPLAY ↺';p.disabled=false;setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Session complete';el('navCopy').textContent='Demo complete. Click Replay to start over.';}
+  else{p.textContent='NEXT →';p.disabled=false;setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' · done';
+    el('navCopy').textContent='Click Next to continue to '+STEPS[cur+1].sender+'.';}
+}
+
+function renderStep(){
+  tok++;clearTimers();running=false;reasoned=false;
+  var step=STEPS[cur];
+  renderQueue();recountStats();
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Question loaded · click Analyze to run the AI</span></div>';
+  el('oMeta').textContent='Waiting for AI reasoning';
+  el('oConf').textContent='--';
+  el('oWlbl').textContent=step.wlbl;
+  el('oText').innerHTML=wireHTML(step,false);
+  el('spill').className='spill';
+  setBadge('aiBadge','b-idle','Standby');setBadge('oBadge','b-idle','Ready');setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace · Waiting for presenter';
+  if(done[cur]){
+    fillBrainComplete(step);revealOutput(step);
+    el('aiText').textContent=step.outreach;appendLink(step);
+    el('spill').textContent=step.sent;el('spill').className='spill show'+(step.hold?' hold':'');
+    setBadge('aiBadge','b-done','Done');
+    setBadge('oBadge',step.hold?'b-alert':'b-done',step.hold?'Held':(step.channel==='comment'?'Posted':'Sent'));
+  }
+  updateNav();
+}
+
+async function runStep(){
+  if(running||done[cur])return;
+  running=true;var t=++tok;var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');setBadge('oBadge','b-proc','Working');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
+    if(t!==tok)return;
+  }
+  await addDiv(220);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
+  running=false;reasoned=true;
+  setBadge('aiBadge','b-done','Done');
+  el('oMeta').textContent='Reasoning complete · ready to draft';
+  el('statusText').textContent='AI Replace · reasoning complete · ready to draft';
+  updateNav();
+}
+async function runDraft(){
+  if(running||!reasoned||done[cur])return;
+  running=true;reasoned=false;var t=++tok;var step=STEPS[cur];
+  updateNav();setBadge('oBadge','b-proc','Writing');
+  revealOutput(step);
+  await sleep(320);if(t!==tok)return;
+  await typeText('aiText',step.outreach,26);if(t!==tok)return;
+  appendLink(step);
+  running=false;finalize(step);updateNav();
+}
+function skipNow(){
+  if(done[cur])return;
+  clearTimers();tok++;running=false;reasoned=false;
+  var step=STEPS[cur];
+  fillBrainComplete(step);revealOutput(step);
+  el('aiText').textContent=step.outreach;appendLink(step);
+  finalize(step);updateNav();
+}
+function handlePrimary(){
+  if(running)return;
+  if(reasoned){runDraft();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+function replay(){clearTimers();tok++;cur=0;done={};renderStep()}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
