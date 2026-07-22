@@ -127,6 +127,15 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .pb.in{align-self:flex-start;background:#f0edE8;background:#f0ede8;color:#14110e;border-bottom-left-radius:5px}
 .pb.out{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
 .pb-hold{align-self:stretch;background:var(--amberlt);border:1px solid #e0c070;color:var(--amber);font:800 9.5px/1.4 var(--mono);border-radius:9px;padding:8px 11px}
+/* ---- attached review (Seth's pattern) ---- */
+.rev{margin-top:9px;background:#fffaf5;border:1px solid #f0cdb2;border-left:3px solid var(--brand);border-radius:9px;padding:9px 11px}
+.rev-hd{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.rev-stars{color:#e0873f;font-size:11px;letter-spacing:1px}
+.rev-src{font:800 7.5px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.rev-q{font-size:11.5px;line-height:1.45;color:var(--body);font-style:italic}
+.rev-w{font:700 9px/1 var(--mono);color:var(--branddk);margin-top:5px}
+/* ---- coverage gap chip ---- */
+.gap-chip{display:inline-flex;align-items:center;gap:6px;background:var(--amberlt);border:1px solid #e0c070;color:var(--amber);border-radius:9px;padding:7px 11px;font:800 9.5px/1.3 var(--mono);margin-bottom:10px}
 /* ---- links ---- */
 .link-row{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:11px}
 .guide-link{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #f0cdb2;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
@@ -167,7 +176,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
         <div class="card-title">Comments &amp; DMs · OptiWize</div>
         <div class="cbadge b-live" id="qBadge">Live</div>
       </div>
-      <div class="qtool">Facebook + Instagram · answered around the clock</div>
+      <div class="qtool">Instagram + Messenger · your team covers 7am to 7pm, Mon to Fri</div>
       <div class="qbody" id="qBody"></div>
     </section>
     <section class="card stats-card">
@@ -178,8 +187,8 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
       </div>
       <div class="stats-row">
         <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Answered</div></div>
-        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Routed to Buy</div></div>
-        <div class="ss"><div class="ss-num" id="stS">0m</div><div class="ss-lbl">Mins Saved</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Routed to Funnel</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0</div><div class="ss-lbl">After Hours</div></div>
         <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Escalated</div></div>
       </div>
     </section>
@@ -224,148 +233,158 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 
 <script>
 var NAME="Jaime";var ITEM="question";
-var POST_A={name:"OptiWize",sub:"Sponsored · Facebook",cap:"One formula. Horses, livestock, dogs, and you. 10-in-1 joint support built for performance.",
+var POST_A={name:"OptiWize",sub:"Sponsored · Facebook",cap:"Joint support built for performance. For your horse, your dog, and you.",
   kicker:"Purpose-Built · Performance-Driven",head:"OptiWize 10-in-1 Collagen Plus",sub2:"Collagen · MSM · HA · Glucosamine · Chondroitin",tag:"Ad · Collagen Plus",likes:"2.1k",cmts:"184",shares:"73"};
 var POST_B={name:"OptiWize",sub:"Sponsored · Instagram",cap:"Trusted in the barn, the arena, and at home. Same formula, scaled to who needs it.",
   kicker:"Equine · Livestock · Pet · Human",head:"Built for every athlete you own",sub2:"Including the two-legged one",tag:"Ad · Multi-Species",likes:"1.6k",cmts:"142",shares:"51"};
 
 var STEPS=[
- {sender:"Dana R.",initials:"DR",av:"#4c9be8",time:"11:42pm",channel:"comment",
-  subject:"Comment · will this work for my dog?",
-  preview:"9 year old lab. Thinks it might be horses only.",tag:"Product Q",tagDone:"Answered",
-  label:"Comment · Species Routing",wlbl:"Facebook Ad · public comment reply",
+ {sender:"Donna W.",initials:"DW",av:"#c2521c",time:"Fri 9:41pm",channel:"comment",
+  subject:"Comment · will this help shoulder pain?",
+  preview:"The single most repeated question you get.",tag:"Product Q",tagDone:"Answered",
+  label:"Comment · Pain Question + Review",wlbl:"Facebook Ad · public comment reply",
   status:"AI Replace · Reading a new comment...",draftBtn:"DRAFT REPLY",
-  post:POST_A,cmt:{who:"Dana R.",text:"Will this work for my 9 year old lab? Or is this just for horses?",time:"4m"},
-  dmChip:"DM sent · pet serving guide + link",
+  gap:"Team offline · next human reply Mon 7:00am · 57 hours away",
+  post:POST_A,cmt:{who:"Donna W.",text:"Does this product work for shoulder pain? I've had a bad rotator cuff for years and nothing has helped.",time:"6m"},
+  review:{stars:"★★★★★",quote:"Six weeks in and I can reach the top shelf again without wincing. I didn't expect much, honestly.",who:"Karen H. · Verified Buyer"},
+  dmChip:"DM sent · joint test + free bottle link",
+  links:[{label:"Take the joint test · get your free bottle",url:"#"}],
   lines:[
    ["›","New comment on your Collagen Plus ad","hi"],
-   ["›","Question type: species fit","hi"],
-   ["›","Knowledge base: one formula, four audiences","ok"],
-   ["›","Equine · livestock · pet · human","dim"],
-   ["›","Match: senior dog · pet serving size","ok"],
-   ["›","Rule: answer publicly, send the detail by DM","ok"],
-   ["›","Public answer keeps it visible for the next 50 people","hi"],
+   ["›","Friday 9:41pm · outside the 7am to 7pm window","flag"],
+   ["›","Question type: human joint pain (shoulder)","hi"],
+   ["›","This is your highest volume question","dim"],
+   ["›","Rule: social proof, never a treatment claim","ok"],
+   ["›","Pulling a matching shoulder review from the site","ok"],
+   ["›","Routing into the joint test · free bottle offer","hi"],
+   ["›","Answering publicly so the next 50 people see it","ok"],
    ["›","Drafting the reply in your voice...",""],
   ],
-  oMeta:"Auto · answered publicly + DM sent",conf:"Auto",
-  outreach:"Great question Dana! 🐾 Yes, the same 10-in-1 formula is made for dogs too, we just scale the serving to their weight. For a 9 year old lab you'd want the pet size, and senior dogs are honestly who we hear the best feedback from.\n\nI've sent you a DM with the exact serving for his weight and a link so you can see the label.",
-  sent:"Auto · comment answered + DM sent",
-  auto:true,routed:true,saved:6},
+  oMeta:"Auto · answered + review attached + funnel routed",conf:"Auto",
+  outreach:"Hi Donna! Shoulders are one of the most common things people come to us about, so you're in good company 🙌\n\nWe can't tell you what it'll do for your rotator cuff specifically, but a lot of our customers use OptiWize for exactly that kind of long-standing shoulder issue. I've pulled one of their reviews below so you can hear it from someone other than us.\n\nIf you want to see whether it's a fit for you, take our quick joint test and we'll send a free bottle so you can try it yourself.",
+  sent:"Auto · answered + routed to the joint test",
+  auto:true,routed:true,after:true,saved:8},
 
- {sender:"Wade T.",initials:"WT",av:"#c2521c",time:"10:18pm",channel:"comment",
+ {sender:"Ray B.",initials:"RB",av:"#5c8a3a",time:"Sat 8:12am",channel:"comment",
+  subject:"Comment · broke my back 3 years ago",
+  preview:"Serious injury. Needs care, not a sales pitch.",tag:"Product Q",tagDone:"Answered",
+  label:"Comment · Serious Injury, No Claim",wlbl:"Facebook Ad · public comment reply",
+  status:"AI Replace · Reading a sensitive comment...",draftBtn:"DRAFT REPLY",
+  gap:"Team offline · Saturday · next human reply Mon 7:00am · 47 hours away",
+  post:POST_A,cmt:{who:"Ray B.",text:"I broke my back 3 years ago and I'm in pain every single day. Would something like this actually do anything for me?",time:"18m"},
+  review:{stars:"★★★★★",quote:"After my accident I'd tried everything. This is the first thing I've stayed on for a year straight.",who:"Miguel S. · Verified Buyer"},
+  links:[{label:"Take the joint test · get your free bottle",url:"#"}],
+  lines:[
+   ["›","New comment · serious prior injury","warn"],
+   ["›","Saturday 8:12am · nobody is on until Monday","flag"],
+   ["›","He is in daily pain · tone matters more than the sale","warn"],
+   ["›","Rule: never claim it treats a spinal injury","flag"],
+   ["›","Never promise relief · that is a medical claim","flag"],
+   ["›","Safe path: honesty, social proof, and his doctor","ok"],
+   ["›","Still route to the joint test · no hard sell","ok"],
+   ["›","Drafting with care...",""],
+  ],
+  oMeta:"Auto · answered honestly, zero medical claim",conf:"Auto",
+  outreach:"Ray, I'm sorry, three years of daily pain is a lot to carry.\n\nI'm going to be straight with you rather than tell you what you'd want to hear. I can't tell you this will do anything for a back injury like yours, and anyone who promises you that isn't being honest. It's a joint support supplement, not a treatment, and with an injury that significant it's worth running past your doctor first.\n\nWhat I can tell you is that plenty of people dealing with long-term pain use it as part of what they do. I've put one of their reviews below.\n\nIf you'd like to try it without spending anything, our joint test will send you a free bottle.",
+  sent:"Auto · answered with care, no claim made",
+  auto:true,routed:true,after:true,saved:9},
+
+ {sender:"Wade T.",initials:"WT",av:"#8e5cb6",time:"Sat 11:34am",channel:"comment",
   subject:"Comment · dosing for a 1,200 lb horse",
-  preview:"Wants the feeding rate for a gelding.",tag:"Dosing",tagDone:"Answered",
-  label:"Comment · Dosing by Weight",wlbl:"Facebook Ad · public comment reply",
-  status:"AI Replace · Looking up the feeding rate...",draftBtn:"DRAFT REPLY",
-  post:POST_A,cmt:{who:"Wade T.",text:"how much do you feed a 1200 lb gelding? and how long is the loading dose",time:"12m"},
-  links:[{label:"Equine feeding chart · by body weight",url:"#"}],
+  preview:"Routes into your existing dosing funnel.",tag:"Dosing",tagDone:"Answered",
+  label:"Comment · Routed to Dosing Funnel",wlbl:"Instagram Ad · public comment reply",
+  status:"AI Replace · Matching to your dosing funnel...",draftBtn:"DRAFT REPLY",
+  gap:"Team offline · Saturday · next human reply Mon 7:00am · 43 hours away",
+  post:POST_B,cmt:{who:"Wade T.",text:"how much do you feed a 1200 lb gelding? and how long is the loading period",time:"9m"},
+  dmChip:"DM sent · dosing charts (existing mini funnel)",
   lines:[
-   ["›","New comment · dosing question","hi"],
-   ["›","Species: equine · body weight 1,200 lb","hi"],
-   ["›","Highest volume question you get","dim"],
-   ["›","Pulling the equine feeding chart","ok"],
-   ["›","Loading period then maintenance","ok"],
-   ["›","Answer with the number, then link the chart","ok"],
-   ["›","No vague 'DM us' brush off","hi"],
+   ["›","New comment · equine dosing question","hi"],
+   ["›","You already have a dosing mini funnel built","ok"],
+   ["›","Keyword: dosing · delivers your charts by DM","ok"],
+   ["›","No new funnel needed · trigger the existing one","hi"],
+   ["›","Email captured on entry, same as always","ok"],
+   ["›","Answer the number publicly, chart lands in DM","ok"],
+   ["›","23 hours later he gets the sales chat invite","dim"],
    ["›","Drafting the reply...",""],
   ],
-  oMeta:"Auto · exact feeding rate from the chart",conf:"Auto",
-  outreach:"Hey Wade! For a 1,200 lb horse you're looking at 2 scoops a day for the first 30 days as the loading period, then down to 1 scoop a day for maintenance.\n\nEasiest way to do it is split it across his morning and evening feed. Full chart by body weight is linked below if you've got others in different weight classes.",
-  sent:"Auto · dosing answered publicly",
-  auto:true,routed:false,saved:5},
+  oMeta:"Auto · answered + existing dosing funnel triggered",conf:"Auto",
+  outreach:"Hey Wade! For a 1,200 lb horse you're looking at 2 scoops a day through the loading period, then 1 scoop a day to maintain.\n\nEasiest thing is to split it across his morning and evening feed.\n\nI've sent our full feeding chart to your DMs so you've got the rates for every weight class, handy if you've got others in the barn.",
+  sent:"Auto · answered + dosing funnel triggered",
+  auto:true,routed:true,after:true,saved:6},
 
- {sender:"Jerry M.",initials:"JM",av:"#5c8a3a",time:"9:04pm",channel:"comment",
-  subject:"Comment · where can I buy it?",
-  preview:"Asks if it's Amazon only or at the feed store.",tag:"Where to buy",tagDone:"Routed",
-  label:"Comment · Retail Routing",wlbl:"Instagram Ad · public comment reply",
-  status:"AI Replace · Checking where it's stocked...",draftBtn:"DRAFT REPLY",
-  post:POST_B,cmt:{who:"Jerry M.",text:"Can I get this at Valley Vet or is it Amazon only? I'd rather grab it locally",time:"21m"},
-  dmChip:"DM sent · direct link + WLCM10",
-  links:[{label:"Shop direct · optiwizehealth.com",url:"#"}],
+ {sender:"@hollie.and.co",initials:"HC",av:"#4c9be8",time:"Sat 10:47pm",channel:"dm",net:"Instagram",
+  subject:"DM · dog with hip dysplasia",
+  preview:"10:47pm Saturday. The exact message Lacey worries about.",tag:"Product Q",tagDone:"Answered",
+  label:"DM · The 10pm Saturday Message",wlbl:"Instagram DM · direct reply",
+  status:"AI Replace · Reading a late night DM...",draftBtn:"DRAFT REPLY",
+  gap:"Team offline · 10:47pm Saturday · next human reply Mon 7:00am · 32 hours away",
+  inbound:"Hi, my 7 year old golden has hip dysplasia and the vet mentioned joint supplements. Is yours any good for that? Sorry for the late message, it's the only time I get 😅",
+  review:{stars:"★★★★★",quote:"Our girl has dysplasia and by month two she was beating us up the stairs again. We won't stop ordering.",who:"Trish D. · Verified Buyer"},
+  links:[{label:"Pet 10-in-1 · serving by weight",url:"#"}],
   lines:[
-   ["›","New comment · purchase intent","hi"],
-   ["›","He is ready to buy · do not lose him","hi"],
-   ["›","Stocked: Amazon, Valley Vet, Big Dee's","ok"],
-   ["›","Also: Western Ranch Supply, HF&C Feed","ok"],
-   ["›","He prefers local · lead with the retailers","ok"],
-   ["›","Direct also carries the WLCM10 first order code","hi"],
-   ["›","Answer publicly, DM the link and the code","ok"],
-   ["›","Drafting the reply...",""],
+   ["›","New DM · Saturday 10:47pm","flag"],
+   ["›","Under the old setup she waits until Monday 7am","flag"],
+   ["›","32 hour gap · this is where you lose people","flag"],
+   ["›","Question: pet joint support, vet already suggested it","hi"],
+   ["›","Vet recommended supplements · safe to engage","ok"],
+   ["›","No claim it treats dysplasia · social proof only","ok"],
+   ["›","Matching a dysplasia review from your site","ok"],
+   ["›","Answering now, in 8 seconds, not in 32 hours","hi"],
   ],
-  oMeta:"Auto · retail options + direct link",conf:"Auto",
-  outreach:"You've got options Jerry! We're carried at Valley Vet, Big Dee's, Western Ranch Supply and HF&C Feed, plus Amazon if that's easier.\n\nIf you'd rather order direct we ship fast and I can get you 10% off your first one. Sending you the link and the code in a DM now 👍",
-  sent:"Auto · routed to retail + DM sent",
-  auto:true,routed:true,saved:6},
+  oMeta:"Auto · answered in 8 seconds at 10:47pm",conf:"Auto",
+  outreach:"No need to apologise, late is when most people finally get a minute 😊\n\nIf your vet has already suggested joint support then you're on the right track. I can't tell you what it'll do for her dysplasia specifically, but hip and mobility support in older large breeds is far and away what our pet customers use it for. I've put one of their reviews below, her dog has dysplasia too.\n\nServing is based on her weight, and for a 7 year old golden it's a simple daily scoop with food. I've linked the pet size so you can see the label and check it against what your vet said.",
+  sent:"Auto · answered in 8 seconds, 32 hours saved",
+  auto:true,routed:true,after:true,saved:11},
 
- {sender:"@marla.ridesbay",initials:"MR",av:"#8e5cb6",time:"8:37pm",channel:"dm",net:"Instagram",
-  subject:"DM · can I take this myself?",
-  preview:"Uses the equine version on her mare, wants it for her knees.",tag:"Product Q",tagDone:"Answered",
-  label:"DM · Cross-Sell to Human Line",wlbl:"Instagram DM · direct reply",
+ {sender:"@marla.ridesbay",initials:"MR",av:"#d17a1e",time:"Sun 2:18pm",channel:"dm",net:"Instagram",
+  subject:"DM · how do I get the free bottle?",
+  preview:"Buying intent on a Sunday. Straight into the funnel.",tag:"Buying",tagDone:"Routed",
+  label:"DM · Into the Free Bottle Funnel",wlbl:"Instagram DM · direct reply",
   status:"AI Replace · Reading a new DM...",draftBtn:"DRAFT REPLY",
-  inbound:"Hey! I've been giving the equine one to my mare for about 6 months and she moves so much better. Random question, can I take this myself? My knees are shot lol",
-  links:[{label:"Human 10-in-1 capsules · shop",url:"#"}],
+  gap:"Team offline · Sunday · next human reply Mon 7:00am · 17 hours away",
+  inbound:"saw your ad about a free bottle. how do I actually get that? and is it the same stuff I give my mare or different",
+  links:[{label:"Start the joint test · free bottle",url:"#"}],
   lines:[
-   ["›","New DM on Instagram","hi"],
-   ["›","Existing customer · equine, 6 months","ok"],
-   ["›","Asking whether the equine product is human safe","warn"],
-   ["›","Rule: never tell her to take the horse version","flag"],
-   ["›","There is a human capsule line · route her there","ok"],
-   ["›","Same 10-in-1 base, formulated for people","ok"],
-   ["›","Warm existing customer · high intent","hi"],
+   ["›","New DM · Sunday afternoon","warn"],
+   ["›","Explicit buying intent · free bottle","hi"],
+   ["›","Two questions in one message · answer both","ok"],
+   ["›","Free bottle is unlocked by the joint test","ok"],
+   ["›","Triggering your existing joint funnel","hi"],
+   ["›","Email captured on entry as normal","ok"],
+   ["›","Also clarifying equine versus human line","ok"],
    ["›","Drafting the reply...",""],
   ],
-  oMeta:"Auto · routed to the human capsule line",conf:"Auto",
-  outreach:"That's so good to hear about your mare 🐴 six months is right where people start noticing a real difference.\n\nAnd yes, but please don't take her scoops. We make a human version, the 10-in-1 capsules, same core formula just built for people rather than a 1,200 lb athlete.\n\nI've linked it below. A lot of our barn customers end up on both.",
-  sent:"Auto · answered + cross-sold to human line",
-  auto:true,routed:true,saved:7},
+  oMeta:"Auto · routed into the joint test funnel",conf:"Auto",
+  outreach:"You're two minutes away from it 🙌\n\nThe free bottle comes from our quick joint test. It's a handful of questions about where you're stiff or sore, and at the end we send the bottle out to you. Link's below.\n\nAnd good question on the second part, they're related but not the same. What you give your mare is the equine formula, sized for a 1,200 lb animal. The free bottle is our human 10-in-1. Same core ingredients, built for people. A lot of our barn customers end up running both.",
+  sent:"Auto · routed into the joint test funnel",
+  auto:true,routed:true,after:true,saved:7},
 
- {sender:"@bethanyk_",initials:"BK",av:"#d17a1e",time:"7:52pm",channel:"dm",net:"Instagram",
-  subject:"DM · how long until I see results?",
-  preview:"Just ordered for her older dog, wants a timeline.",tag:"Product Q",tagDone:"Answered",
-  label:"DM · Expectation Setting",wlbl:"Instagram DM · direct reply",
-  status:"AI Replace · Reading a new DM...",draftBtn:"DRAFT REPLY",
-  inbound:"just placed my first order for my 11 yr old shepherd. how long before I should expect to see anything? don't want to give up too early",
-  lines:[
-   ["›","New DM · post purchase question","hi"],
-   ["›","Top reason people quit early is no timeline","warn"],
-   ["›","Give an honest window, not a promise","ok"],
-   ["›","Typical feedback: first changes around 3 to 6 weeks","ok"],
-   ["›","No claim that it treats or cures anything","flag"],
-   ["›","Consistency matters more than dose size","ok"],
-   ["›","Setting the expectation protects the reorder","hi"],
-   ["›","Drafting the reply...",""],
-  ],
-  oMeta:"Auto · honest timeline, no health claim",conf:"Auto",
-  outreach:"Congrats on the order, and good on you for asking 🙌\n\nMost people tell us they start noticing something around the 3 to 6 week mark, and it tends to be small things first, getting up easier, more willing on stairs, that kind of thing. Some see it sooner, some take a little longer.\n\nThe one thing that matters most is giving it every day without gaps. If you're at week 4 and unsure, message me here and I'll check in with you rather than you quietly giving up.",
-  sent:"Auto · expectation set, reorder protected",
-  auto:true,routed:false,saved:6},
-
- {sender:"@cole.performance",initials:"CP",av:"#c22b2b",time:"6:29pm",channel:"dm",net:"Instagram",
-  subject:"DM · arthritis diagnosis + on bute",
-  preview:"Asks if it will fix arthritis and mix with medication.",tag:"Medical",tagDone:"Escalated",
-  label:"DM · Vet Claim Guardrail",wlbl:"Instagram DM · held for your team",
+ {sender:"@t.morrow61",initials:"TM",av:"#c22b2b",time:"Sun 7:55pm",channel:"dm",net:"Instagram",
+  subject:"DM · on blood thinners, is it safe?",
+  preview:"Medication interaction question. Not for automation.",tag:"Medical",tagDone:"Escalated",
+  label:"DM · Medication Guardrail",wlbl:"Instagram DM · held for your team",
   status:"AI Replace · Triaging a health question...",draftBtn:"DRAFT REPLY",
-  inbound:"my mare just got diagnosed with arthritis in both hocks and the vet has her on bute. will this fix her joints? and is it safe to give with the bute?",
+  gap:"Held for your team · flagged for Monday 7:00am",
+  inbound:"I'm on warfarin after a stent and my knees are killing me. Can I take this with my blood thinner? My doctor is hard to get hold of.",
   hold:true,
-  holdBanner:"⚠ HELD · diagnosed condition + medication · this reply was NOT auto sent",
+  holdBanner:"⚠ HELD · prescription medication · this reply was NOT auto sent",
   lines:[
    ["›","New DM · health question","flag"],
-   ["›","Detected: veterinary diagnosis (arthritis, hocks)","flag"],
-   ["›","Detected: prescription medication (bute)","flag"],
-   ["›","Asking will it 'fix' + is it safe to combine","warn"],
-   ["›","Rule: no treatment claims, ever","flag"],
-   ["›","Rule: no drug interaction advice, ever","flag"],
-   ["›","AI Exclusion: route to her vet + flag for your team","flag"],
-   ["›","Drafting a safe, warm reply with zero claims","ok"],
+   ["›","Detected: prescription drug (warfarin)","flag"],
+   ["›","Detected: cardiac history (stent)","flag"],
+   ["›","Asking about a supplement and drug interaction","flag"],
+   ["›","Rule: never advise on drug interactions, ever","flag"],
+   ["›","He says his doctor is hard to reach · do not fill that gap","warn"],
+   ["›","AI Exclusion: hold and flag for a human","flag"],
+   ["›","Drafting a safe reply with zero advice","ok"],
   ],
-  oMeta:"Held · vet claim guardrail · routed to her vet",conf:"Hold",
-  outreach:"Sorry to hear about your mare, hocks are tough and I know that diagnosis is hard to get.\n\nI want to be straight with you rather than tell you what you want to hear. I can't tell you it will fix arthritis, and I'm not the right one to say whether it's fine alongside bute. That's genuinely a question for her vet, and since they already know her case they can answer it properly in about a minute.\n\nWhat I can do is send you our full ingredient panel so you can forward it straight to them. If they give you the go ahead, I'll help you get the loading rate right for her weight.\n\nI've also flagged this to our team so someone here follows up with you personally.",
-  sent:"Held for your team · routed to her vet (NOT sent)",
-  auto:false,routed:false,saved:0}
+  oMeta:"Held · medication interaction · not auto sent",conf:"Hold",
+  outreach:"Thanks for being upfront about the warfarin, that genuinely helps.\n\nI'm not going to guess on this one. Blood thinners and supplements is a real clinical question and it needs someone who can see your full history, not a message from us.\n\nI know your doctor is hard to reach. Two things that are usually quicker: your pharmacist can check interactions in a couple of minutes and you don't need an appointment, or the nurse line at your clinic can often answer it same day.\n\nI'll send our full ingredient panel so you can hand it straight to whoever you speak to. And I've flagged this so someone from our team follows up with you personally.",
+  sent:"Held for your team · routed to his pharmacist (NOT sent)",
+  auto:false,routed:false,after:true,saved:0}
 ];
-
 var cur=0,done={},running=false,reasoned=false,tok=0,typeIv=null,timers=[],
-    stats={h:0,rt:0,s:0,esc:0};
+    stats={h:0,rt:0,af:0,esc:0};
 var N=STEPS.length;
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -461,17 +480,22 @@ function dmHTML(step,reveal){
   return h+'</div></div>';
 }
 function wireHTML(step,reveal){
-  return step.channel==='comment'?postHTML(step,reveal):dmHTML(step,reveal);
+  var gap=step.gap?'<div class="gap-chip">⏱ '+esc(step.gap)+'</div>':'';
+  return gap+(step.channel==='comment'?postHTML(step,reveal):dmHTML(step,reveal));
 }
+// The review + link is Seth's exact pattern: answer, attach a review, attach the link
 function appendLink(step){
+  var host=el('oText');
+  if(step.review){
+    var r=step.review;
+    host.insertAdjacentHTML('beforeend','<div class="rev"><div class="rev-hd"><span class="rev-stars">'+esc(r.stars)+'</span><span class="rev-src">Review · optiwizehealth.com</span></div><div class="rev-q">"'+esc(r.quote)+'"</div><div class="rev-w">'+esc(r.who)+'</div></div>');
+  }
   var list=step.links||(step.link?[step.link]:null);
   if(!list)return;
-  var e=el('aiText');if(!e)return;
   var h='';
   for(var i=0;i<list.length;i++){
     h+='<a class="guide-link" href="'+esc(list[i].url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(list[i].label)+'</a>';
   }
-  var host=el('oText');
   host.insertAdjacentHTML('beforeend','<div class="link-row">'+h+'</div>');
 }
 
@@ -491,11 +515,11 @@ function renderQueue(){
   el('qBody').innerHTML=h;
 }
 function recountStats(){
-  stats={h:0,rt:0,s:0,esc:0};
+  stats={h:0,rt:0,af:0,esc:0};
   for(var i=0;i<N;i++){if(!done[i])continue;var s=STEPS[i];
-    stats.h++;if(s.routed)stats.rt++;stats.s+=s.saved||0;if(s.hold)stats.esc++;}
+    stats.h++;if(s.routed)stats.rt++;if(s.after)stats.af++;if(s.hold)stats.esc++;}
   el('stH').textContent=stats.h;el('stA').textContent=stats.rt;
-  el('stS').textContent=stats.s+'m';el('stT').textContent=stats.esc;
+  el('stS').textContent=stats.af;el('stT').textContent=stats.esc;
 }
 
 function revealOutput(step){
