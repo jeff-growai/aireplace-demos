@@ -100,6 +100,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .srow span{color:var(--muted);font:600 10.5px/1.4 var(--mono)}
 .srow b{color:var(--ink);font-weight:800;text-align:right}
 .srow b.code{font-family:var(--mono);font-size:11px;color:var(--red);background:var(--redlt);border:1px solid #f0caca;border-radius:6px;padding:3px 7px}
+.srow b.camp{font-family:var(--mono);font-size:11px;color:var(--branddk);background:var(--brandlt);border:1px solid #eec4d2;border-radius:6px;padding:3px 7px}
 /* email */
 .email{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(120,40,70,.05)}
 .email-row{display:grid;grid-template-columns:58px 1fr;border-bottom:1px solid var(--border)}
@@ -118,6 +119,8 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ethr-tag.cust{background:#f1edf0;color:var(--muted);border:1px solid var(--border)}
 .ethr-tag.aiq{background:#fff;color:var(--tealdk);border:1px solid #b0d9cb}
 .ethr-body{font-size:12.5px;line-height:1.6;white-space:pre-wrap;color:var(--body)}
+.link-row{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:11px}
+.link-row .guide-link{margin-top:0}
 .guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:8px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #eec4d2;color:var(--branddk);font:700 11.5px/1 var(--sans);text-decoration:none;cursor:pointer}
 .guide-link:hover{background:#fbe0e8}
 .franc-card{border:1px solid #b0d9cb;background:var(--teallt);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:var(--body);margin-top:11px}
@@ -221,152 +224,181 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 <script>
 var NAME="Dr. Tabor";var ITEM="item";
 var STEPS=[
- {sender:"Stripe · Linda M.",initials:"S",sys:true,time:"2:04am",subject:"Payment failed · $25 monthly",
-  preview:"expired_card · 14 month donor · card on file expired.",tag:"Failed Pmt",tagDone:"Recovered",
-  label:"Failed Payment · Expired Card",wlbl:"Outbound · Donorbox recovery",
-  status:"AI Replace · Reading a Stripe failure...",draftBtn:"DRAFT EMAIL",
-  trigger:{title:"Stripe · invoice.payment_failed",state:"Declined",rows:[
-    ["Donor","Linda M. · 14 months"],["Amount","$25.00 monthly"],["Decline code","expired_card",1],
-    ["Reason","Card expired last month"],["Donorbox sub","DB-24817"],["Auto retry","in 3 days"]]},
-  emailFrom:"support@nobabyblisters.org",emailTo:"linda.m@gmail.com",
-  subj:"Your monthly gift didn't go through (quick fix)",
+ {sender:"911@nobabyblisters.org",initials:"G",sys:true,time:"6:00am",subject:"Overnight inbox · 63 new",
+  preview:"47 DonorBox receipts buried 16 real messages.",tag:"Inbox",tagDone:"Sorted",
+  label:"Inbox Triage · Receipts Filed",wlbl:"Google Workspace · overnight triage",
+  status:"AI Replace · Sorting the overnight inbox...",draftBtn:"FILE + SUMMARISE",
+  trigger:{title:"Google Workspace · 911@nobabyblisters.org",state:"63 new",rows:[
+    ["Overnight emails","63"],["DonorBox donation receipts","47"],
+    ["Failed payment notices","4"],["Donor emails needing a reply","12"],
+    ["Actually needs a human","0 so far"]]},
+  emailFrom:"AI Replace",emailTo:"Dr. Tabor",
+  subj:"Your inbox at 6:00am",
   lines:[
-   ["›","Stripe webhook: invoice.payment_failed","flag"],
-   ["›","Donor: Linda M. · $25 monthly · 14 months","hi"],
-   ["›","Decline code: expired_card","flag"],
-   ["›","Card on file expired last month","warn"],
-   ["›","Fix is donor side · Donorbox portal","ok"],
-   ["›","Matching the failure type to the right message","ok"],
-   ["›","No dunning shame language · she is long term","ok"],
-   ["›","Drafting a step by step card update email...",""],
+   ["›","Connected to Google Workspace · 911@nobabyblisters.org","hi"],
+   ["›","63 emails arrived overnight","dim"],
+   ["›","47 are DonorBox receipt copies, one per donation","warn"],
+   ["›","DonorBox cannot route those to a second inbox","warn"],
+   ["›","Filing all 47 under Receipts · nothing deleted","ok"],
+   ["›","4 failed payment notices · queued for recovery","flag"],
+   ["›","12 donor emails · triaged by type","ok"],
+   ["›","Drafting your 6am summary...",""],
   ],
-  oMeta:"Auto · expired card · guided card update",conf:"Auto",
-  outreach:"Hi Linda,\n\nYour monthly gift of $25 didn't go through this month, and I wanted to reach out personally because it's an easy fix.\n\nThe card we have on file expired, so it just needs updating. It takes about a minute:\n\n1. Open your donor portal using the link below\n2. Sign in with this email address\n3. Select your monthly donation, then Edit payment method\n4. Enter the new card and save\n\nThat's it. Your next gift will process normally and your giving history stays exactly as it is.\n\nIf anything looks off, or you'd rather I sort it out for you, just reply to this email and I'll help.\n\nThank you for standing with these children,\n\nNo Baby Blisters",
-  link:{label:"Update your card · Donorbox donor portal",url:"#"},
-  francView:"This is the loop your VA runs by hand. Stripe reported the exact reason, the AI matched it to the right fix, and sent Linda a guided walkthrough of your Donorbox portal. She never had to email you to ask what happened.",
-  sent:"Auto · recovery email sent to Linda",
-  auto:true,recovery:true,saved:7,
+  oMeta:"Auto · 47 receipts filed · 16 items triaged",conf:"Auto",
+  outreach:"Good morning. Here's your inbox before you open it.\n\n47 DonorBox receipt copies have been filed under Receipts. They're all still there if you ever need them, they're just out of your way.\n\nThat leaves 16 things that actually matter:\n\n4 failed payments, already being worked through below\n5 donors asking about their plan, their card or their portal login\n2 asking to give to a specific child\n1 charge someone doesn't recognise\n1 cancellation, handled with care\n3 thank you notes, no reply needed\n\nNothing here is waiting on you yet. I'll flag the one that is.",
+  francView:"Dr. Tabor view: you told us the receipts cause eye strain and that DonorBox won't send them somewhere else. This doesn't need DonorBox to change anything. The AI files all 47 out of the way and hands your inbox back with only the 16 that matter.",
+  sent:"Auto · 47 receipts filed, 16 items triaged",
+  auto:true,saved:22,
   isOut:true},
 
- {sender:"Stripe · Marcus T.",initials:"S",sys:true,time:"1:37am",subject:"Payment failed · $10 monthly",
-  preview:"insufficient_funds · card valid, timing issue.",tag:"Failed Pmt",tagDone:"Recovered",
-  label:"Failed Payment · Insufficient Funds",wlbl:"Outbound · Donorbox recovery",
-  status:"AI Replace · Reading a Stripe failure...",draftBtn:"DRAFT EMAIL",
-  trigger:{title:"Stripe · invoice.payment_failed",state:"Declined",rows:[
-    ["Donor","Marcus T. · 6 months"],["Amount","$10.00 monthly"],["Decline code","insufficient_funds",1],
-    ["Reason","Not enough available balance"],["Donorbox sub","DB-31902"],["Auto retry","in 3 days"]]},
-  emailFrom:"support@nobabyblisters.org",emailTo:"marcus.t@outlook.com",
-  subj:"About your monthly gift this month",
+ {sender:"DonorBox · Mary S.",initials:"D",sys:true,time:"3:14am",subject:"Failed payment · $35 monthly",
+  preview:"Baby Lily campaign · card expired · Stripe verified.",tag:"Failed Pmt",tagDone:"Recovered",
+  label:"Failed Payment · Child Campaign Lookup",wlbl:"Outbound · Baby Lily recovery",
+  status:"AI Replace · Checking why the card failed...",draftBtn:"DRAFT EMAIL",
+  trigger:{title:"DonorBox notice → Stripe lookup",state:"Declined",rows:[
+    ["Notice to","911@nobabyblisters.org"],["Donor","Mary S. · 11 months"],
+    ["Campaign","Baby Lily",2],["Amount","$35.00 monthly"],
+    ["Stripe decline code","expired_card",1],["True cause","Card expired last month"]]},
+  emailFrom:"support@nobabyblisters.org",emailTo:"mary.s@gmail.com",
+  subj:"Your gift for Lily didn't go through",
   lines:[
-   ["›","Stripe webhook: invoice.payment_failed","flag"],
-   ["›","Donor: Marcus T. · $10 monthly · 6 months","hi"],
-   ["›","Decline code: insufficient_funds","flag"],
-   ["›","Card is valid · timing issue, not a bad card","ok"],
-   ["›","Auto retry already scheduled in 3 days","ok"],
-   ["›","Offer: move the charge date, or lower the amount","ok"],
-   ["›","Goal is keeping the donor, not just the charge","hi"],
-   ["›","Drafting a low pressure recovery email...",""],
+   ["›","DonorBox notice landed at 911@nobabyblisters.org","hi"],
+   ["›","DonorBox only says: log into your donor portal","warn"],
+   ["›","Opening Stripe to find the real cause","dim"],
+   ["›","Stripe decline code: expired_card","flag"],
+   ["›","Portal fix will work · this is the 51 percent case","ok"],
+   ["›","Campaign lookup: Baby Lily · not the generic page","hi"],
+   ["›","Sending her back to Lily, the child she chose","hi"],
+   ["›","Drafting with the 3 step fallback...",""],
   ],
-  oMeta:"Auto · insufficient funds · retry plus options",conf:"Auto",
-  outreach:"Hi Marcus,\n\nYour $10 monthly gift didn't process this time. The bank returned it as insufficient funds, which usually just means the timing was slightly off.\n\nTwo easy options, whichever suits you better:\n\n1. Do nothing. We'll automatically try again in 3 days.\n2. If a different date in the month works better, or you'd like to change the amount, you can update both in your donor portal in under a minute using the link below.\n\nEither way, your giving history and your place with us stay exactly as they are. There's no pressure here at all.\n\nThank you for everything you make possible,\n\nNo Baby Blisters",
-  link:{label:"Change your date or amount · donor portal",url:"#"},
-  francView:"Different failure, different message. Nothing is broken on his card, so the AI didn't send him chasing a fix. It gave him the retry date and an easy way to lower the amount instead, which keeps a $10 donor rather than losing one.",
-  sent:"Auto · recovery email sent to Marcus",
-  auto:true,recovery:true,saved:7,
+  oMeta:"Auto · expired card · routed to Lily's page",conf:"Auto",
+  outreach:"Hi Mary,\n\nYour $35 monthly gift for Lily didn't go through this month, and I wanted to reach out personally so it's an easy fix.\n\nThe card we have on file expired. Here's the quickest way through it:\n\n1. Open your donor portal using the first link below and update the card. For most people that's the whole fix.\n2. If everything in there already looks correct, the next step is to contact your bank or card issuer and let them approve the charge.\n3. If you'd rather not deal with any of that, the second link starts a fresh monthly gift for Lily in about a minute.\n\nLily is doing well this month, and your gift is part of why.\n\nThank you for staying with her,\n\nNo Baby Blisters",
+  links:[{label:"Update your card · donor portal",url:"#"},{label:"Start fresh for Lily · nobabyblisters.org/lily",url:"#"}],
+  francView:"Dr. Tabor view: this is the table lookup you described on the call. The notice said Baby Lily, so she goes back to Lily's page, not the generic donate page. She stays emotionally connected to the child she first responded to, and she gets all three of your fallbacks in one email.",
+  sent:"Auto · recovery email sent for Lily",
+  auto:true,recovery:true,saved:9,
   isOut:true},
 
- {sender:"Stripe · Priya S.",initials:"S",sys:true,time:"12:58am",subject:"Payment failed · $50 monthly",
-  preview:"do_not_honor · bank refused, no reason given.",tag:"Failed Pmt",tagDone:"Recovered",
-  label:"Failed Payment · Rejected by Bank",wlbl:"Outbound · Donorbox recovery",
+ {sender:"DonorBox · Gerald P.",initials:"D",sys:true,time:"2:41am",subject:"Failed payment · $100 monthly",
+  preview:"3 year donor · 37th charge declined by the bank.",tag:"Failed Pmt",tagDone:"Recovered",
+  label:"Failed Payment · Bank Declined",wlbl:"Outbound · Baby Shamila recovery",
   status:"AI Replace · Checking why the bank refused...",draftBtn:"DRAFT EMAIL",
-  trigger:{title:"Stripe · invoice.payment_failed",state:"Declined",rows:[
-    ["Donor","Priya S. · 2 years"],["Amount","$50.00 monthly"],["Decline code","do_not_honor",1],
-    ["Reason","Issuing bank refused, no reason returned"],["Donorbox sub","DB-19455"],["Auto retry","in 3 days"]]},
-  emailFrom:"support@nobabyblisters.org",emailTo:"priya.s@gmail.com",
-  subj:"Your gift was declined by your bank",
+  trigger:{title:"DonorBox notice → Stripe lookup",state:"Declined",rows:[
+    ["Notice to","911@nobabyblisters.org"],["Donor","Gerald P. · 3 years, 36 gifts"],
+    ["Campaign","Baby Shamila",2],["Amount","$100.00 monthly · 37th charge"],
+    ["Stripe decline code","do_not_honor",1],["True cause","Issuing bank refused, no reason given"]]},
+  emailFrom:"support@nobabyblisters.org",emailTo:"gerald.p@gmail.com",
+  subj:"Your bank declined this month's gift",
   lines:[
-   ["›","Stripe webhook: invoice.payment_failed","flag"],
-   ["›","Donor: Priya S. · $50 monthly · 2 years","hi"],
-   ["›","Decline code: do_not_honor","flag"],
-   ["›","Issuing bank refused · no reason returned","flag"],
-   ["›","Nothing is broken in Donorbox or Stripe","warn"],
-   ["›","She cannot fix this without calling her bank","warn"],
-   ["›","Using the Amazon pattern: verify, then call the bank","ok"],
-   ["›","Drafting a clear, no blame email...",""],
+   ["›","DonorBox notice landed at 911@nobabyblisters.org","hi"],
+   ["›","Donor: Gerald P. · $100 monthly · 36 gifts in a row","hi"],
+   ["›","Stripe decline code: do_not_honor","flag"],
+   ["›","Bank refused the 37th charge · no reason returned","flag"],
+   ["›","Nothing is wrong in DonorBox or on his card","warn"],
+   ["›","This is the 49 percent case · the portal will look fine","flag"],
+   ["›","Telling him the truth: only his bank can clear it","ok"],
+   ["›","Drafting in the Amazon pattern...",""],
   ],
-  oMeta:"Auto · bank rejection · verify then contact bank",conf:"Auto",
-  outreach:"Hi Priya,\n\nYour $50 monthly gift didn't go through this month. Your bank declined it without giving us a specific reason, which is far more common than you'd think and usually doesn't mean anything is wrong with your card.\n\nHere's what we'd suggest:\n\n1. Open your donor portal using the link below and check that the card number, expiry and billing address are all current.\n2. If everything there looks correct, the next step is to check with your bank. They can see why the charge was blocked and approve it in a moment.\n\nOnce your bank clears it, you can retry the payment right from your portal, or simply leave it and we'll try again in 3 days.\n\nWe're so grateful for you, and I'm sorry for the hassle,\n\nNo Baby Blisters",
-  link:{label:"Check your details · donor portal",url:"#"},
-  francView:"This is the Amazon wording you liked. The bank gave no reason, so the AI told her the truth: check your details, and if they're fine, your bank is the one to call. No false promises, no blaming her card, and no back and forth with your team.",
-  sent:"Auto · recovery email sent to Priya",
-  auto:true,recovery:true,saved:8,
+  oMeta:"Auto · bank rejection · verify then call the bank",conf:"Auto",
+  outreach:"Hi Gerald,\n\nSomething went wrong with this month's $100 gift for Shamila. Your bank declined it and didn't tell us why, which after 36 gifts in a row almost certainly means their fraud system flagged it rather than anything being wrong with your card.\n\nI want to save you a wasted trip, so in order:\n\n1. Open your donor portal with the first link and check the card details look right. To be straight with you, in cases like yours they usually already do.\n2. That means the real fix is a quick call to your bank. Tell them the charge from No Baby Blisters is one you approve, and they can clear it on the spot.\n3. If your card was replaced or you'd rather start clean, the second link sets up a fresh gift for Shamila in a minute.\n\nThree years of showing up for these children is not something we take lightly. Thank you.\n\nNo Baby Blisters",
+  links:[{label:"Check your card · donor portal",url:"#"},{label:"Start fresh for Shamila · nobabyblisters.org/shamila",url:"#"}],
+  francView:"Dr. Tabor view: your exact example, the 37th charge. DonorBox would have told him to log into the portal, he'd have found everything fine, got frustrated and abandoned. This is the Amazon wording you quoted, and it sends him where the fix actually is.",
+  sent:"Auto · recovery email sent for Shamila",
+  auto:true,recovery:true,saved:9,
   isOut:true},
 
- {sender:"Robert K.",initials:"RK",time:"6:12am",subject:"Re: your gift didn't go through",
-  preview:"Tried the portal, says no account found with my email.",tag:"Inbound",tagDone:"Resolved",
-  label:"Inbound · Portal Access Fix",wlbl:"Inbound · Donorbox + Stripe lookup",
-  status:"AI Replace · Looking up the donor record...",draftBtn:"DRAFT REPLY",
-  emailFrom:"support@nobabyblisters.org",emailTo:"rkelmar@gmail.com",
-  inboundFrom:"rkelmar@gmail.com",inboundTo:"support@nobabyblisters.org",
-  inbound:"I got your email saying my donation failed but when I click the link it says no account found with this email address. I'm not sure what to do and I don't want my donation to stop.\n\nRobert",
-  subj:"Re: your gift didn't go through",
+ {sender:"DonorBox · Anita R.",initials:"D",sys:true,time:"1:52am",subject:"Failed payment · $20 monthly",
+  preview:"Card reported lost · portal update will not fix it.",tag:"Failed Pmt",tagDone:"Recovered",
+  label:"Failed Payment · Card Gone, Start Fresh",wlbl:"Outbound · Baby Joyce recovery",
+  status:"AI Replace · Checking the card status...",draftBtn:"DRAFT EMAIL",
+  trigger:{title:"DonorBox notice → Stripe lookup",state:"Declined",rows:[
+    ["Notice to","911@nobabyblisters.org"],["Donor","Anita R. · 8 months"],
+    ["Campaign","Baby Joyce",2],["Amount","$20.00 monthly"],
+    ["Stripe decline code","lost_card",1],["True cause","Card reported lost or stolen"]]},
+  emailFrom:"support@nobabyblisters.org",emailTo:"anita.r@gmail.com",
+  subj:"Let's get your gift for Joyce going again",
   lines:[
-   ["›","New email · donor cannot access the portal","hi"],
-   ["›","He followed our failed payment email","dim"],
-   ["›","Donorbox lookup on sender address: no match","flag"],
-   ["›","Cross checking Stripe customer records","dim"],
-   ["›","Found it: set up under rkelmar@northline.com","ok"],
-   ["›","Same person, different email · $15 monthly active","hi"],
-   ["›","No password reset needed · send the right link","ok"],
-   ["›","Drafting the fix in plain language...",""],
+   ["›","DonorBox notice landed at 911@nobabyblisters.org","hi"],
+   ["›","Stripe decline code: lost_card","flag"],
+   ["›","Card was reported lost or stolen · it is dead","flag"],
+   ["›","Portal edit will not save her · she has no old card","warn"],
+   ["›","Gravy only chases $10 and up · this one is $20","dim"],
+   ["›","You told us people prefer starting a new plan here","ok"],
+   ["›","Leading with the fresh plan link for Joyce","hi"],
+   ["›","Drafting the shortest path back...",""],
   ],
-  oMeta:"Auto · matched across Donorbox and Stripe",conf:"Auto",
-  outreach:"Hi Robert,\n\nGood news, nothing is lost and your donation is still active. I found the problem.\n\nYour monthly gift of $15 was set up under a different email address, rkelmar@northline.com, which is why the portal didn't recognise this one. That's all it was.\n\nUse the link below and sign in with rkelmar@northline.com instead, and you'll see your donation and be able to update the card. If you'd prefer we move everything over to this address so it's simpler next time, just reply and I'll switch it for you.\n\nThank you for sticking with it, and sorry for the confusion,\n\nNo Baby Blisters",
-  link:{label:"Open your donor portal · sign in with your original email",url:"#"},
-  francView:"He was never going to find this himself, and your VA would have spent 15 minutes hunting for it. The AI searched Donorbox, came up empty, then matched him in Stripe on a second address and handed back the answer in one reply.",
-  sent:"Auto · resolved, portal access restored",
-  auto:true,saved:14,
+  oMeta:"Auto · card cancelled · fresh plan offered",conf:"Auto",
+  outreach:"Hi Anita,\n\nYour $20 monthly gift for Joyce couldn't be processed. It looks like the card was reported lost or replaced, so there's nothing wrong on your end at all.\n\nWhen a card is replaced, the simplest thing is usually to start fresh rather than fight with the old one:\n\n1. The first link sets up a new monthly gift for Joyce with your new card. It takes about a minute and picks up right where you left off.\n2. If you'd rather keep your original record, the second link opens your donor portal where you can replace the card there instead.\n\nEither way works, and there's no rush. Joyce's supplies are covered this month regardless.\n\nThank you for looking after her,\n\nNo Baby Blisters",
+  links:[{label:"Start a new gift for Joyce · nobabyblisters.org/joyce",url:"#"},{label:"Or update the card · donor portal",url:"#"}],
+  francView:"Dr. Tabor view: you said people whose card was stolen are more comfortable starting a new plan, so this one leads with that instead of the portal. Also worth noting, at $20 she sits above Gravy's threshold but below your $50 manual list, so today she'd likely get one generic notice and nothing else.",
+  sent:"Auto · recovery email sent for Joyce",
+  auto:true,recovery:true,saved:9,
+  isOut:true},
+
+ {sender:"Beverly T.",initials:"BT",time:"5:38am",subject:"Charge I don't recognise",
+  preview:"Sees a charge, card ending 4412, no record with us.",tag:"Inbound",tagDone:"Resolved",
+  label:"Not Our Donation · No CC to DonorBox",wlbl:"Inbound · DonorBox + Stripe search",
+  status:"AI Replace · Searching for this donor...",draftBtn:"DRAFT REPLY",
+  emailFrom:"support@nobabyblisters.org",emailTo:"bev.t@gmail.com",
+  inboundFrom:"bev.t@gmail.com",inboundTo:"911@nobabyblisters.org",
+  inbound:"There is a charge on my statement I don't recognise and it seems to be from you. My card ends 4412. I don't remember signing up for a monthly donation. Please explain and cancel whatever this is.\n\nBeverly",
+  subj:"Re: Charge I don't recognise",
+  lines:[
+   ["›","New email · unrecognised charge","warn"],
+   ["›","DonorBox search on bev.t@gmail.com: no match","flag"],
+   ["›","Stripe search on last 4 digits 4412: no match","flag"],
+   ["›","No donation to No Baby Blisters, ever","flag"],
+   ["›","DonorBox processes for thousands of nonprofits","dim"],
+   ["›","Statement descriptors look near identical","warn"],
+   ["›","No need to CC DonorBox · she can self identify it","ok"],
+   ["›","Drafting a helpful, non defensive reply...",""],
+  ],
+  oMeta:"Auto · no record found · likely another nonprofit",conf:"Auto",
+  outreach:"Hi Beverly,\n\nGood news, and a small mystery to solve.\n\nI searched our records both by your email address and by a card ending 4412, and there's no donation to No Baby Blisters under either. So there's nothing on our side to cancel, and you haven't been signed up for anything with us.\n\nHere's what's most likely happening. Our donations are processed through DonorBox, which handles giving for thousands of different charities, and the way that shows up on a statement can look very similar between them. So the charge is probably a different organisation using the same processor.\n\nIf you can see the full descriptor on your statement, there's usually a charity name in it. Send me a screenshot and I'll happily help you work out who it is, even though it isn't us.\n\nSorry for the confusion, and thank you for checking,\n\nNo Baby Blisters",
+  francView:"Dr. Tabor view: this is the one where you have to CC DonorBox because you can't match the email or the last four digits. The AI searched both systems, confirmed it isn't yours, and explained the shared processor. No CC, no waiting on DonorBox support, and she isn't left thinking you charged her.",
+  sent:"Auto · resolved, no record found",
+  auto:true,saved:16,
   isOut:false},
 
- {sender:"Diane W.",initials:"DW",time:"5:41am",subject:"I've been charged three times",
-  preview:"Meant to give once, charged monthly. Wants it stopped.",tag:"Refund",tagDone:"Refunded",
-  label:"Accidental Recurring · Refund Approval",wlbl:"Inbound · Awaiting your approval",
-  status:"AI Replace · Checking the charge history...",draftBtn:"DRAFT REPLY",
-  emailFrom:"support@nobabyblisters.org",emailTo:"diane.w@gmail.com",
-  inboundFrom:"diane.w@gmail.com",inboundTo:"support@nobabyblisters.org",
-  inbound:"I only meant to donate $50 one time but I've now been charged three times. Please stop this and refund me. I do support what you do but I can't afford $50 every month.\n\nDiane",
-  subj:"Re: I've been charged three times",
+ {sender:"Harold M.",initials:"HM",time:"5:02am",subject:"Need to cancel, $50 is too much",
+  preview:"Would stay at a lower amount if there was one.",tag:"Cancel",tagDone:"Saved",
+  label:"Cancellation · Save at a Lower Amount",wlbl:"Inbound · Awaiting your approval",
+  status:"AI Replace · Reviewing a cancellation...",draftBtn:"DRAFT REPLY",
+  emailFrom:"support@nobabyblisters.org",emailTo:"harold.m@gmail.com",
+  inboundFrom:"harold.m@gmail.com",inboundTo:"911@nobabyblisters.org",
+  inbound:"I need to cancel my monthly donation. $50 is just too much for me right now with everything going on. Honestly if there were a cheaper option I would stay, but I can't keep doing $50.\n\nHarold",
+  subj:"Re: Need to cancel, $50 is too much",
   lines:[
-   ["›","New email · unexpected repeat charges","warn"],
-   ["›","Stripe: 3 successful charges of $50","flag"],
-   ["›","May 2 · June 2 · July 2","dim"],
-   ["›","Donorbox: set up as monthly, not one time","flag"],
-   ["›","Our form caused this · own it, do not defend it","warn"],
-   ["›","Recurring donation stopped immediately","ok"],
-   ["›","Refund of $100 prepared · money out needs approval","warn"],
-   ["›","Drafting an apology and the fix...",""],
+   ["›","New email · cancellation request","warn"],
+   ["›","Donor: Harold M. · $50 monthly · 19 months","hi"],
+   ["›","His words: he would stay at a lower amount","ok"],
+   ["›","Rule: never cancel outright when a save is offered","ok"],
+   ["›","Proposing $15 monthly · his choice to change it","ok"],
+   ["›","Backup offer: pause 3 months, nothing lost","ok"],
+   ["›","Changing the amount is a billing change","warn"],
+   ["›","Needs your approval before anything is applied","warn"],
   ],
-  oMeta:"Refund $100 · recurring stopped · awaiting approval",conf:"Review",
-  outreach:"Hi Diane,\n\nI'm sorry about that. That's our donation form not being clear enough, not anything you did wrong, and I'll put it right.\n\nI can see three gifts of $50, on May 2, June 2 and July 2. The first one is the one you meant to make. I've already stopped the monthly donation, so nothing further will be charged.\n\nFor the other two, $100 in total, I'm sending that straight back to your card. It usually lands within 5 to 10 business days.\n\nIf one day you'd like to give again, even a few dollars a month goes a long way here, but please don't feel any obligation at all. Your first gift already helped.\n\nWith thanks and apologies,\n\nNo Baby Blisters",
-  confirm:{btn:"✓ APPROVE $100 REFUND",done:"Refund issued · recurring cancelled",badge:"Refunded",title:"Approve the $100 refund?",copy:"Recurring donation is already stopped. This releases the refund for the two extra charges."},
-  francView:"Dr. Tabor view: the AI verified all three charges in Stripe before answering, stopped the recurring gift straight away, and took the blame for the form rather than arguing. Because this is money leaving, the refund itself waits for your one click.",
-  sent:"Refund issued · recurring donation cancelled",
-  auto:false,saved:12,
+  oMeta:"Save offer · $50 to $15 · awaiting approval",conf:"Review",
+  outreach:"Hi Harold,\n\nThank you for telling me instead of just letting it lapse, and please don't feel bad about it. Life gets expensive and you've given for 19 months straight.\n\nSince you said you'd stay at a lower amount, let's just do that. I can move you to $15 a month, effective from your next gift, and you don't need to do anything at all. If a different number works better, tell me any amount and I'll set it to that instead.\n\nIf you'd rather step away entirely for a while, I can also pause you for 3 months and restart it automatically, or cancel it completely. Any of those is fine and none of them changes how grateful we are.\n\nJust reply with whichever suits you.\n\nWith thanks,\n\nNo Baby Blisters",
+  confirm:{btn:"✓ APPLY $15/MONTH",done:"Plan changed · $50 to $15 monthly",badge:"Saved",title:"Apply the reduced amount?",copy:"Changes Harold from $50 to $15 monthly in DonorBox. Nothing changes until you click."},
+  francView:"Dr. Tabor view: he offered to stay at a lower amount, so the AI never reached for the cancel button. It proposed $15 and kept the door open on a pause. That's a saved donor instead of a lost one, and because it's a billing change it waits for your one click.",
+  sent:"Plan reduced to $15 monthly · donor retained",
+  auto:false,saved:11,
   isOut:false},
 
  {sender:"Karen B.",initials:"KB",time:"4:26am",subject:"Please cancel my donation",
-  preview:"Lost her daughter in April. Asking to stop the monthly gift.",tag:"Sensitive",tagDone:"Escalated",
+  preview:"Lost her daughter in April. Asking to stop the gift.",tag:"Sensitive",tagDone:"Escalated",
   label:"Personal Loss · Held for You",wlbl:"Inbound · Held for Dr. Tabor",
   status:"AI Replace · Reading a sensitive message...",draftBtn:"DRAFT NOTE",
   emailFrom:"support@nobabyblisters.org",emailTo:"karen.b@gmail.com",
-  inboundFrom:"karen.b@gmail.com",inboundTo:"support@nobabyblisters.org",
+  inboundFrom:"karen.b@gmail.com",inboundTo:"911@nobabyblisters.org",
   inbound:"Please cancel my monthly donation. We lost our daughter Ellie in April. She had EB and what you do meant everything to our family. I'm sorry, I just can't keep seeing the charge each month right now.\n\nKaren",
   subj:"Re: Please cancel my donation",
   lines:[
    ["›","New email · cancellation request","warn"],
    ["›","Detected: bereavement · the donor lost her child","flag"],
-   ["›","Suppressing the retention flow entirely","flag"],
-   ["›","No pause offer · no downgrade · no ask","flag"],
+   ["›","Suppressing the save flow entirely","flag"],
+   ["›","No lower amount · no pause offer · no ask","flag"],
    ["›","Honoring the request now · donation stopped","ok"],
    ["›","AI Exclusion: personal loss · never auto send","flag"],
    ["›","This should come from you, not from a system","warn"],
@@ -375,7 +407,7 @@ var STEPS=[
   oMeta:"Held for you · personal loss · nothing auto sent",conf:"Hold",
   holdBanner:"⚠ HELD FOR DR. TABOR · personal loss · this reply was NOT auto sent",
   outreach:"Dear Karen,\n\nI am so deeply sorry about Ellie. Thank you for telling us, and thank you for letting our work be part of her life in some small way.\n\nI've stopped your monthly donation, effective immediately, so it's done and you won't need to think about it again. There's nothing further you need to do.\n\nIf it ever felt right to you, we would be honored to dedicate a supply kit in Ellie's name. Only if and when you want that. There's no timeline and no expectation, and you never need to reply to this.\n\nHolding your family in our thoughts,\n\nAaron",
-  francView:"Dr. Tabor view: this is the one an automation must never touch. The AI recognised a bereaved parent, shut off the retention script completely, and stopped the charge immediately because that was the kind thing to do. Then it stopped, drafted a note in your voice, and held it for you to send personally.",
+  francView:"Dr. Tabor view: this is the one an automation must never touch. Notice it did the opposite of the last email. No lower amount, no pause, no ask of any kind. It stopped the charge immediately because that was the kind thing, then wrote in your voice and held it for you to send yourself.",
   sent:"Donation stopped · reply held for you (NOT sent)",
   auto:false,hold:true,saved:0,
   isOut:false}
@@ -445,7 +477,8 @@ function typeText(id,text,speed){
 function stripeHTML(t){
   var h='<div class="stripe"><div class="stripe-hdr"><div class="stripe-ic">S</div><div class="stripe-ttl">'+esc(t.title)+'</div><div class="stripe-pill">'+esc(t.state)+'</div></div><div class="stripe-rows">';
   t.rows.forEach(function(r){
-    h+='<div class="srow"><span>'+esc(r[0])+'</span><b'+(r[2]?' class="code"':'')+'>'+esc(r[1])+'</b></div>';
+    var cls=r[2]===1?' class="code"':(r[2]===2?' class="camp"':'');
+    h+='<div class="srow"><span>'+esc(r[0])+'</span><b'+cls+'>'+esc(r[1])+'</b></div>';
   });
   return h+'</div></div>';
 }
@@ -466,9 +499,14 @@ function wireHTML(step,reveal){
   return (step.trigger?stripeHTML(step.trigger):'')+emailHTML(step,reveal);
 }
 function appendLink(step){
-  if(!step.link)return;
+  var list=step.links||(step.link?[step.link]:null);
+  if(!list)return;
   var e=el('aiText');if(!e)return;
-  e.insertAdjacentHTML('afterend','<a class="guide-link" href="'+esc(step.link.url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(step.link.label)+'</a>');
+  var h='';
+  for(var i=list.length-1;i>=0;i--){
+    h='<a class="guide-link" href="'+esc(list[i].url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(list[i].label)+'</a>'+h;
+  }
+  e.insertAdjacentHTML('afterend','<div class="link-row">'+h+'</div>');
 }
 
 function renderQueue(){
