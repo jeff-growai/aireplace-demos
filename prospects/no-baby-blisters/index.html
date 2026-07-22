@@ -204,7 +204,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
         <div class="ometa"><div id="oMeta">Waiting for AI reasoning</div><div class="oconf" id="oConf">--</div></div>
         <div class="owlbl" id="oWlbl"></div>
         <div class="otext" id="oText"><div class="empty-msg">The item loads after you click Analyze.</div></div>
-        <div class="franc-card" id="francCard" style="display:none"><b>Dr. Tabor view</b>Processing…</div>
         <div class="spill" id="spill">Output pending</div>
       </div>
     </div>
@@ -629,7 +628,7 @@ function renderStep(){
   el('oConf').textContent='--';
   el('oWlbl').textContent=step.wlbl;
   el('oText').innerHTML=wireHTML(step,false);
-  el('francCard').style.display='none';
+  if(el('francCard'))el('francCard').style.display='none';
   el('spill').className='spill';
   setBadge('aiBadge','b-idle','Standby');setBadge('oBadge','b-idle','Ready');setBadge('navBadge','b-idle','Waiting');
   setLabel(step.label);
