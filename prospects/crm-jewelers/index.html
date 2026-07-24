@@ -383,10 +383,14 @@ var STEPS=[
   thread:[
    {t:"img",m:"Photo sent by the customer",u:"https://assets.cdn.filesafe.space/Hrt1JM3X905K2gaLdM3J/media/6a5e47d41a0f0480508e612e.png"},
    {t:"in",m:"how much can I get this one for?"},
-   {t:"out",m:"Great taste 👊 Let me get you to the right specialist who can confirm that exact piece and the price straight from your photo. Before I connect you, is it for you and what budget are you working with?"},
-   {t:"in",m:"for me. around 12-14k"},
-   {t:"out",m:"Perfect. Two quick things: are you here in Miami or would this ship, and how soon are you looking to buy?"},
-   {t:"in",m:"I'm in Miami, want it this week. does it come with box and papers?"}
+   {t:"out",m:"Great taste 👊 Let me get you to the right specialist who can confirm that exact piece straight from your photo. What budget are you working with?"},
+   {t:"in",m:"whatever the best price is"},
+   {t:"out",m:"Of course! We'll always try to get you the best price 🤑\n\nWhich of the options below best describes what you're looking for, so our team member can have a few options ready for you?\n\n1. $1-10k\n2. $10-30k\n3. $30-60k\n4. $60k+"},
+   {t:"in",m:"2"},
+   {t:"out",m:"Perfect, are you planning on coming into our Miami store?"},
+   {t:"in",m:"No I'm in Montana"},
+   {t:"out",m:"No worries, we'll still take great care of you wherever you are in the world 💪\n\nHow quickly were you looking to grab the watch if it's still available?"},
+   {t:"in",m:"Right away if the price is right, I've been looking for this exact model forever"}
   ],
   lines:[
    ["›","New DM on CRM Jewelers · Facebook","hi"],
@@ -395,16 +399,18 @@ var STEPS=[
    ["›","Do not identify the model from a photo","flag"],
    ["›","Rule: price and ref confirmed by a specialist","flag"],
    ["›","Photo saved · attaching for the rep","ok"],
-   ["›","Qualify first · budget, location, timing","ok"],
-   ["›","Budget 12-14k · Miami · this week · wants full set","ok"],
-   ["›","Seriousness: high · real buyer","hi"],
+   ["›","Asked budget · he dodged: 'whatever the best price is'","warn"],
+   ["›","Do not push · reframe as a bracket he can tap","ok"],
+   ["›","Bracket picked: option 2 · $10-30k","hi"],
+   ["›","Not Miami · Montana · remote sale, do not lose him","warn"],
+   ["›","Timing: right away · been hunting this model","hi"],
    ["›","Qualified 90/100 · Raysa is busy · route to Sandra","hi"],
   ],
   oMeta:"Qualified 90/100 · photo attached · handoff to Sandra · awaiting approval",
   conf:"90%",
-  outreach:"Love it. I'm connecting you with one of our specialists now. They'll confirm the exact watch, the price, and the full box and papers set from your photo, and reach out shortly 👊",
-  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, photo attached, Miami, buying this week."},
-  francView:"Dan view: no story here, just a photo the customer sent. The AI did not try to guess the model or the price from an image. It saved the photo for the rep, qualified him fully on budget, Miami, this week and full set, and because Raysa is already on a lead it routed this one to Sandra. Both of your reps stay fed without lifting a finger.",
+  outreach:"Love it. I'm connecting you with one of our specialists now. They'll confirm the exact watch, the price and whether it's still available from your photo, and reach out shortly 👊",
+  confirm:{btn:"✓ HAND OFF TO SANDRA",done:"Handed to Sandra on WhatsApp · lead tracked",badge:"Sent",title:"Send this qualified lead to Sandra?",copy:"Carlos, 90/100, photo attached, $10-30k, Montana, buying right away."},
+  francView:"Dan view: watch what happens when he dodges. He would not give a number, he said 'whatever the best price is'. Instead of pushing or guessing, the AI turned it into four brackets he could answer with one tap, and he picked $10-30k. Then it found out he is in Montana, not Miami, and kept him anyway. A photo and a vague answer became a qualified remote buyer for Sandra.",
   sent:"Handed to Sandra on WhatsApp · lead tracked",
   auto:false,hold:false,qualified:true,handoff:true,saved:11,secs:1,
   tiles:[{l:"Page",v:"CRM · Facebook"},{l:"Watch",v:"Photo → rep"},{l:"Score",v:"90/100"},{l:"Action",v:"Handoff · Sandra"}],
@@ -477,7 +483,7 @@ var STEPS=[
   ],
   oMeta:"Response time · qualified · handoffs · pipeline",
   conf:"Live",
-  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to a Facebook story that had expired 154 hours ago, so the piece was gone. He named it himself, up to 200k, Miami, this week, now with Raysa. One sent a photo and asked the price, 12-14k, Miami, this week, now with Sandra. Both reps got the piece and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 213,000 of pipeline from a Tuesday night, and every one of them is tracked.",
+  outreach:"Here is what your DMs actually did tonight.\n\n4 DMs came in across all four pages. Average first reply was 8 seconds, at 9pm, with Raysa and Sandra both on the floor with clients.\n\n2 were real buyers. One replied to a Facebook story that had expired 154 hours ago, so the piece was gone. He named it himself, up to 200k, Miami, this week, now with Raysa. One sent a photo and would not name a number, so we bracketed him: 10-30k, Montana, buying right away, now with Sandra. Both reps got the piece and the answers already attached.\n\nThe other 2 were a fan and a price-checker. Neither touched your sales team.\n\nThat is around 213,000 of pipeline from a Tuesday night, and every one of them is tracked.",
   francView:"Dan view: this is the number you told us you don't have. Four pages, one queue, 8 second replies, two qualified buyers routed to Raysa and Sandra, and you can finally see how much business your watch DMs are creating.",
   sent:"Results panel live · 4 pages tracked",
   auto:true,summary:true,saved:0,secs:0,
@@ -565,17 +571,35 @@ function inboxHTML(step){
     +'<div class="piright"><div class="pitime">'+esc(step.time)+'</div><span class="pidot"></span></div></div></div>';
 }
 function typingHTML(){return '<div class="pb out ptyping" id="ptyp"><span></span><span></span><span></span></div>';}
+// how many opening messages are the customer's, before the AI's first reply
+function leadCount(step){
+  var th=step.thread||[],k=0;
+  while(k<th.length&&th[k].t!=='out')k++;
+  return k;
+}
+// the customer's opening message(s), shown as soon as the step loads
+function openingHTML(step){
+  var h='';
+  if(step.story)h+=storyHTML(step.story);
+  var th=step.thread||[],k=leadCount(step);
+  for(var i=0;i<k;i++)h+=bubbleHTML(th[i]);
+  if(!th.length&&step.inbound)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
+  return h;
+}
 function phoneHTML(step,reveal,instant){
   var net=step.net||(step.channel==='ig'?'Instagram':(step.channel==='wa'?'WhatsApp':'SMS'));
-  var h='<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div><div class="phone-screen'+(instant?'':' inboxmode')+'" id="phScreen">';
+  var body='',useInbox=false;
   if(instant){
-    if(step.story)h+=storyHTML(step.story);
-    if(step.thread)step.thread.forEach(function(m){h+=bubbleHTML(m)});
-    if(step.inbound&&!step.thread)h+='<div class="pb in">'+esc(step.inbound)+'</div>';
-    h+='<div class="pb out"><span id="aiText"></span></div>';
-  } else { h+=inboxHTML(step); }
-  h+='</div></div>';
-  return h;
+    if(step.story)body+=storyHTML(step.story);
+    if(step.thread)step.thread.forEach(function(m){body+=bubbleHTML(m)});
+    if(step.inbound&&!step.thread)body+='<div class="pb in">'+esc(step.inbound)+'</div>';
+    body+='<div class="pb out"><span id="aiText"></span></div>';
+  } else {
+    body=openingHTML(step);
+    if(!body){body=inboxHTML(step);useInbox=true;}
+  }
+  return '<div class="phone"><div class="phone-hdr"><div class="pa">'+esc(step.initials)+'</div><div class="ph">'+esc(step.handle)+'</div><div class="pc">'+esc(net)+'</div></div>'
+    +'<div class="phone-screen'+(useInbox?' inboxmode':'')+'" id="phScreen">'+body+'</div></div>';
 }
 function emailHTML(step,reveal){
   var hasIn=!!step.inbound;
@@ -654,10 +678,15 @@ function isPhone(step){var c=step.channel;return c==='ig'||c==='sms'||c==='wa';}
 async function playConversation(step,t){
   var scr=document.getElementById('phScreen');
   if(!scr)return;
-  scr.innerHTML='';scr.classList.remove('inboxmode');
-  if(step.story){scr.insertAdjacentHTML('beforeend',storyHTML(step.story));scrollPhone();await sleep(650);if(t!==tok)return;}
+  scr.classList.remove('inboxmode');
   var th=step.thread||[];
-  for(var i=0;i<th.length;i++){
+  var start=leadCount(step);
+  // the customer's opening is already on screen; if we're on the inbox stub, lay it in first
+  if(!scr.querySelector('.pb')&&!scr.querySelector('.pstory')){
+    scr.innerHTML=openingHTML(step);scrollPhone();
+    await sleep(600);if(t!==tok)return;
+  }
+  for(var i=start;i<th.length;i++){
     var m=th[i];
     if(m.t==='out'){
       scr.insertAdjacentHTML('beforeend',typingHTML());scrollPhone();
@@ -667,7 +696,6 @@ async function playConversation(step,t){
     scr.insertAdjacentHTML('beforeend',bubbleHTML(m));scrollPhone();
     await sleep(m.t==='out'?520:700);if(t!==tok)return;
   }
-  if(step.inbound&&!step.thread){scr.insertAdjacentHTML('beforeend','<div class="pb in">'+esc(step.inbound)+'</div>');scrollPhone();await sleep(700);if(t!==tok)return;}
   scr.insertAdjacentHTML('beforeend',typingHTML());scrollPhone();
   await sleep(850);if(t!==tok)return;
   var d2=document.getElementById('ptyp');if(d2)d2.remove();
