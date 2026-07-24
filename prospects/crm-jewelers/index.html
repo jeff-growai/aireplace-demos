@@ -817,8 +817,10 @@ function updateNav(){
   var p=el('btnPrimary');
   p.className='btn-primary';
   el('btnPrev').disabled=running||cur===0;
-  el('btnSkip').className='btn-sec'+((isDone||awaiting||running)?' hidden':'');
-  el('btnSkip').disabled=running;
+  // Skip stays live DURING animations so the presenter can cut the reveal short
+  el('btnSkip').className='btn-sec'+((isDone||awaiting)?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
   if(running){
     p.textContent='Running...';p.disabled=true;
     setBadge('navBadge','b-proc','Running');
@@ -934,8 +936,9 @@ async function runDraft(){
 }
 
 function skipNow(){
-  if(done[cur]||awaiting||running)return;
-  clearTimers();tok++;reasoned=false;
+  if(done[cur]||awaiting)return;
+  // tok++ aborts any in-flight reasoning, conversation or typing, then we jump to the end state
+  clearTimers();tok++;running=false;reasoned=false;
   var step=STEPS[cur];
   fillBrainComplete(step);
   revealOutput(step,true);
