@@ -123,13 +123,13 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink);min-height:10
 .typing .dots i:nth-child(2){animation-delay:.18s}
 .typing .dots i:nth-child(3){animation-delay:.36s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
-.cta{display:flex;align-items:center;gap:11px;margin-top:2px;padding:12px 14px;border-radius:13px;background:linear-gradient(135deg,var(--teal),var(--tealdk));color:#fff;text-decoration:none;box-shadow:0 8px 20px rgba(10,140,110,.25);opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;align-self:flex-start;max-width:92%}
+.cta{display:block;margin-top:2px;padding:0 2px;background:none;color:var(--brand);text-decoration:none;box-shadow:none;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;align-self:flex-start;max-width:92%}
 .cta.show{opacity:1;transform:none}
-.cta .cic{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
-.cta .ctx{display:flex;flex-direction:column;flex:1;min-width:0}
-.cta .ctx b{font:800 13px/1.2 var(--sans)}
-.cta .ctx span{font:600 9.5px/1.3 var(--mono);color:rgba(255,255,255,.85);margin-top:2px}
-.cta .car{font-size:17px;font-weight:900;flex:0 0 auto}
+.cta .cic{display:none}
+.cta .ctx{display:flex;flex-direction:column;min-width:0}
+.cta .ctx b{font:700 12.5px/1.45 var(--sans);color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.cta .ctx span{font:600 9.5px/1.35 var(--mono);color:var(--muted);margin-top:3px}
+.cta .car{display:none}
 .cw-sys{align-self:center;text-align:center;font:700 10.5px/1.4 var(--mono);color:var(--tealdk);background:var(--teallt);border:1px solid #b0d9cb;border-radius:11px;padding:9px 13px;max-width:92%;opacity:0;transition:opacity .3s}
 .cw-sys.show{opacity:1}
 .cw-sys.guard{color:var(--amber);background:var(--amberlt);border-color:#e0c070}
@@ -306,13 +306,13 @@ var STEPS=[
   thinking:"reading intent · finding a starting point",
   inbound:"I keep hearing about methylation and Dr Lynch but honestly I have no idea which product I should start with. Is there a starting point?",
   reply:"Totally fair, that trips up a lot of people 🙂\n\nThe quickest way in is our naming guide. Our product names describe the formula, so once you can read the names the range makes a lot more sense.\n\nTell me what you want to support, sleep, energy, digestion, and I can point you at one.",
-  cta:{label:"Read the naming guide",sub:"What each product name means"}},
+  cta:{label:"Read the naming guide",url:"seekinghealth.com/blogs/education/supplement-names",sub:"What each product name means"}},
 
  {sender:"Visitor",label:"Which magnesium · product routing",page:"Optimal Magnesium page",
   thinking:"matching the goal to a formula",
   inbound:"which magnesium is best for sleep? there seem to be a few and I don't want the one that upsets my stomach",
   reply:"Optimal Magnesium is the one our reviews most often mention taking before bed.\n\nIt uses Magnesium Lysinate Glycinate Chelate, included because it minimises the GI side effects other forms cause, plus Di-Magnesium Malate. One capsule is 150 mg elemental magnesium.\n\nIf you want vitamin B6 alongside it, Magnesium Plus is the other one to look at.",
-  cta:{label:"View Optimal Magnesium",sub:"150 mg elemental per capsule"}},
+  cta:{label:"View Optimal Magnesium",url:"seekinghealth.com/products/optimal-magnesium",sub:"150 mg elemental magnesium per capsule"}},
 
  {sender:"Visitor",label:"Pregnancy question · guardrail",page:"Optimal Prenatal page",
   thinking:"checking compliance rules",
@@ -326,14 +326,14 @@ var STEPS=[
   thinking:"matching to the naming convention",
   inbound:"what does the X mean in ProBiota HistaminX? and I saw an MF version of the prenatal, what is that",
   reply:"Good eye, both are deliberate 👀\n\nThe X means it supports normal levels of a specific compound, so HistaminX is the histamine one.\n\nMF means methyl-free, for people sensitive to methylated nutrients. That's why Optimal Prenatal MF sits alongside Optimal Prenatal.",
-  cta:{label:"Read the naming guide",sub:"Optimal · Active · Intensive · X · MF · Plus"}},
+  cta:{label:"Read the naming guide",url:"seekinghealth.com/blogs/education/supplement-names",sub:"Optimal · Active · Intensive · X · MF · Plus"}},
 
  {sender:"Visitor",label:"Ready to buy · routed",page:"Naming guide page",
   thinking:"qualifying intent · matching a product",
   confirm:true,
   inbound:"ok that guide actually helped a lot. I want to sort out sleep and I get leg cramps at night. what am I ordering today?",
   reply:"Optimal Magnesium covers both of those.\n\nThe lysinate glycinate form is the calming one, the malate is the muscle side, and it's one capsule at 150 mg elemental magnesium.\n\nDrop your email and I'll send you the label to check before you order.",
-  cta:{label:"Optimal Magnesium",sub:"Label sent to your inbox on confirm"},
+  cta:{label:"Optimal Magnesium",url:"seekinghealth.com/products/optimal-magnesium",sub:"Label sent to your inbox on confirm"},
   confirmBtn:"✓ SEND THE LABEL",
   sys:"Email captured · product label and summary sent"}
 ];
@@ -358,7 +358,7 @@ function bubble(cls,html,show){
 function ctaNode(step){
   if(!step.cta)return null;
   var d=document.createElement('div');d.className='cta';
-  d.innerHTML='<span class="cic">◆</span><span class="ctx"><b>'+esc(step.cta.label)+'</b><span>'+esc(step.cta.sub||'')+'</span></span><span class="car">→</span>';
+  d.innerHTML='<span class="ctx"><b>'+esc(step.cta.url||step.cta.label)+'</b><span>'+esc(step.cta.sub||'')+'</span></span>';
   return d;
 }
 function sysNode(step){
