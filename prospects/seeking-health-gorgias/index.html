@@ -95,7 +95,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .ctx-pill{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 9px;font:700 9.5px/1 var(--mono);color:var(--body)}
 .ctx-pill b{color:var(--branddk);font-weight:800}
 .link-row{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:11px}
-.guide-link{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #b9d8d2;color:var(--branddk);font:700 11.5px/1.3 var(--sans);text-decoration:none;cursor:pointer}
+.guide-link{display:inline;color:var(--brand);font:700 12.5px/1.6 var(--sans);text-decoration:underline;text-underline-offset:2px;cursor:pointer;word-break:break-word}
 /* ============ RIGHT ============ */
 .side-col{grid-column:3;display:flex;flex-direction:column;gap:12px;min-height:0}
 .brain-card{flex:1 1 auto;min-height:0}
@@ -224,7 +224,7 @@ var STEPS=[
   from:"jenna.mcleod@gmail.com",to:"support@seekinghealth.com",
   ctx:[["Customer","2 prior orders"],["Intent","Product selection"],["Risk","None"]],
   inbound:"Hi, I'm trying to work out which of your magnesium products I should get. I mostly want help winding down at night, but I also get muscle cramps after workouts. There are a few on your site and I don't want to buy the wrong one.\n\nJenna",
-  links:[{label:"Compare · Optimal Magnesium and Magnesium Plus",url:"#"}],
+  links:[{label:"seekinghealth.com/collections/magnesium-supplements",url:"#"}],
   lines:[
    ["›","New Gorgias ticket · product selection","hi"],
    ["›","Goals stated: evening wind down, post workout cramps","hi"],
@@ -247,7 +247,7 @@ var STEPS=[
   from:"m.webb@gmail.com",to:"support@seekinghealth.com",
   ctx:[["Order","SH-91204"],["Placed","5 days ago"],["Status","Shipped"]],
   inbound:"I placed an order 5 days ago (SH-91204) and I still haven't had a shipping email. Has it actually gone out? I'm nearly out of my current bottle.\n\nMarcus",
-  links:[{label:"Track your order · SH-91204",url:"#"}],
+  links:[{label:"seekinghealth.com/account/orders/SH-91204",url:"#"}],
   lines:[
    ["›","New Gorgias ticket · order status","hi"],
    ["›","Order number found in the message: SH-91204","ok"],
@@ -426,7 +426,7 @@ function renderList(){
 function attachHTML(step){
   if(!step.links)return'';
   var h='<div class="link-row">';
-  step.links.forEach(function(l){h+='<a class="guide-link" href="'+esc(l.url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(l.label)+'</a>'});
+  step.links.forEach(function(l){h+='<a class="guide-link" href="'+esc(l.url||'#')+'" target="_blank" rel="noopener">'+esc(l.label)+'</a>'});
   return h+'</div>';
 }
 function renderRead(){
