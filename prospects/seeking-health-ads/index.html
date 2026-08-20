@@ -246,12 +246,12 @@ var STEPS=[
    ["›","Form 1: Di-Magnesium Malate","ok"],
    ["›","Form 2: Magnesium Lysinate Glycinate Chelate","ok"],
    ["›","Neither listed form is oxide · answers her directly","ok"],
-   ["›","Send the full label by DM, not in the thread","hi"],
+   ["›","Invite her to DM · we cannot message her first","hi"],
    ["›","Policy: keep the public reply short","ok"],
   ],
-  oMeta:"Auto · short public reply · detail sent by DM",conf:"Auto",
-  outreach:"Great question Deborah 👏 It is two chelated forms, and neither one is oxide.\n\nI have sent you a DM with the full supplement facts so you can check the label properly before you order 🙌",
-  sent:"Auto · replied publicly + DM sent",outcome:"Answered ✓",dm:"full supplement facts",
+  oMeta:"Auto · short public reply · invited to DM",conf:"Auto",
+  outreach:"Great question Deborah 👏 It is two chelated forms, and neither one is oxide.\n\nDM us and we will send you the full supplement facts so you can check the label properly before you order 🙌",
+  sent:"Auto · replied publicly · invited to DM",outcome:"Answered ✓",dm:"she asks, we send the label",
   auto:true,saved:5},
 
  {sender:"Kyle R.",initials:"KR",av:"#c22b2b",time:"10:41pm",subject:"On: Optimal Magnesium ad",
@@ -285,12 +285,12 @@ var STEPS=[
    ["›","Asking about combining it with her medication","warn"],
    ["›","Rule: no interaction advice, no treatment claim","flag"],
    ["›","Your own label says use as directed by a professional","ok"],
-   ["›","Keep it short in public · send the label by DM","ok"],
+   ["›","Keep it short in public · invite her to DM for the label","ok"],
    ["›","Reply publicly, then flag for your team","hi"],
   ],
-  oMeta:"Answered safely · DM sent · flagged for your team",conf:"Flag",
-  outreach:"Thanks for asking rather than guessing, Marianne 🙏\n\nThat one is really for your prescriber or pharmacist rather than us. I have sent you a DM with our full label so you can take it to them, and flagged this for our team.",
-  sent:"Short public reply · DM sent · flagged",outcome:"Flagged ⚑",dm:"full label for her pharmacist",
+  oMeta:"Answered safely · invited to DM · flagged",conf:"Flag",
+  outreach:"Thanks for asking rather than guessing, Marianne 🙏\n\nThat one is really for your prescriber or pharmacist rather than us. Send us a DM and we will get you our full label to take to them. I have flagged this for our team too.",
+  sent:"Short public reply · invited to DM · flagged",outcome:"Flagged ⚑",dm:"label for her pharmacist",
   auto:true,flagged:true,saved:8},
 
  {sender:"Ben Haraway",initials:"BH",av:"#8c5c0a",time:"11:26pm",subject:"On: Optimal Electrolyte ad",
@@ -305,12 +305,12 @@ var STEPS=[
    ["›","This is a complaint, not a troll","warn"],
    ["›","Rule: never hide a genuine customer problem","flag"],
    ["›","Hiding this would remove the only trace of it","flag"],
-   ["›","Acknowledge publicly, take the order detail to DM","ok"],
+   ["›","Acknowledge publicly · ask him to DM the order number","ok"],
    ["›","Do not promise a delivery date we cannot see","warn"],
   ],
-  oMeta:"Kept public · taken to DM · routed to support",conf:"Route",
-  outreach:"Ben, three weeks with no reply is not okay 🙏\n\nI have sent you a DM so we can pull your order up properly and get you an answer today.",
-  sent:"Kept public · moved to DM + routed to support",outcome:"Routed ✓",dm:"order lookup with support",
+  oMeta:"Kept public · invited to DM · routed to support",conf:"Route",
+  outreach:"Ben, three weeks with no reply is not okay 🙏\n\nDrop us a DM with your order number and we will pull it up properly and get you an answer today.",
+  sent:"Kept public · invited to DM · routed to support",outcome:"Routed ✓",dm:"order lookup with support",
   auto:true,flagged:true,saved:9},
 
  {sender:"Priya N.",initials:"PN",av:"#0a8c6e",time:"11:52pm",subject:"On: Optimal Electrolyte ad",
@@ -325,12 +325,12 @@ var STEPS=[
    ["›","Checking the flavour list on the product page","dim"],
    ["›","Seven options · one of them is Unflavored","ok"],
    ["›","Unflavored answers her constraint exactly","hi"],
-   ["›","Name only the answer publicly · full list by DM","ok"],
+   ["›","Name only the answer publicly · offer the list by DM","ok"],
    ["›","Drafting the reply...",""],
   ],
-  oMeta:"Auto · short public reply · flavour list sent by DM",conf:"Auto",
-  outreach:"Then Unflavored is the one for you Priya 😄 it is one of seven options.\n\nI have popped the full flavour list in your DMs so you can see what else there is 🙌",
-  sent:"Auto · replied publicly + DM sent",outcome:"Answered ✓",dm:"all seven flavours",
+  oMeta:"Auto · short public reply · invited to DM",conf:"Auto",
+  outreach:"Then Unflavored is the one for you Priya 😄 it is one of seven options.\n\nDM us if you want the full flavour list and we will send it over 🙌",
+  sent:"Auto · replied publicly · invited to DM",outcome:"Answered ✓",dm:"full flavour list",
   auto:true,saved:5}
 ];
 var cur=0,done={},running=false,reasoned=false,tok=0,typeIv=null,timers=[],
@@ -425,7 +425,7 @@ function replyHTML(step,i,filled){
     +'<div class="pc-main"><div class="pc-bub brandbub"><div class="pc-name">Seeking Health</div>'
     +'<div class="pc-text">'+(filled?esc(step.outreach):'<span id="aiText"></span>')+'</div></div>'
     +'<div class="pc-meta">Just now · Like · Reply</div></div></div>'
-    +(step.dm?'<div class="pc-route" id="rt'+i+'">✉ DM sent · '+esc(step.dm)+'</div>':'');
+    +(step.dm?'<div class="pc-route" id="rt'+i+'">✉ Invited to DM · '+esc(step.dm)+'</div>':'');
 }
 // rebuild the post: comments on the SAME ad, up to the current step
 function renderPost(){
