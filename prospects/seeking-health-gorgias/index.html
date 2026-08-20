@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace · Seeking Health Gorgias Inbox</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f9f8;--white:#fff;--ink:#12211d;--body:#41524d;--muted:#8a9793;--border:#dfe8e5;
+  --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
+  --brand:#12776a;--branddk:#0b5a50;--brandlt:#e6f2f0;
+  --red:#c22b2b;--redlt:#fdeeee;--amber:#8c5c0a;--amberlt:#fef5e8;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(252,254,253,.95);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(18,119,106,.07)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(230,242,240,.96);border:1px solid #b9d8d2;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(18,119,106,.12)}
+.stage-label.vis{opacity:1}
+.scene{width:min(1300px,97vw);margin:0 auto;height:100vh;padding:66px 0 74px;display:grid;grid-template-columns:296px minmax(0,1fr) 320px;gap:12px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(18,119,106,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#fbfdfc;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+/* ============ MAIL CLIENT ============ */
+.mail-col{grid-column:1;display:flex;flex-direction:column;min-height:0}
+.mail-card{flex:1;min-height:0}
+.mail-tool{display:flex;align-items:center;gap:7px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--white);flex:0 0 auto}
+.mail-tool .mt-ic{width:20px;height:20px;border-radius:5px;background:var(--brand);display:flex;align-items:center;justify-content:center;font:900 9px/1 var(--mono);color:#fff;flex:0 0 auto}
+.mail-tool .mt-tx{font:800 10px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink);flex:1}
+.mail-tool .mt-ct{font:800 9px/1 var(--mono);color:var(--muted)}
+.mail-list{flex:1;overflow-y:auto;min-height:0}
+.mail-list::-webkit-scrollbar{width:5px}
+.mail-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.mrow{display:grid;grid-template-columns:8px 1fr;gap:8px;padding:10px 12px;border-bottom:1px solid #eef2f1;cursor:default;transition:background .22s,opacity .22s;border-left:3px solid transparent}
+.mrow.active{background:var(--brandlt);border-left-color:var(--brand)}
+.mrow.read{opacity:.55}
+.mdot{width:8px;height:8px;border-radius:50%;background:var(--brand);margin-top:5px;flex:0 0 auto}
+.mrow.read .mdot{background:transparent;border:1px solid var(--border)}
+.mmain{min-width:0}
+.mtop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mfrom{font-size:11.5px;font-weight:850;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mtime{font:600 8.5px/1 var(--mono);color:var(--muted);flex:0 0 auto}
+.msubj{font-size:11px;font-weight:700;color:var(--body);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mprev{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmeta{display:flex;align-items:center;gap:6px;margin-top:6px}
+.mtick{font:700 8px/1 var(--mono);color:var(--muted);background:#eef2f1;border:1px solid var(--border);border-radius:100px;padding:3px 6px}
+.mtag{font:800 8px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase;border-radius:100px;padding:3px 6px;background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.mrow.read .mtag{background:var(--teallt);color:var(--tealdk);border-color:#b0d9cb}
+/* ============ OPEN MESSAGE ============ */
+.read-col{grid-column:2;display:flex;flex-direction:column;min-height:0}
+.read-card{flex:1;min-height:0}
+.read-scroll{flex:1;overflow-y:auto;min-height:0}
+.read-scroll::-webkit-scrollbar{width:5px}
+.read-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.rd-subj{padding:13px 16px 11px;border-bottom:1px solid var(--border);background:#fbfdfc}
+.rd-subj h2{font-size:15px;font-weight:850;color:var(--ink);line-height:1.35}
+.rd-chips{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
+.rd-chip{font:700 8.5px/1 var(--mono);letter-spacing:.03em;border-radius:100px;padding:5px 8px;background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
+.rd-chip.tick{background:var(--brandlt);color:var(--branddk);border-color:#b9d8d2}
+.rd-chip.open{background:var(--amberlt);color:var(--amber);border-color:#e0c070}
+.rd-chip.solved{background:var(--greenlt);color:var(--green);border-color:#9fd4b8}
+.msg{padding:14px 16px;border-bottom:1px solid var(--border)}
+.msg:last-child{border-bottom:none}
+.msg.ai{background:var(--teallt)}
+.msg-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px}
+.msg-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 11px/1 var(--mono);flex:0 0 auto;background:var(--muted)}
+.msg.ai .msg-av{background:linear-gradient(135deg,var(--brand),var(--teal))}
+.msg-who{flex:1;min-width:0}
+.msg-name{font-size:12.5px;font-weight:850;color:var(--ink)}
+.msg-addr{font:600 9.5px/1.4 var(--mono);color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis}
+.msg-tag{font:800 8px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:100px;padding:4px 7px;flex:0 0 auto}
+.msg-tag.cust{background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
+.msg-tag.aiq{background:#fff;color:var(--tealdk);border:1px solid #b0d9cb}
+.msg-body{font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--body)}
+.hold-bar{padding:9px 16px;background:var(--amberlt);border-top:1px solid #e0c070;border-bottom:1px solid #e0c070;color:var(--amber);font:800 10px/1.45 var(--mono)}
+.ctx-bar{display:flex;flex-wrap:wrap;gap:7px;padding:10px 16px;border-bottom:1px solid var(--border);background:#fbfdfc}
+.ctx-pill{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 9px;font:700 9.5px/1 var(--mono);color:var(--body)}
+.ctx-pill b{color:var(--branddk);font-weight:800}
+.link-row{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:11px}
+.guide-link{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:var(--brandlt);border:1px solid #b9d8d2;color:var(--branddk);font:700 11.5px/1.3 var(--sans);text-decoration:none;cursor:pointer}
+/* ============ RIGHT ============ */
+.side-col{grid-column:3;display:flex;flex-direction:column;gap:12px;min-height:0}
+.brain-card{flex:1 1 auto;min-height:0}
+.brain-body{padding:11px 12px;font:500 10px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}
+.ss{border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#b9d8d2}
+.ss:nth-child(2){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(3){background:var(--amberlt);border-color:#e0c070}
+.ss:nth-child(4){background:var(--redlt);border-color:#f0caca}
+.ss-num{font:900 19px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(2) .ss-num{color:var(--tealdk)}
+.ss:nth-child(3) .ss-num{color:var(--amber)}
+.ss:nth-child(4) .ss-num{color:var(--red)}
+.ss-lbl{font-size:8px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+/* ============ CONTROLS ============ */
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(1000px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(252,254,253,.97);border:1px solid var(--border);box-shadow:0 12px 32px rgba(18,119,106,.13);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(18,119,106,.25);white-space:nowrap}
+.btn-primary:disabled{background:#c6d2cf;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(18,119,106,.5)}60%{box-shadow:0 0 0 14px rgba(18,119,106,0)}100%{box-shadow:0 0 0 0 rgba(18,119,106,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#fbfdfc;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#b9d8d2;color:var(--branddk);background:var(--brandlt)}
+.btn-sec.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">Seeking Health</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Gorgias inbox · support@seekinghealth.com</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="mail-col">
+    <div class="card mail-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Gorgias · Inbox</div>
+        <div class="cbadge b-live" id="mailBadge">Live</div>
+      </div>
+      <div class="mail-tool">
+        <div class="mt-ic">G</div>
+        <div class="mt-tx">All open tickets</div>
+        <div class="mt-ct" id="openCt">5 open</div>
+      </div>
+      <div class="mail-list" id="mailList"></div>
+    </div>
+  </aside>
+
+  <section class="read-col">
+    <div class="card read-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title" id="readTitle">Ticket</div>
+        <div class="cbadge b-idle" id="readBadge">Open</div>
+      </div>
+      <div class="read-scroll" id="readScroll"></div>
+    </div>
+  </section>
+
+  <aside class="side-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Ticket loaded · click Analyze to run the AI</span></div>
+      </div>
+    </div>
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Handled</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Auto-resolved</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0</div><div class="ss-lbl">Approvals</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">Escalated</div></div>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Inbox loaded</b><span id="navCopy">Click Analyze to run the AI on the first ticket.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var ITEM="ticket";
+var STEPS=[
+ {sender:"Jenna McLeod",initials:"JM",av:"#12776a",time:"11:33pm",tick:"#48120",
+  subject:"Which magnesium should I get?",
+  preview:"Wants help winding down at night, also gets muscle cramps.",tag:"Product",tagDone:"Resolved",
+  label:"Product Selection · Auto-resolve",
+  status:"AI Replace · Reading the Gorgias inbox...",draftBtn:"DRAFT REPLY",
+  from:"jenna.mcleod@gmail.com",to:"support@seekinghealth.com",
+  ctx:[["Customer","2 prior orders"],["Intent","Product selection"],["Risk","None"]],
+  inbound:"Hi, I'm trying to work out which of your magnesium products I should get. I mostly want help winding down at night, but I also get muscle cramps after workouts. There are a few on your site and I don't want to buy the wrong one.\n\nJenna",
+  links:[{label:"Compare · Optimal Magnesium and Magnesium Plus",url:"#"}],
+  lines:[
+   ["›","New Gorgias ticket · product selection","hi"],
+   ["›","Goals stated: evening wind down, post workout cramps","hi"],
+   ["›","Matching goals to catalog, not to conditions","ok"],
+   ["›","Lysinate glycinate suits the evening use case","ok"],
+   ["›","Malate suits the energy and muscle use case","ok"],
+   ["›","Optimal Magnesium contains both forms","hi"],
+   ["›","Magnesium Plus adds B6 · worth offering as an option","ok"],
+   ["›","Compliant: goal based, no health claim","ok"],
+  ],
+  outreach:"Hi Jenna,\n\nGood news, you probably don't need to choose.\n\nOptimal Magnesium contains both of the forms you're describing:\n\n• Magnesium Lysinate Glycinate Chelate, the form people most often reach for in the evening because it's gentle and calming\n• Di-Magnesium Malate, bound to malic acid, which is the one that fits the muscle and energy side\n\nOne capsule is 150 mg of elemental magnesium, so it's easy to start low and adjust.\n\nIf you'd like extra B6 alongside it, Magnesium Plus is worth a look too. I've linked a comparison of both below so you can see them side by side.\n\nAnything else, just reply here.\n\nSeeking Health Support",
+  sent:"Auto-resolved · product recommendation sent",
+  auto:true,resolved:true},
+
+ {sender:"Marcus Webb",initials:"MW",av:"#0a8c6e",time:"11:58pm",tick:"#48124",
+  subject:"Where is my order? (SH-91204)",
+  preview:"Ordered 5 days ago, no shipping update yet.",tag:"Shipping",tagDone:"Resolved",
+  label:"Order Status · Auto-resolve",
+  status:"AI Replace · Checking the order record...",draftBtn:"DRAFT REPLY",
+  from:"m.webb@gmail.com",to:"support@seekinghealth.com",
+  ctx:[["Order","SH-91204"],["Placed","5 days ago"],["Status","Shipped"]],
+  inbound:"I placed an order 5 days ago (SH-91204) and I still haven't had a shipping email. Has it actually gone out? I'm nearly out of my current bottle.\n\nMarcus",
+  links:[{label:"Track your order · SH-91204",url:"#"}],
+  lines:[
+   ["›","New Gorgias ticket · order status","hi"],
+   ["›","Order number found in the message: SH-91204","ok"],
+   ["›","Looking up the order record","dim"],
+   ["›","Order shipped yesterday · confirmation email bounced","warn"],
+   ["›","That is why he never got the notification","flag"],
+   ["›","Tracking number available · ETA 2 days","ok"],
+   ["›","He is nearly out · acknowledge that, do not ignore it","ok"],
+   ["›","Standard request · within auto-resolve scope","ok"],
+  ],
+  outreach:"Hi Marcus,\n\nIt has gone out, and I can see why you didn't hear about it.\n\nYour order shipped yesterday, but the shipping confirmation bounced back to us rather than reaching your inbox, so you were left in the dark. Sorry about that.\n\nHere are the details:\n\nTracking: 9400 1000 0000 0000 0000 00\nEstimated delivery: 2 days\n\nI've linked the tracking below so you can watch it move. If it looks like it won't land before you run out, reply here and I'll see what we can do.\n\nSeeking Health Support",
+  sent:"Auto-resolved · tracking sent",
+  auto:true,resolved:true},
+
+ {sender:"Rachel Boyd",initials:"RB",av:"#6b3ea8",time:"12:04am",tick:"#48127",
+  subject:"I don't like the new flavor",
+  preview:"Year-long customer, wants to return an opened tub.",tag:"Return",tagDone:"Handled",
+  label:"Return Request · Retention First",
+  status:"AI Replace · Reviewing a return request...",draftBtn:"DRAFT REPLY",
+  from:"rachel.b@outlook.com",to:"support@seekinghealth.com",
+  ctx:[["Customer","14 months"],["Product","Optimal Electrolyte"],["Reason","Flavor change"]],
+  inbound:"I've ordered the Optimal Electrolyte for over a year but the new flavor is not for me at all. I've only used a few scoops. How do I return it?\n\nRachel",
+  lines:[
+   ["›","New Gorgias ticket · return request","warn"],
+   ["›","Customer history: repeat buyer, 14 months","hi"],
+   ["›","Reason: flavor preference, not a product fault","ok"],
+   ["›","Rule: solve it before offering money back","ok"],
+   ["›","Alternative flavor in stock · offer the swap first","ok"],
+   ["›","She keeps the open tub either way · no return shipping","ok"],
+   ["›","Refund stays on the table if she prefers it","ok"],
+   ["›","Refund is money out · needs your approval","warn"],
+  ],
+  outreach:"Hi Rachel,\n\nA year of orders and then we change the flavor on you, I'm sorry about that.\n\nBefore we talk about sending anything back, can I offer something easier? We can swap what you've got for a different flavor at no cost to you, and you keep the open tub rather than shipping it anywhere. Most people who didn't get on with the new one are happier on the swap.\n\nIf you'd rather just return it, that's completely fine too and I'll get it refunded, even though it's been opened. Your call entirely.\n\nJust tell me swap or refund and I'll take care of it from there.\n\nSeeking Health Support",
+  confirm:{btn:"✓ APPROVE REFUND OPTION",done:"Refund authorised · swap offered first",badge:"Handled",title:"Approve the refund option?",copy:"The swap is offered first. This authorises the refund if Rachel would rather have it."},
+  sent:"Swap offered · refund approved if she prefers",
+  auto:false,approval:true},
+
+ {sender:"Alan Prescott",initials:"AP",av:"#8c5c0a",time:"12:19am",tick:"#48131",
+  subject:"Safe with my blood pressure medication?",
+  preview:"On lisinopril, asking about magnesium interaction.",tag:"Medical",tagDone:"Escalated",
+  label:"Medication Question · Held for a Human",
+  status:"AI Replace · Triaging a health question...",draftBtn:"DRAFT REPLY",
+  from:"a.prescott@icloud.com",to:"support@seekinghealth.com",
+  ctx:[["Flag","Prescription drug"],["Auto-send","Blocked"],["Route","Your team"]],
+  inbound:"I've been on lisinopril for my blood pressure for about three years. My doctor mentioned magnesium might be worth looking at. Is your Optimal Magnesium safe to take with it, and how much should I take?\n\nAlan",
+  hold:true,
+  holdBanner:"⚠ HELD FOR YOUR TEAM · prescription medication · this reply was NOT auto sent",
+  lines:[
+   ["›","New Gorgias ticket · health question","flag"],
+   ["›","Detected: prescription drug (lisinopril)","flag"],
+   ["›","Asking about interaction AND a dose for himself","flag"],
+   ["›","Rule: never advise on drug interactions","flag"],
+   ["›","Rule: never prescribe a dose to an individual","flag"],
+   ["›","His doctor already raised magnesium · good sign","ok"],
+   ["›","AI Exclusion: draft it, do not send it","flag"],
+   ["›","Escalating to your team with full context","hi"],
+  ],
+  outreach:"Hi Alan,\n\nThanks for mentioning the lisinopril upfront, that genuinely matters here.\n\nI'm not able to tell you whether magnesium is safe alongside your blood pressure medication, or what amount would be right for you. That's a clinical question and it needs someone who can see your full history, not a support message from us.\n\nThe good news is your doctor has already raised it, so they're the fastest route to a proper answer. Your pharmacist can also check interactions in a couple of minutes without an appointment.\n\nWhat I can give you is the exact label so you can hand it straight to them: Optimal Magnesium is 150 mg of elemental magnesium per capsule, as Di-Magnesium Malate and Magnesium Lysinate Glycinate Chelate.\n\nI've passed this to our team so someone follows up with you personally.\n\nSeeking Health Support",
+  sent:"Held for your team · not auto sent",
+  auto:false,escalated:true},
+
+ {sender:"Teresa Nolan",initials:"TN",av:"#3a45a8",time:"12:41am",tick:"#48136",
+  subject:"Need to pause my subscription",
+  preview:"Still has 3 bottles, wants to skip rather than cancel.",tag:"Subscription",tagDone:"Handled",
+  label:"Subscription Change · Confirm Billing",
+  status:"AI Replace · Reviewing a subscription change...",draftBtn:"DRAFT REPLY",
+  from:"teresa.nolan@gmail.com",to:"support@seekinghealth.com",
+  ctx:[["Subscription","Monthly"],["Next charge","in 4 days"],["Request","Skip"]],
+  inbound:"I've got three unopened bottles stacked up because I've been travelling. Can I skip the next couple of deliveries? I don't want to cancel, I just need to catch up.\n\nTeresa",
+  lines:[
+   ["›","New Gorgias ticket · subscription change","warn"],
+   ["›","She explicitly does not want to cancel","hi"],
+   ["›","Reason: backlog from travel, not dissatisfaction","ok"],
+   ["›","Next charge is in 4 days · act before it bills","flag"],
+   ["›","Best fit: skip 2 cycles, keep subscriber pricing","ok"],
+   ["›","Also offer every-other-month if the backlog repeats","ok"],
+   ["›","Changing billing dates needs your approval","warn"],
+   ["›","Drafting the confirmation...",""],
+  ],
+  outreach:"Hi Teresa,\n\nEasy fix, and thanks for telling us rather than just cancelling.\n\nI've got your next two deliveries ready to skip, which pushes you out about 60 days and gives you time to work through the three bottles. Your subscriber pricing stays exactly as it is, and it restarts automatically after that.\n\nIf travel is a regular thing for you, I can also move you to every other month instead, so this stops happening. Just say the word.\n\nYour next charge was due in 4 days, so I'll get this applied before then.\n\nSeeking Health Support",
+  confirm:{btn:"✓ APPLY 2 SKIPS",done:"2 deliveries skipped · subscription active",badge:"Handled",title:"Skip Teresa's next 2 deliveries?",copy:"Pushes her next charge out roughly 60 days. Subscriber pricing is kept and nothing is cancelled."},
+  sent:"2 deliveries skipped · subscription retained",
+  auto:false,approval:true}
+];
+
+var cur=0,done={},running=false,awaiting=false,reasoned=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,res:0,app:0,esc:0};
+var N=STEPS.length;
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function el(id){return document.getElementById(id)}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(t){var e=el('stageLabel');e.textContent=t;e.classList.toggle('vis',!!t)}
+function scrollRead(){var r=el('readScroll');if(r)r.scrollTop=r.scrollHeight}
+function conclusionLine(step){
+  if(step.hold)return['Draft ready · held for your team','warn'];
+  if(step.confirm)return['Awaiting your approval…','warn'];
+  return['Reply ready to send','ok'];
+}
+
+/* ---------- brain ---------- */
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function appendBrain(prefix,text,cls){
+  var body=el('brainBody');
+  var d=document.createElement('div');d.className='bl show';
+  d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  appendBrain('✓',cl[0],cl[1]);
+}
+function typeInto(node,text,speed){
+  return new Promise(function(resolve){
+    clearInterval(typeIv);node.textContent='';var i=0;
+    typeIv=setInterval(function(){
+      node.textContent+=text[i];i++;scrollRead();
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||24);
+  });
+}
+
+/* ---------- inbox list ---------- */
+function renderList(){
+  var h='';
+  STEPS.forEach(function(s,i){
+    var isDone=done[i],isActive=i===cur;
+    h+='<div class="mrow'+(isActive?' active':'')+(isDone?' read':'')+'">'
+      +'<div class="mdot"></div>'
+      +'<div class="mmain">'
+        +'<div class="mtop"><span class="mfrom">'+esc(s.sender)+'</span><span class="mtime">'+esc(s.time)+'</span></div>'
+        +'<div class="msubj">'+esc(s.subject)+'</div>'
+        +'<div class="mprev">'+esc(s.preview)+'</div>'
+        +'<div class="mmeta"><span class="mtick">'+esc(s.tick)+'</span><span class="mtag">'+esc(isDone?s.tagDone:s.tag)+'</span></div>'
+      +'</div></div>';
+  });
+  el('mailList').innerHTML=h;
+  var open=0;for(var i=0;i<N;i++)if(!done[i])open++;
+  el('openCt').textContent=open+' open';
+}
+
+/* ---------- open message ---------- */
+function attachHTML(step){
+  if(!step.links)return'';
+  var h='<div class="link-row">';
+  step.links.forEach(function(l){h+='<a class="guide-link" href="'+esc(l.url||'#')+'" target="_blank" rel="noopener">🔗 '+esc(l.label)+'</a>'});
+  return h+'</div>';
+}
+function renderRead(){
+  var step=STEPS[cur];
+  el('readTitle').textContent='Ticket '+step.tick;
+  var solved=!!done[cur];
+  var h='<div class="rd-subj"><h2>'+esc(step.subject)+'</h2><div class="rd-chips">'
+    +'<span class="rd-chip tick">Gorgias '+esc(step.tick)+'</span>'
+    +'<span class="rd-chip '+(solved?'solved':'open')+'">'+(solved?(step.hold?'Escalated':'Resolved'):'Open')+'</span>'
+    +'<span class="rd-chip">'+esc(step.time)+'</span></div></div>';
+  if(step.ctx){
+    h+='<div class="ctx-bar">';
+    step.ctx.forEach(function(c){h+='<span class="ctx-pill">'+esc(c[0])+' <b>'+esc(c[1])+'</b></span>'});
+    h+='</div>';
+  }
+  h+='<div class="msg"><div class="msg-hdr"><div class="msg-av">'+esc(step.initials)+'</div>'
+    +'<div class="msg-who"><div class="msg-name">'+esc(step.sender)+'</div><div class="msg-addr">'+esc(step.from)+' → '+esc(step.to)+'</div></div>'
+    +'<span class="msg-tag cust">Customer</span></div>'
+    +'<div class="msg-body">'+esc(step.inbound)+'</div></div>';
+  if(solved){
+    if(step.hold)h+='<div class="hold-bar">'+esc(step.holdBanner)+'</div>';
+    h+='<div class="msg ai"><div class="msg-hdr"><div class="msg-av">◆</div>'
+      +'<div class="msg-who"><div class="msg-name">Seeking Health Support</div><div class="msg-addr">'+esc(step.to)+' → '+esc(step.from)+'</div></div>'
+      +'<span class="msg-tag aiq">AI '+(step.hold?'draft':'reply')+'</span></div>'
+      +'<div class="msg-body">'+esc(step.outreach)+attachHTML(step)+'</div></div>';
+  }
+  el('readScroll').innerHTML=h;
+  setBadge('readBadge',solved?(step.hold?'b-alert':'b-done'):'b-idle',solved?(step.hold?'Escalated':'Resolved'):'Open');
+}
+function beginReply(){
+  var step=STEPS[cur];
+  var host=el('readScroll');
+  if(step.hold)host.insertAdjacentHTML('beforeend','<div class="hold-bar">'+esc(step.holdBanner)+'</div>');
+  host.insertAdjacentHTML('beforeend','<div class="msg ai"><div class="msg-hdr"><div class="msg-av">◆</div>'
+    +'<div class="msg-who"><div class="msg-name">Seeking Health Support</div><div class="msg-addr">'+esc(step.to)+' → '+esc(step.from)+'</div></div>'
+    +'<span class="msg-tag aiq">AI '+(step.hold?'draft':'reply')+'</span></div>'
+    +'<div class="msg-body"><span id="aiText"></span></div></div>');
+  scrollRead();
+}
+function finishAttachments(){
+  var step=STEPS[cur];var t=el('aiText');if(!t)return;
+  var html=attachHTML(step);
+  if(html)t.insertAdjacentHTML('afterend',html);
+  scrollRead();
+}
+
+/* ---------- stats ---------- */
+function recountStats(){
+  stats={h:0,res:0,app:0,esc:0};
+  for(var i=0;i<N;i++){if(!done[i])continue;var s=STEPS[i];
+    stats.h++;if(s.resolved)stats.res++;if(s.approval)stats.app++;if(s.escalated)stats.esc++;}
+  el('stH').textContent=stats.h;el('stA').textContent=stats.res;
+  el('stS').textContent=stats.app;el('stT').textContent=stats.esc;
+}
+
+/* ---------- flow ---------- */
+function renderStep(){
+  tok++;clearTimers();running=false;awaiting=false;reasoned=false;
+  var step=STEPS[cur];
+  renderList();renderRead();recountStats();
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Ticket loaded · click Analyze to run the AI</span></div>';
+  setBadge('aiBadge','b-idle','Standby');
+  setBadge('mailBadge','b-live','Live');
+  setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace · Waiting for presenter';
+  if(done[cur]){fillBrainComplete(step);setBadge('aiBadge','b-done','Done');el('statusText').textContent='AI Replace · '+step.sent;}
+  updateNav();
+}
+async function runStep(){
+  if(running||done[cur]||awaiting)return;
+  running=true;var t=++tok;var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
+    if(t!==tok)return;
+  }
+  await addDiv(220);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
+  running=false;reasoned=true;
+  setBadge('aiBadge','b-done','Done');
+  el('statusText').textContent='AI Replace · reasoning complete · ready to draft';
+  updateNav();
+}
+async function runDraft(){
+  if(running||!reasoned||done[cur])return;
+  running=true;reasoned=false;var t=++tok;var step=STEPS[cur];
+  updateNav();
+  setBadge('readBadge','b-proc','Drafting');
+  beginReply();
+  await sleep(300);if(t!==tok)return;
+  await typeInto(el('aiText'),step.outreach,24);if(t!==tok)return;
+  finishAttachments();
+  await sleep(200);if(t!==tok)return;
+  running=false;
+  if(step.confirm){enterAwaiting(step)}else{finalize(step)}
+}
+function enterAwaiting(step){
+  awaiting=true;
+  setBadge('readBadge','b-alert','Confirm');
+  el('statusText').textContent='AI Replace · awaiting your approval';
+  updateNav();
+}
+function confirmAction(){
+  if(!awaiting)return;awaiting=false;
+  var step=STEPS[cur];
+  appendBrain('✓',step.confirm.done,'ok');
+  finalize(step);
+}
+function finalize(step){
+  done[cur]=true;
+  renderList();renderRead();recountStats();
+  el('statusText').textContent='AI Replace · '+step.sent;
+  updateNav();
+}
+function skipNow(){
+  if(done[cur]||awaiting)return;
+  clearTimers();tok++;running=false;reasoned=false;
+  var step=STEPS[cur];
+  fillBrainComplete(step);setBadge('aiBadge','b-done','Done');
+  finalize(step);
+}
+function updateNav(){
+  var step=STEPS[cur],isDone=done[cur],isLast=cur===N-1;
+  var p=el('btnPrimary');p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  el('btnSkip').className='btn-sec'+((isDone||awaiting)?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
+  if(running){p.textContent='Running...';p.disabled=true;setBadge('navBadge','b-proc','Running');}
+  else if(awaiting){p.textContent=step.confirm.btn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-alert','Confirm');
+    el('navTitle').textContent=step.confirm.title;el('navCopy').textContent=step.confirm.copy;}
+  else if(reasoned){p.textContent=step.draftBtn;p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-live','Draft');
+    el('navTitle').textContent='Reasoning complete';
+    el('navCopy').textContent='Click to have the AI write the reply.';}
+  else if(!isDone){p.textContent='ANALYZE';p.disabled=false;setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' · '+step.subject;
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';}
+  else if(isLast){p.textContent='REPLAY ↺';p.disabled=false;setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Inbox cleared';el('navCopy').textContent='Demo complete. Click Replay to start over.';}
+  else{p.textContent='NEXT →';p.disabled=false;setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' · done';
+    el('navCopy').textContent='Click Next to continue to '+STEPS[cur+1].sender+'.';}
+}
+function handlePrimary(){
+  if(running)return;
+  if(awaiting){confirmAction();return}
+  if(reasoned){runDraft();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+function replay(){clearTimers();tok++;cur=0;done={};awaiting=false;renderStep()}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
