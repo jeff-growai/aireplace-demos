@@ -130,9 +130,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink);min-height:10
 .cta .ctx b{font:700 12.5px/1.45 var(--sans);color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
 .cta .ctx span{font:600 9.5px/1.35 var(--mono);color:var(--muted);margin-top:3px}
 .cta .car{display:none}
-.cw-sys{align-self:center;text-align:center;font:700 10.5px/1.4 var(--mono);color:var(--tealdk);background:var(--teallt);border:1px solid #b0d9cb;border-radius:11px;padding:9px 13px;max-width:92%;opacity:0;transition:opacity .3s}
-.cw-sys.show{opacity:1}
-.cw-sys.guard{color:var(--amber);background:var(--amberlt);border-color:#e0c070}
 .typing.vin{align-self:flex-end;background:var(--brandlt);border-color:#b9d8d2}
 .typing.vin .tcap{color:var(--branddk)}
 .typing.vin .dots i{background:#9fb0f0}
@@ -306,6 +303,7 @@ var STEPS=[
   thinking:"reading intent · finding a starting point",
   confirm:true,
   confirmBtn:"✓ SEND THE OFFER",
+  confirmMsg:"Done, that's on its way to hannah.w@gmail.com now 💚\n\nIt includes your Subscribe and Save code, which takes another 10% off if you want it on repeat. Anything else I can help with?",
   thread:[
    {t:"in",m:"hey there"},
    {t:"out",m:"Hi! 👋 Welcome to Seeking Health. What can I help you find today?"},
@@ -315,22 +313,23 @@ var STEPS=[
    {t:"in",m:"ok that actually helps a lot. sleep is my main thing, I'm awake at 3am most nights. I also get leg cramps which probably doesn't help"},
    {t:"out",m:"Great to hear it was helpful! And sorry to hear about the leg cramps, let's help get you taken care of.\n\nOptimal Magnesium covers both of those. The lysinate for calming and the malate for muscle cramps, all in one formula 🙂\n\nWhat's the best email for you? I'll send over a special offer you can use right away. Lets get your sleep back on track 💪"},
    {t:"in",m:"sounds good, it's hannah.w@gmail.com"}
-  ],
-  sys:"Email captured · Subscribe and Save offer sent · 10 percent off"},
+  ]},
 
  {sender:"Visitor",label:"Slow COMT · protocol routing",page:"Slow COMT bundle page",
   thinking:"matching a known variant to a protocol",
+  confirm:true,
+  confirmBtn:"✓ SEND THE BUNDLE",
+  confirmMsg:"Sent over to dana.r@gmail.com 💚\n\nI've included a note about introducing it gradually, which is the part worth showing your practitioner. Anything else I can help with?",
   thread:[
    {t:"in",m:"hi! quick question"},
    {t:"out",m:"Hi! 👋 Go for it."},
    {t:"in",m:"my practitioner said I'm slow COMT. I'm wired all the time and can't switch off, and honestly methylfolate seems to make it worse not better. Is that a thing or am I imagining it?"},
-   {t:"out",m:"You're not imagining it, that's a really common pattern with slow COMT.\n\nSlow COMT means your body is slower to clear dopamine, norepinephrine, epinephrine and estrogen. They stay active longer, which is what leaves people feeling restless and overstimulated even once the stressor has passed.\n\nThe methylfolate part follows from that. Flooding a slow COMT system with too many methyl groups too fast can make things worse.",
+   {t:"out",m:"You're not imagining it, that's a really common pattern with slow COMT.\n\nSlow COMT means your body is slower to clear dopamine, norepinephrine, epinephrine and estrogen. They stay active longer, which is what leaves people feeling restless and overstimulated even once the stressor has passed.\n\nThe methylfolate part follows from that. Flooding a slow COMT system with too many methyl groups too fast can make things worse.\n\nHere's the protocol we built around exactly this pattern:",
     cta:{url:"seekinghealth.com/products/slow-comt-support-bundle",sub:"Slow COMT Support Bundle"}},
    {t:"in",m:"that explains SO much. so what should I actually be taking?"},
-   {t:"out",m:"Our Slow COMT Support Bundle is built around exactly this. It pairs L-Methylfolate with Magnesium Plus and Stress Nutrients, so you get enough fuel to keep the engine running without flooding one that is already idling high.\n\nIt's $69.60 rather than $87, so 20% off for taking it as a set.\n\nSince your practitioner already identified the slow COMT, I'd run the switch past them so they can set the pace. Want me to send this to your email so you have it to hand?"},
+   {t:"out",m:"That bundle pairs L-Methylfolate with Magnesium Plus and Stress Nutrients, so you get enough fuel to keep the engine running without flooding one that is already idling high.\n\nIt's $69.60 rather than $87, so 20% off for taking it as a set.\n\nSince your practitioner already identified the slow COMT, I'd run it past them so they can set the pace. Want me to send this over so you have it to hand?"},
    {t:"in",m:"yes please, it's dana.r@gmail.com"}
-  ],
-  sys:"Email captured · Slow COMT bundle sent · practitioner note included"},
+  ]},
 
  {sender:"Visitor",label:"Prenatal · routed to the MF formula",page:"Optimal Prenatal page",
   thinking:"matching a sensitivity to a formula",
@@ -338,12 +337,11 @@ var STEPS=[
    {t:"in",m:"hi, can I ask something about the prenatal?"},
    {t:"out",m:"Hi! Of course, ask away 🙂"},
    {t:"in",m:"I started it two weeks ago and I've had headaches most days and feel really wired at night. Is that normal or should I just stop taking it?"},
-   {t:"out",m:"That's worth sorting rather than pushing through, and you don't have to give up the prenatal to do it.\n\nHeadaches, irritability and sleep issues are what we'd point at methylfolate specifically. We make Optimal Prenatal MF for exactly this, it's methyl-free with non-methylated B vitamins.",
-    cta:{url:"seekinghealth.com/products/optimal-prenatal",sub:"Optimal Prenatal MF · methyl-free version"}},
+   {t:"out",m:"That's worth sorting rather than pushing through, and you don't have to give up the prenatal to do it.\n\nHeadaches, irritability and sleep issues are what we'd point at methylfolate specifically. We make Optimal Prenatal MF for exactly this, it's methyl-free with non-methylated B vitamins.\n\nHere's our full guide to both versions so you can compare them side by side:",
+    cta:{url:"seekinghealth.com/products/optimal-prenatal",sub:"Optimal Prenatal and Optimal Prenatal MF"}},
    {t:"in",m:"oh I had no idea there was a second version. is it the same otherwise?"},
    {t:"out",m:"Same comprehensive support, over 35 nutrients across preconception, pregnancy and breastfeeding. The only real difference is the form the B vitamins come in.\n\nOne thing worth knowing either way, it's 8 capsules across the day rather than all at once, which catches a lot of people out.\n\nWould you like help picking out the best option for you personally?"}
-  ],
-  sys:"Routed to Optimal Prenatal MF · next step offered"},
+  ]},
 
  {sender:"Visitor",label:"Pregnancy question · guardrail",page:"ProBiota HistaminX page",
   thinking:"checking the label caution",
@@ -352,15 +350,18 @@ var STEPS=[
    {t:"in",m:"hello!"},
    {t:"out",m:"Hi there! 👋 What can I help you with?"},
    {t:"in",m:"I'm 20 weeks pregnant and histamine has been really rough for me lately. Is the ProBiota HistaminX safe for me to take?"},
-   {t:"out",m:"Congratulations 🙏\n\nI'm not able to tell you whether it's safe for you. Our own label is clear on this one: children and pregnant or lactating women should consult a healthcare professional before use.\n\nSo that's genuinely a conversation for your provider, not something I should answer for you.",
-    cta:{url:"seekinghealth.com/products/probiota-histaminx",sub:"Full label and caution to take to your provider"}},
-   {t:"in",m:"ok that's fair. I'll ask at my next appointment"}
-  ],
-  sys:"Routed to her provider · flagged for a team member",
-  sysGuard:true}
+   {t:"out",m:"Congratulations 🙏\n\nI'm not able to tell you whether it's safe for you. Our own label is clear on this one: children and pregnant or lactating women should consult a healthcare professional before use.\n\nSo that's genuinely a conversation for your provider rather than something I should answer for you.\n\nHere's the full label and ingredient list so you can take it straight to your appointment:",
+    cta:{url:"seekinghealth.com/products/probiota-histaminx",sub:"Full label and ingredient list"}},
+   {t:"in",m:"ok that's fair. I'll ask at my next appointment"},
+   {t:"out",m:"That's the right call, and two things to make the wait easier.\n\nIf your appointment is a way off, a pharmacist can usually look over the label and answer this kind of question the same day without an appointment. That's often the fastest route.\n\nI've also flagged this to our team so someone can follow up with you personally.\n\nEither way you'll get a proper answer rather than a guess from me, and I hope the histamine settles for you in the meantime 💚"}
+  ]}
 ];
 
-var cur=0,started=false,arrived=[],played=[],running=false,awaiting=false,tok=0,typeIv=null,timers=[],minimized=false;
+var cur=0,started=false,arrived=[],pos=[],running=false,awaiting=false,tok=0,typeIv=null,timers=[],minimized=false;
+// pos[i] = how many turns of conversation i are on screen. A step is complete
+// when pos[i] reaches thread.length. One click advances exactly one turn.
+function turnsOf(i){return (STEPS[i].thread||[]).length}
+function isDone(i){return (pos[i]||0)>=turnsOf(i)}
 var N=STEPS.length;
 var INTRO="Click Start to simulate the concierge handling five real visitors, from the first hello. Next brings in each visitor, AI Reply answers, and Show now skips an animation.";
 
@@ -376,10 +377,6 @@ function minimizeWidget(){minimized=true;el('cw').classList.add('hidden');el('la
 function bubble(cls,html,show){
   var d=document.createElement('div');d.className='bub '+cls+(show?' show':'');
   d.innerHTML=html;el('cwBody').appendChild(d);scrollBody();return d;
-}
-function sysNode(step){
-  var s=document.createElement('div');s.className='cw-sys'+(step.sysGuard?' guard':'');
-  s.innerHTML=(step.sysGuard?'⚠ ':'✓ ')+esc(step.sys);return s;
 }
 
 function typeInto(node,text,speed){
@@ -413,14 +410,13 @@ function drawScenario(){
   var step=STEPS[cur];
   if(!started){startCard();return}
   el('cwBody').innerHTML='<div class="cw-note">Gorgias widget · '+esc(step.page)+'</div>';
-  var th=step.thread||[],lead=leadCount(step);
-  var upto=played[cur]?th.length:((arrived[cur]||played[cur])?lead:0);
+  var th=step.thread||[];
+  var upto=arrived[cur]?Math.max(pos[cur]||0,leadCount(step)):0;
   for(var i=0;i<upto;i++){
     var m=th[i];
     bubble((m.t==='in'?'in':'out')+' show',esc(m.m).replace(/\n/g,'<br>'),true);
     var c=ctaFor(m);if(c){c.classList.add('show');el('cwBody').appendChild(c)}
   }
-  if(played[cur]&&step.sys){var sy=sysNode(step);sy.classList.add('show');el('cwBody').appendChild(sy)}
   scrollBody();
 }
 
@@ -428,7 +424,7 @@ function renderScenario(){
   tok++;clearTimers();running=false;awaiting=false;
   var step=STEPS[cur];
   el('pLabel').textContent=started?step.label:'Ready when you are';
-  el('pCount').textContent=(cur+1)+' / '+N;
+  el('pCount').textContent=(cur+1)+' / '+N+(started?' · msg '+Math.min((pos[cur]||0)+1,turnsOf(cur))+' of '+turnsOf(cur):'');
   drawScenario();
   updateControls();
 }
@@ -458,67 +454,71 @@ async function simulateArrival(){
     requestAnimationFrame(function(){vb.classList.add('show')});
     scrollBody();
   }
-  arrived[cur]=true;running=false;updateControls();
+  arrived[cur]=true;pos[cur]=leadCount(STEPS[cur]);running=false;updateControls();
 }
 
-async function playReply(){
-  if(running||played[cur]||!arrived[cur])return;
+// Plays exactly one turn, then stops. Frank asked for a stop-gap at every
+// stage so the conversation can be talked over rather than slow-scrolled.
+async function playOneTurn(){
+  var step=STEPS[cur];
+  if(running||isDone(cur)||!arrived[cur])return;
   if(minimized)openWidget();
-  running=true;var t=++tok;var step=STEPS[cur];updateControls();
-  var th=step.thread||[];
-  for(var i=leadCount(step);i<th.length;i++){
-    var m=th[i];
-    var typ=document.createElement('div');
-    typ.className='typing'+(m.t==='in'?' vin':'');
-    typ.innerHTML='<div class="tcap">'+(m.t==='in'?esc(step.sender)+' is typing…':'AI Replace · '+esc(step.thinking||'thinking'))+'</div><div class="dots"><i></i><i></i><i></i></div>';
-    el('cwBody').appendChild(typ);scrollBody();
-    await sleep(m.t==='in'?1100:1400);if(t!==tok)return;
-    typ.remove();
-    if(m.t==='in'){
-      var vb=bubble('in',esc(m.m).replace(/\n/g,'<br>'),false);
-      requestAnimationFrame(function(){vb.classList.add('show')});
-      scrollBody();
-      await sleep(420);if(t!==tok)return;
-    } else {
-      var out=bubble('out show','',true);
-      await typeInto(out,m.m,24);if(t!==tok)return;
-      out.innerHTML=esc(m.m).replace(/\n/g,'<br>');scrollBody();
-      await sleep(200);if(t!==tok)return;
-      var c=ctaFor(m);
-      if(c){el('cwBody').appendChild(c);scrollBody();
-        requestAnimationFrame(function(){c.classList.add('show')});
-        await sleep(260);if(t!==tok)return;}
-    }
+  running=true;var t=++tok;updateControls();
+  var th=step.thread||[],i=pos[cur]||0,m=th[i];
+  var typ=document.createElement('div');
+  typ.className='typing'+(m.t==='in'?' vin':'');
+  typ.innerHTML='<div class="tcap">'+(m.t==='in'?esc(step.sender)+' is typing…':'AI Replace · '+esc(step.thinking||'thinking'))+'</div><div class="dots"><i></i><i></i><i></i></div>';
+  el('cwBody').appendChild(typ);scrollBody();
+  await sleep(m.t==='in'?900:1200);if(t!==tok)return;
+  typ.remove();
+  if(m.t==='in'){
+    var vb=bubble('in',esc(m.m).replace(/\n/g,'<br>'),false);
+    requestAnimationFrame(function(){vb.classList.add('show')});
+    scrollBody();
+  } else {
+    var out=bubble('out show','',true);
+    await typeInto(out,m.m,24);if(t!==tok)return;
+    out.innerHTML=esc(m.m).replace(/\n/g,'<br>');scrollBody();
+    var c=ctaFor(m);
+    if(c){await sleep(200);if(t!==tok)return;
+      el('cwBody').appendChild(c);scrollBody();
+      requestAnimationFrame(function(){c.classList.add('show')});}
   }
+  pos[cur]=i+1;
   running=false;
-  if(step.confirm){awaiting=true;updateControls()}
-  else{if(step.sys)appendSys(step);played[cur]=true;updateControls()}
+  if(isDone(cur)&&step.confirm){awaiting=true}
+  updateControls();
 }
 
-function appendSys(step){
-  var s=sysNode(step);el('cwBody').appendChild(s);scrollBody();
-  requestAnimationFrame(function(){s.classList.add('show')});
-}
 
-function confirmStep(){
-  if(!awaiting)return;
+async function confirmStep(){
+  if(!awaiting||running)return;
   awaiting=false;var step=STEPS[cur];
-  appendSys(step);
-  played[cur]=true;updateControls();
+  if(!step.confirmMsg){updateControls();return}
+  running=true;var t=++tok;updateControls();
+  var typ=document.createElement('div');typ.className='typing';
+  typ.innerHTML='<div class="tcap">AI Replace · sending</div><div class="dots"><i></i><i></i><i></i></div>';
+  el('cwBody').appendChild(typ);scrollBody();
+  await sleep(900);if(t!==tok)return;
+  typ.remove();
+  var out=bubble('out show','',true);
+  await typeInto(out,step.confirmMsg,24);if(t!==tok)return;
+  out.innerHTML=esc(step.confirmMsg).replace(/\n/g,'<br>');scrollBody();
+  running=false;updateControls();
 }
 
 function skipNow(){
-  if(!started||played[cur])return;
+  if(!started||isDone(cur))return;
   if(minimized)openWidget();
   // tok++ aborts the in-flight exchange, then we jump to the finished conversation
   clearTimers();tok++;running=false;awaiting=false;
-  arrived[cur]=true;played[cur]=true;
+  arrived[cur]=true;pos[cur]=turnsOf(cur);
   drawScenario();updateControls();
 }
 
 function advance(){
   cur++;renderScenario();
-  if(started&&!arrived[cur]&&!played[cur])simulateArrival();
+  if(started&&!arrived[cur])simulateArrival();
 }
 
 function updateControls(){
@@ -527,14 +527,17 @@ function updateControls(){
   el('pPrev').disabled=running||cur===0||!started;
   var skip=el('pSkip');
   // stays live DURING the exchange so the presenter can cut it short
-  skip.className='pb-sec'+((!started||played[cur]||awaiting)?' hidden':'');
+  skip.className='pb-sec'+((!started||isDone(cur)||awaiting)?' hidden':'');
   skip.disabled=false;
   skip.textContent=running?'SKIP ▸':'SEE WHOLE MESSAGE';
   if(!started){p.textContent='▶ CLICK HERE TO START';p.disabled=false;p.classList.add('glow');return}
   if(running){p.textContent='Running…';p.disabled=true;return}
   if(awaiting){p.textContent=step.confirmBtn||'✓ CONFIRM';p.disabled=false;p.classList.add('glow','confirm');return}
   if(!arrived[cur]){p.textContent='▶ BRING VISITOR IN';p.disabled=false;p.classList.add('glow');return}
-  if(!played[cur]){p.textContent='▶ PLAY CONVERSATION';p.disabled=false;p.classList.add('glow');return}
+  if(!isDone(cur)){
+    var nxt=(STEPS[cur].thread||[])[pos[cur]||0];
+    p.textContent=(nxt&&nxt.t==='in')?'▶ NEXT MESSAGE':'▶ AI REPLY';
+    p.disabled=false;p.classList.add('glow');return}
   if(cur>=N-1){p.textContent='↺ REPLAY';p.disabled=false;return}
   p.textContent='NEXT VISITOR →';p.disabled=false;p.classList.add('glow');
 }
@@ -544,13 +547,13 @@ function handlePrimary(){
   if(!started){startDemo();return}
   if(awaiting){confirmStep();return}
   if(!arrived[cur]){simulateArrival();return}
-  if(!played[cur]){playReply();return}
+  if(!isDone(cur)){playOneTurn();return}
   if(cur>=N-1){replay();return}
   advance();
 }
 
 function replay(){
-  clearTimers();tok++;cur=0;started=false;arrived=[];played=[];awaiting=false;running=false;
+  clearTimers();tok++;cur=0;started=false;arrived=[];pos=[];awaiting=false;running=false;
   renderScenario();
 }
 
