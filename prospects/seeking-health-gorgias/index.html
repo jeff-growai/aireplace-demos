@@ -90,6 +90,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 .msg-tag.cust{background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
 .msg-tag.aiq{background:#fff;color:var(--tealdk);border:1px solid #b0d9cb}
 .msg-body{font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--body)}
+.ilink{color:var(--brand);font-weight:750;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .hold-bar{padding:9px 16px;background:var(--amberlt);border-top:1px solid #e0c070;border-bottom:1px solid #e0c070;color:var(--amber);font:800 10px/1.45 var(--mono)}
 .ctx-bar{display:flex;flex-wrap:wrap;gap:7px;padding:10px 16px;border-bottom:1px solid var(--border);background:#fbfdfc}
 .ctx-pill{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 9px;font:700 9.5px/1 var(--mono);color:var(--body)}
@@ -226,7 +227,6 @@ var STEPS=[
   from:"jenna.mcleod@gmail.com",to:"support@seekinghealth.com",
   ctx:[["Customer","2 prior orders"],["Intent","Buying"],["Cross-sell","Bundle"]],
   inbound:"Hi, I'm trying to work out which of your magnesium products I should get. I mostly want help winding down at night, but I also get muscle cramps after workouts. There are a few on your site and I don't want to buy the wrong one.\n\nJenna",
-  links:[{label:"seekinghealth.com/products/optimal-magnesium",url:"#"},{label:"seekinghealth.com/products/optimal-electrolyte",url:"#"},{label:"seekinghealth.com/products/hydration-and-recovery-bundle",url:"#"},{label:"seekinghealth.com/blogs/education/magnesium-bisglycinate-vs-glycinate-whats-the-difference",url:"#"}],
   lines:[
    ["›","New Gorgias ticket · product selection","hi"],
    ["›","Goals stated: evening wind down, post workout cramps","hi"],
@@ -238,7 +238,7 @@ var STEPS=[
    ["›","60 day return policy · removes the risk of trying it","ok"],
    ["›","Attaching the magnesium science article for later","dim"],
   ],
-  outreach:"Hi Jenna,\n\nThank you for reaching out!\n\nGood news! Optimal Magnesium has both of the forms you're describing in one capsule: magnesium lysinate glycinate, the gentle, calming one people take in the evening, and di-magnesium malate, the one tied to muscles and energy production.†\n\nOne capsule is 150 mg of elemental magnesium. Take one about an hour before bed, and another after your workout on training days.\n\nDefinitely check out our Optimal Magnesium, linked below, and if you subscribe you'll save another 10 percent. We also have a 60 day return policy if you're not satisfied, so there is no risk to try.\n\nOn a side note, if the cramping is the bigger concern for you, I'd also add Optimal Electrolyte. Post-workout cramps are often about what you lost sweating rather than magnesium alone. We have a bundle that combines both, our Hydration and Recovery bundle, which saves you 20 percent.\n\nIf you ever want to dive deeper into magnesium and its various forms, we have a great article linked below that gets into the science.\n\nI hope this was helpful! Please do let me know if you have any other questions for me at all.\n\nKind regards,\n\nSeeking Health Support\n\n† These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+  outreach:"Hi Jenna,\n\nThank you for reaching out!\n\nGood news! Optimal Magnesium has both of the forms you're describing in one capsule: magnesium lysinate glycinate, the gentle, calming one people take in the evening, and di-magnesium malate, the one tied to muscles and energy production.†\n\nOne capsule is 150 mg of elemental magnesium. Take one about an hour before bed, and another after your workout on training days.\n\nDefinitely check out our [[Optimal Magnesium|https://www.seekinghealth.com/products/optimal-magnesium]], and if you subscribe, you'll save another 10% off! We also have a 60 day return policy if you're not satisfied so there's no risk to try.\n\nOn a side note, if the cramping is the bigger concern for you, I'd also add [[Optimal Electrolyte|https://www.seekinghealth.com/products/optimal-electrolyte]], post-workout cramps are often about what you lost sweating rather than magnesium alone. We actually have a bundle that combines both products, called our [[Hydration & Recovery bundle|https://www.seekinghealth.com/products/hydration-and-recovery-bundle]], so you can save even more.\n\nIf you ever want to dive deeper into learning more about Magnesium and its various forms, we have a great article you can [[read here|https://www.seekinghealth.com/blogs/education/magnesium-bisglycinate-vs-glycinate-whats-the-difference]] that dives into more of the science.\n\nI hope this was helpful! Please do let me know if you have any other questions for me at all.\n\nKind regards,\n\nSeeking Health Support\n\n† These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.",
   sent:"Auto-resolved · recommendation, bundle and offer sent",
   auto:true,resolved:true},
 
@@ -423,6 +423,13 @@ function renderList(){
 }
 
 /* ---------- open message ---------- */
+var LINKTOK=/\[\[([^|\]]+)\|([^\]]+)\]\]/g;
+function linkify(escaped){
+  return escaped.replace(LINKTOK,function(_,label,url){
+    return '<a class="ilink" href="'+esc(url)+'" target="_blank" rel="noopener">'+label+'</a>';
+  });
+}
+function plainText(raw){return String(raw).replace(LINKTOK,'$1')}
 function attachHTML(step){
   if(!step.links)return'';
   var h='<div class="link-row">';
@@ -451,7 +458,7 @@ function renderRead(){
     h+='<div class="msg ai"><div class="msg-hdr"><div class="msg-av">◆</div>'
       +'<div class="msg-who"><div class="msg-name">Seeking Health Support</div><div class="msg-addr">'+esc(step.to)+' → '+esc(step.from)+'</div></div>'
       +'<span class="msg-tag aiq">AI '+(step.hold?'draft':'reply')+'</span></div>'
-      +'<div class="msg-body">'+esc(step.outreach)+attachHTML(step)+'</div></div>';
+      +'<div class="msg-body">'+linkify(esc(step.outreach))+attachHTML(step)+'</div></div>';
   }
   el('readScroll').innerHTML=h;
   setBadge('readBadge',solved?(step.hold?'b-alert':'b-done'):'b-idle',solved?(step.hold?'Escalated':'Resolved'):'Open');
@@ -522,7 +529,8 @@ async function runDraft(){
   setBadge('readBadge','b-proc','Drafting');
   beginReply();
   await sleep(300);if(t!==tok)return;
-  await typeInto(el('aiText'),step.outreach,24);if(t!==tok)return;
+  await typeInto(el('aiText'),plainText(step.outreach),24);if(t!==tok)return;
+  var _t=el('aiText');if(_t)_t.innerHTML=linkify(esc(step.outreach));
   finishAttachments();
   await sleep(200);if(t!==tok)return;
   running=false;
