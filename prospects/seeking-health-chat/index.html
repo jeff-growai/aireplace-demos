@@ -308,7 +308,7 @@ var STEPS=[
    {t:"in",m:"hey there"},
    {t:"out",m:"Hi! 👋 Welcome to Seeking Health. What can I help you find today?"},
    {t:"in",m:"I keep hearing about methylation and Dr Lynch but honestly I have no idea which product I should start with. Is there a starting point?"},
-   {t:"out",m:"The best starting point is our Naming Guide. It'll help you make a lot more sense out of those different formulas.\n\nYou can also tell me what you want to support, like sleep, energy, or digestion, and I can point you at the best one!",
+   {t:"out",m:"The best starting point is our Naming Guide. It'll help you make a lot more sense out of those different formulas.\n\nYou can also tell me what you want to support, like sleep, energy, or digestion, and I can point you at the best one!\n\nHere's our full guide to making sense of the range:",
     cta:{url:"seekinghealth.com/blogs/education/supplement-names",sub:"What each product name means"}},
    {t:"in",m:"ok that actually helps a lot. sleep is my main thing, I'm awake at 3am most nights. I also get leg cramps which probably doesn't help"},
    {t:"out",m:"Great to hear it was helpful! And sorry to hear about the leg cramps, let's help get you taken care of.\n\nOptimal Magnesium covers both of those. The lysinate for calming and the malate for muscle cramps, all in one formula 🙂\n\nWhat's the best email for you? I'll send over a special offer you can use right away. Lets get your sleep back on track 💪"},
@@ -357,7 +357,7 @@ var STEPS=[
   ]}
 ];
 
-var cur=0,started=false,arrived=[],pos=[],running=false,awaiting=false,tok=0,typeIv=null,timers=[],minimized=false;
+var cur=0,started=false,arrived=[],pos=[],running=false,awaiting=false,tok=0,timers=[],minimized=false;
 // pos[i] = how many turns of conversation i are on screen. A step is complete
 // when pos[i] reaches thread.length. One click advances exactly one turn.
 function turnsOf(i){return (STEPS[i].thread||[]).length}
@@ -367,7 +367,7 @@ var INTRO="Click Start to simulate the concierge handling five real visitors, fr
 
 function el(id){return document.getElementById(id)}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
 function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
 function scrollBody(){var b=el('cwBody');b.scrollTop=b.scrollHeight}
 
@@ -379,15 +379,6 @@ function bubble(cls,html,show){
   d.innerHTML=html;el('cwBody').appendChild(d);scrollBody();return d;
 }
 
-function typeInto(node,text,speed){
-  return new Promise(function(resolve){
-    clearInterval(typeIv);node.textContent='';var i=0;
-    typeIv=setInterval(function(){
-      node.textContent+=text[i];i++;scrollBody();
-      if(i>=text.length){clearInterval(typeIv);resolve()}
-    },speed||24);
-  });
-}
 
 function leadCount(step){
   var th=step.thread||[],k=0;
@@ -476,9 +467,7 @@ async function playOneTurn(){
     requestAnimationFrame(function(){vb.classList.add('show')});
     scrollBody();
   } else {
-    var out=bubble('out show','',true);
-    await typeInto(out,m.m,24);if(t!==tok)return;
-    out.innerHTML=esc(m.m).replace(/\n/g,'<br>');scrollBody();
+    bubble('out show',esc(m.m).replace(/\n/g,'<br>'),true);scrollBody();
     var c=ctaFor(m);
     if(c){await sleep(200);if(t!==tok)return;
       el('cwBody').appendChild(c);scrollBody();
@@ -501,9 +490,7 @@ async function confirmStep(){
   el('cwBody').appendChild(typ);scrollBody();
   await sleep(900);if(t!==tok)return;
   typ.remove();
-  var out=bubble('out show','',true);
-  await typeInto(out,step.confirmMsg,24);if(t!==tok)return;
-  out.innerHTML=esc(step.confirmMsg).replace(/\n/g,'<br>');scrollBody();
+  bubble('out show',esc(step.confirmMsg).replace(/\n/g,'<br>'),true);scrollBody();
   running=false;updateControls();
 }
 
