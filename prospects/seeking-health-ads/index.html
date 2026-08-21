@@ -450,7 +450,7 @@ function replyHTML(step,i,filled){
     +'<div class="pc-main"><div class="pc-bub brandbub"><div class="pc-name">Seeking Health</div>'
     +'<div class="pc-text">'+(filled?esc(step.outreach):'<span id="aiText"></span>')+'</div></div>'
     +'<div class="pc-meta">Just now · Like · Reply</div></div></div>'
-    +(step.dm?'<div class="pc-route" id="rt'+i+'">✉ DM sent · '+esc(step.dm)+'</div>':'');
+    +(step.dm?'<div class="pc-route" id="rt'+i+'">✉ Private reply sent</div>':'');
 }
 // rebuild the post: comments on the SAME ad, up to the current step
 function renderPost(){
