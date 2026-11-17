@@ -153,7 +153,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
     <div class="topbar-sep"></div>
     <div class="air">AI Replace<span>.</span></div>
   </div>
-  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Jenny's comment feed · answering + routing</span></div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Jenny's comment feed · Saturday night</span></div>
 </div>
 <div class="stage-label" id="stageLabel"></div>
 
@@ -218,7 +218,7 @@ body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
 </main>
 
 <div class="nav-ctrl">
-  <div class="nav-copy"><b id="navTitle">Overnight comment feed loaded</b><span id="navCopy">Seven comments came in after close. Click Analyze to run the first.</span></div>
+  <div class="nav-copy"><b id="navTitle">Saturday night comment feed</b><span id="navCopy">Eight comments came in with nobody on support until Monday. Click Analyze to run the first.</span></div>
   <div class="nav-acts">
     <button class="btn-primary" id="btnPrimary">ANALYZE</button>
     <button class="btn-sec" id="btnSkip">SHOW NOW</button>
@@ -233,6 +233,7 @@ var AD_A={id:"A",post:"New Christmas DTF designs just dropped. Ready to press, s
 var AD_B={id:"B",post:"Five full Christmas sets on one oversized gang sheet. One sheet, one press run.",kicker:"Oversized DTF Gang Sheet",head:"Bah Humbug · 5 Christmas Sets",sub:"Premade Gang Sheets · DTF Transfer",adTag:"Ad · Premade Gang Sheets",likes:"1.6k",cmts:"142",shares:"71",spend:"Meta Ads"};
 var AD_C={id:"C",post:"Upload your own artwork and we gang it up for you. You pick the size, we print it.",kicker:"Build your own",head:"Custom DTF Gang Sheet",sub:"Upload your artwork · we print and ship it",adTag:"Ad · Custom DTF",likes:"2.8k",cmts:"226",shares:"133",spend:"Meta Ads"};
 var AD_D={id:"D",post:"Warehouse clearance is open. Retiring screenprints, patch clearance and grab bags.",kicker:"Warehouse Clearance",head:"Clearance Is Open",sub:"Retiring screenprints · patch clearance · grab bags",adTag:"Ad · Warehouse Clearance",likes:"3.2k",cmts:"268",shares:"147",spend:"Meta Ads"};
+var AD_E={id:"E",post:"Chenille and sequin patches, ready to press onto hats, totes and denim.",kicker:"Apparel Patches",head:"Glitter Chenille Letters",sub:"Chenille · Sequin · Faux leather patches",adTag:"Ad · Apparel Patches",likes:"4.4k",cmts:"312",shares:"168",spend:"Meta Ads"};
 var STEPS=[
  {sender:"Brittany M.",initials:"BM",av:"#D6006F",time:"9:48pm",subject:"On: Christmas DTF drop reel",
   label:"Buy Link · Read From The Post Context",
@@ -247,36 +248,39 @@ var STEPS=[
    ["›","Reading the post context · four designs in this reel","dim"],
    ["›","Her words: 'the boots one'","hi"],
    ["›","Matched: Howdy Christmas Cowgirl Boots DTF Transfer","ok"],
-   ["›","Product page pulled · design confirmed","ok"],
+   ["›","BigCommerce · product page matched and live","ok"],
+   ["›","Matching your voice · short and warm, no corporate script","ok"],
    ["›","Meta allows one private reply per comment","ok"],
-   ["›","Private reply sent with the direct link","hi"]
+   ["›","ManyChat · private reply sent with the direct link","hi"]
   ],
   oMeta:"Auto · product matched from the post · link sent",conf:"Auto",
   outreach:"Those are the Howdy Christmas Cowgirl Boots 🤠 one of the four new designs in this reel.\n\nWe have just sent you a DM with the direct link so you can grab it. Check your messages!",
   sent:"Auto · replied publicly · link sent by DM",outcome:"Answered ✓",
   auto:true,saved:4},
 
- {sender:"Casey Lindberg",initials:"CL",av:"#0a8c6e",time:"10:06pm",subject:"On: Christmas DTF drop reel",
-  label:"Where Is My Order · Deadline Risk",
-  status:"AI Replace · Looking up an order...",draftBtn:"DRAFT REPLY",
-  ad:AD_A,cmt:{who:"Casey Lindberg",text:"ordered Tuesday and still no tracking. I have a market Saturday and 40 shirts to press 😩",time:"7m"},
-  action:"engage",sentiment:"? Order",sentCls:"fs-q",
-  dm:"tracking number and order detail",
+ {sender:"Hayden Cross",initials:"HC",av:"#0a8c6e",time:"10:03pm",subject:"On: Christmas DTF drop reel",
+  label:"Turnaround · Processing Is Not Transit",
+  status:"AI Replace · Checking your current turnaround...",draftBtn:"DRAFT REPLY",
+  ad:AD_A,cmt:{who:"Hayden Cross",text:"how long does it take to get these? trying to work out if I can still do them for a craft fair the first week of December",time:"5m"},
+  action:"engage",sentiment:"? Shipping",sentCls:"fs-q",
+  dm:"shipping page and UPS options",
   lines:[
-   ["›","New comment · an order question, not a sale","hi"],
-   ["›","Matching the commenter to a customer record","dim"],
-   ["›","Order found · placed Tuesday · two gang sheets","ok"],
-   ["›","Shipping label created this afternoon","ok"],
-   ["›","Tracking emails out the moment the label is made","ok"],
-   ["›","She names a deadline · Saturday market, 40 shirts","warn"],
+   ["›","New comment on your Christmas DTF drop reel","hi"],
+   ["›","Question type: turnaround, not an existing order","hi"],
+   ["›","Reading your shipping policy page","dim"],
+   ["›","Your policy splits processing time from transit time","ok"],
+   ["›","Processing: most orders go out same or next business day","ok"],
+   ["›","Caveat on your page: holidays can run a little longer","warn"],
+   ["›","It is November · that caveat applies right now","warn"],
    ["›","Rule: never promise a delivery date we do not control","flag"],
-   ["›","Your own policy: pick UPS when there is a hard date","ok"],
-   ["›","Order detail goes to DM, not a public thread","ok"]
+   ["›","She named a date · your policy says point her at UPS","ok"],
+   ["›","BigCommerce · queue is clearing same day right now","ok"],
+   ["›","ManyChat · shipping page sent by private reply","hi"]
   ],
-  oMeta:"Auto · order looked up · tracking sent by DM",conf:"Auto",
-  outreach:"Oh no, Saturday market pressure is real 😅 Good news, your label went out this afternoon, so your tracking email is on its way.\n\nWe have sent you a DM with the tracking number. And for anything with a hard date on it, UPS is the one we would pick.",
-  sent:"Auto · tracking sent · deadline noted",outcome:"Answered ✓",
-  auto:true,saved:6},
+  oMeta:"Auto · answered from your shipping policy",conf:"Auto",
+  outreach:"Two parts to it, Hayden. Most orders go out the same or next business day, then the carrier decides when it lands. We are into the holiday run now, so processing can stretch a little.\n\nFirst week of December is very doable. We have DM'd you the shipping page, and if you want that date safe, pick UPS.",
+  sent:"Auto · turnaround answered · shipping page sent",outcome:"Answered ✓",
+  auto:true,saved:5},
 
  {sender:"Marisol Vega",initials:"MV",av:"#a30054",time:"10:21pm",subject:"On: Premade Gang Sheets ad",
   label:"How To Press · Answered From Your Own Page",
@@ -294,7 +298,7 @@ var STEPS=[
    ["›","Pre press 7 seconds · press 8 to 15 seconds","ok"],
    ["›","Instant peel · then repress 8 seconds under parchment","ok"],
    ["›","Your page is clear that every press runs differently","warn"],
-   ["›","Settings in the reply, full page link in the DM","ok"]
+   ["›","ManyChat · full pressing page sent by DM","hi"]
   ],
   oMeta:"Auto · answered from your pressing instructions",conf:"Auto",
   outreach:"You will be fine, promise 🙌 For DTF: 275 to 300 degrees, heavy pressure around 8 to 9 PSI, pre press 7 seconds, press 8 to 15 seconds, instant peel, then press again for 8 seconds under parchment.\n\nWe have DM'd you our full pressing instructions. Every press runs a little different, so test one blank first.",
@@ -310,20 +314,44 @@ var STEPS=[
   lines:[
    ["›","Negative comment on your Premade Gang Sheets ad","warn"],
    ["›","She names an order and an unanswered email","flag"],
-   ["›","This is a real customer, not a troll","warn"],
+   ["›","BigCommerce · order located","ok"],
+   ["›","Zendesk · no open ticket for this email address","flag"],
+   ["›","Her email never reached the queue · that is the real issue","flag"],
    ["›","Rule: never hide a genuine complaint","flag"],
    ["›","Hiding it removes the only trace of the problem","flag"],
    ["›","Peeling usually traces back to press settings","dim"],
    ["›","Do not say that publicly · it reads as blaming her","warn"],
    ["›","Acknowledge in public, diagnose in the DM","ok"],
-   ["›","Flagged for Jenny · the unanswered email is the issue","hi"]
+   ["›","Zendesk · ticket opened and flagged for Jenny","hi"]
   ],
   oMeta:"Kept public · taken to DM · flagged for Jenny",conf:"Flag",
   outreach:"Dana, that should not happen, and two days with no reply on top of it is not okay 🙏\n\nWe have sent you a DM so we can pull your order up and get this sorted properly today. We will take it from there.",
   sent:"Kept public · DM sent · flagged for Jenny",outcome:"Flagged ⚑",
   auto:true,flagged:true,saved:9},
 
- {sender:"Tori Beckman",initials:"TB",av:"#8c5c0a",time:"11:02pm",subject:"On: Warehouse Clearance ad",
+ {sender:"Shelby Nunn",initials:"SN",av:"#8e5cb6",time:"11:02pm",subject:"On: Apparel Patches ad",
+  label:"Praise Comment · The Volume Win",
+  status:"AI Replace · Replying to a positive comment...",draftBtn:"DRAFT REPLY",
+  ad:AD_E,cmt:{who:"Shelby Nunn",text:"ok these are SO cute 😍😍",time:"8m"},
+  action:"engage",sentiment:"♥ Praise",sentCls:"fs-pos",
+  dm:"thank you and a clearance heads up",
+  lines:[
+   ["›","New comment on your Apparel Patches ad","hi"],
+   ["›","No question here · nothing to resolve","dim"],
+   ["›","This is the highest volume comment type on your page","hi"],
+   ["›","Left alone it reads like nobody is home","warn"],
+   ["›","BigCommerce · existing customer, three orders","ok"],
+   ["›","Matching your voice · short and warm, no corporate script","ok"],
+   ["›","Rule: no invented codes · only what is actually running","flag"],
+   ["›","Live right now: the warehouse clearance","ok"],
+   ["›","ManyChat · thank you and a heads up sent by DM","hi"]
+  ],
+  oMeta:"Auto · thanked publicly · DM sent",conf:"Auto",
+  outreach:"Right?? 😍 Thank you Shelby, and thank you for being one of our regulars.\n\nWe have just dropped you a DM to say it properly, plus a heads up on something in the warehouse clearance we think has your name on it.",
+  sent:"Auto · praise answered · DM sent",outcome:"Answered ✓",
+  auto:true,saved:2},
+
+ {sender:"Tori Beckman",initials:"TB",av:"#8c5c0a",time:"11:11pm",subject:"On: Warehouse Clearance ad",
   label:"Discount Question · Real Offers Only",
   status:"AI Replace · Checking what is actually running...",draftBtn:"DRAFT REPLY",
   ad:AD_D,cmt:{who:"Tori Beckman",text:"any code for first time buyers? just opened my boutique in September 🩷",time:"6m"},
@@ -333,12 +361,13 @@ var STEPS=[
    ["›","New comment on your Warehouse Clearance ad","hi"],
    ["›","Intent: ready to order · asking for a code","hi"],
    ["›","Personal context: opened her boutique in September","ok"],
+   ["›","BigCommerce · no order history · she is genuinely new","ok"],
    ["›","Checking what is live on the site right now","dim"],
    ["›","Live: 10% off your first order when you sign up","ok"],
    ["›","Live: warehouse clearance is already running","ok"],
    ["›","Rule: only offer what is actually running","flag"],
    ["›","No invented codes · no one off discounts","flag"],
-   ["›","Private reply sent with the signup link","hi"]
+   ["›","ManyChat · signup link sent by private reply","hi"]
   ],
   oMeta:"Auto · real offer only · signup link sent",conf:"Auto",
   outreach:"Congrats on the boutique, that is a big one 🩷\n\nYes, there is 10% off your first order when you sign up, and clearance is already running, so this is a good week to start. We have just sent you a DM with the signup link.",
@@ -352,7 +381,7 @@ var STEPS=[
   action:"hide",sentiment:"✗ Spam",sentCls:"fs-neg",
   lines:[
    ["›","New comment on your Custom DTF ad","hi"],
-   ["›","Commenter is a business page, not a customer","warn"],
+   ["›","Meta · commenter is a business Page, not a customer","warn"],
    ["›","Content: another print shop pitching its own prices","flag"],
    ["›","No question · nothing here to answer","dim"],
    ["›","This sits under a post you are paying to run","flag"],
@@ -380,7 +409,7 @@ var STEPS=[
    ["›","Artwork has to be print ready or the order waits on us","warn"],
    ["›","Route her to the builder and ask one question","ok"],
    ["›","Rule: never quote volume pricing without Jenny","flag"],
-   ["›","Flagged for Jenny · wholesale, not a support ticket","hi"]
+   ["›","Zendesk · ticket opened for Jenny · wholesale, not support","hi"]
   ],
   oMeta:"Auto · routed to custom · flagged as a wholesale lead",conf:"Lead",
   outreach:"Yes, that is exactly what this one is for 🙌 You upload your logo and we gang it up and print it.\n\nWe have DM'd you the builder. One quick thing, what size are you pressing the logo at? That changes how many fit on a sheet, and at 200 shirts it is worth getting right.",
