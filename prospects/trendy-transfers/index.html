@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Replace · Trendy Transfers Comment Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf7f9;--white:#fff;--ink:#16161D;--body:#4A4F5C;--muted:#8d8f9a;--border:#E4E7EC;
+  --teal:#0a8c6e;--tealdk:#076b53;--teallt:#e4f4ef;
+  --brand:#D6006F;--branddk:#a30054;--brandlt:#fdeaf3;
+  --red:#c92c2c;--redlt:#fdeeee;--amber:#8c5c0a;--amberlt:#fef5e8;
+  --green:#1a7a4a;--greenlt:#edf8f0;
+  --mono:'JetBrains Mono',monospace;--sans:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(255,252,253,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(12px);box-shadow:0 1px 14px rgba(214,0,111,.08)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.brand-pill{display:flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:900}
+.topbar-sep{width:1px;height:21px;background:var(--border)}
+.air{font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+.air span{color:var(--teal)}
+.topbar-status{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--tealdk);font-family:var(--mono)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.38;transform:scale(.7)}}
+.stage-label{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:99;opacity:0;transition:opacity .3s;color:var(--branddk);background:rgba(253,234,243,.96);border:1px solid #f2b4d2;border-radius:100px;padding:7px 14px;font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 20px rgba(214,0,111,.1)}
+.stage-label.vis{opacity:1}
+.scene{width:min(1060px,96vw);margin:0 auto;height:100vh;padding:68px 0 76px;display:grid;grid-template-columns:330px minmax(0,1fr);gap:14px;align-items:stretch}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 14px rgba(214,0,111,.05);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);background:#fdfafc;flex:0 0 auto}
+.card-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.card-title{font:800 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:1}
+.cbadge{font:800 9px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-radius:100px;padding:4px 8px}
+.b-live{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.b-proc{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.b-done{background:var(--greenlt);color:var(--green);border:1px solid #9fd4b8}
+.b-idle{background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
+.b-alert{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+/* ===== LEFT: social post ===== */
+.post-col{grid-column:1;display:flex;flex-direction:column;min-height:0}
+.post-card{flex:1;min-height:0}
+.post-scroll{flex:1;overflow-y:auto;min-height:0}
+.post-scroll::-webkit-scrollbar{width:5px}
+.post-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.ad-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px 8px}
+.ad-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--branddk));display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex:0 0 auto}
+.ad-name{font-weight:800;font-size:13px;color:var(--ink)}
+.ad-sub{font:600 9.5px/1.3 var(--mono);color:var(--muted);margin-top:1px}
+.ad-more{margin-left:auto;color:var(--muted);font-weight:900;letter-spacing:1px}
+.ad-body{padding:0 13px 10px;font-size:12.5px;font-weight:650;color:var(--ink);line-height:1.45}
+.ad-img{height:150px;background:linear-gradient(145deg,#a30054 0%,#6d0038 55%,#2b0016 100%);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 22px}
+.ad-img .ai-kicker{font:800 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px}
+.ad-img .ai-head{font-size:16px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.2}
+.ad-img .ai-sub{font-size:10px;color:rgba(255,255,255,.62);margin-top:6px}
+.ad-tag{position:absolute;top:10px;left:10px;font:800 8.5px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--branddk);border-radius:100px;padding:5px 9px}
+.ad-cta{position:absolute;bottom:10px;right:10px;background:var(--brand);color:#fff;font:800 10px/1 var(--sans);padding:6px 13px;border-radius:100px}
+.ad-bar{display:flex;align-items:center;gap:14px;padding:9px 14px;font:700 11px/1 var(--mono);color:var(--muted);border-bottom:1px solid var(--border)}
+.ad-spend{margin-left:auto;background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb;border-radius:100px;padding:5px 9px;font-size:10px}
+.cmt-label{padding:10px 14px 4px;font:800 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cmt-list{padding:4px 13px 14px;display:flex;flex-direction:column;gap:9px}
+.pc{display:flex;gap:9px;align-items:flex-start;animation:pcIn .4s ease both}
+@keyframes pcIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.pc.hiding{animation:pcHide .65s ease forwards}
+@keyframes pcHide{0%{opacity:1;transform:translateX(0)}25%{background:rgba(201,44,44,.07);border-radius:9px}100%{opacity:0;transform:translateX(18px);max-height:0;margin:0;padding:0}}
+.pc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px/1 var(--mono);flex:0 0 auto}
+.pc-main{flex:1;min-width:0}
+.pc-bub{background:#f4f1f3;border-radius:13px;padding:8px 11px}
+.pc-bub.brandbub{background:var(--brandlt);border:1px solid #f2b4d2}
+.pc-bub.negbub{background:var(--redlt);border:1px solid #f0caca}
+.pc-name{font-weight:800;font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:6px}
+.pc-badge{font:800 7.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;background:var(--amberlt);color:var(--amber);border:1px solid #e0c070;border-radius:100px;padding:3px 5px}
+.pc-text{font-size:11.5px;color:var(--body);line-height:1.45;margin-top:3px;white-space:pre-wrap}
+.pc-meta{font:600 8.5px/1 var(--mono);color:var(--muted);margin-top:5px;padding-left:3px}
+.pc.reply{margin-left:28px}
+.pc-route{margin:2px 0 0 65px;display:inline-block;background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb;border-radius:100px;padding:5px 10px;font:800 8.5px/1 var(--mono)}
+/* ===== RIGHT ===== */
+.right-col{grid-column:2;display:flex;flex-direction:column;gap:12px;min-height:0}
+.brain-card{flex:0 0 158px}
+.brain-body{padding:11px 13px;font:500 10.5px/1.5 var(--mono);display:flex;flex-direction:column;overflow:auto;flex:1}
+.bl{display:flex;align-items:flex-start;gap:6px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s;margin-bottom:1px}
+.bl.show{opacity:1;transform:none}
+.bp{color:var(--teal);font-weight:900;flex:0 0 auto}
+.bt{color:var(--body)}
+.bt.ok{color:var(--tealdk);font-weight:700}
+.bt.hi{color:var(--teal);font-weight:700}
+.bt.warn{color:var(--amber);font-weight:700}
+.bt.flag{color:var(--red);font-weight:700}
+.bt.dim{color:var(--muted)}
+.bdiv{height:1px;background:var(--border);margin:3px 0;opacity:0;transition:opacity .3s}
+.bdiv.show{opacity:1}
+.feed-card{flex:1 1 auto;min-height:0}
+.feed-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.feed-body::-webkit-scrollbar{width:5px}
+.feed-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.feed-div{text-align:center;font:600 9px/1.4 var(--mono);letter-spacing:.06em;color:var(--muted);padding:2px 0}
+.feed-row{background:#fdfafc;border:1px solid var(--border);border-radius:11px;padding:9px 12px;display:flex;align-items:flex-start;gap:10px;animation:frIn .35s ease both}
+@keyframes frIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.feed-row.negrow{border-color:#f0caca;background:var(--redlt)}
+.feed-row.posrow{border-color:#b0d9cb;background:var(--teallt)}
+.feed-row.donerow{border-color:#b0d9cb;background:#f2fbf8}
+.feed-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:800 10px/1 var(--mono);flex:0 0 auto}
+.feed-main{flex:1;min-width:0}
+.feed-top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.feed-name{font-size:11.5px;font-weight:800;color:var(--ink)}
+.feed-time{font:600 9px/1 var(--mono);color:var(--muted)}
+.feed-text{font-size:11px;color:var(--body);line-height:1.45}
+.feed-text.neg{color:#8f2020}
+.feed-note{margin-top:8px;background:#fff;border:1px solid var(--border);border-radius:9px;padding:8px 10px}
+.feed-note-hd{font:800 8px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--branddk);margin-bottom:5px}
+.feed-note span{font-size:11px;color:var(--body);line-height:1.5;white-space:pre-wrap}
+.feed-action{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:0 0 auto}
+.fs,.fo{font:800 8.5px/1 var(--mono);padding:4px 8px;border-radius:100px;white-space:nowrap}
+.fs-pos{background:var(--teallt);color:var(--tealdk);border:1px solid #b0d9cb}
+.fs-neg{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.fs-q{background:var(--amberlt);color:var(--amber);border:1px solid #e0c070}
+.fo-pend{background:#eef2f1;color:var(--muted);border:1px solid var(--border)}
+.fo-hide{background:var(--redlt);color:var(--red);border:1px solid #f0caca}
+.fo-done{background:#f2fbf8;color:var(--tealdk);border:1px solid #b0d9cb}
+.stats-card{flex:0 0 auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}
+.ss{border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+.ss:nth-child(1){background:var(--brandlt);border-color:#f2b4d2}
+.ss:nth-child(2){background:var(--amberlt);border-color:#e0c070}
+.ss:nth-child(3){background:#edf8f4;border-color:#9fd4b8}
+.ss:nth-child(4){background:var(--redlt);border-color:#f0caca}
+.ss-num{font:900 20px/1 var(--mono);color:var(--branddk)}
+.ss:nth-child(2) .ss-num{color:var(--amber)}
+.ss:nth-child(3) .ss-num{color:var(--tealdk)}
+.ss:nth-child(4) .ss-num{color:var(--red)}
+.ss-lbl{font-size:8px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+/* ===== controls ===== */
+.nav-ctrl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(940px,calc(100vw - 32px));z-index:150;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:rgba(255,252,253,.96);border:1px solid var(--border);box-shadow:0 12px 32px rgba(214,0,111,.12);border-radius:13px;padding:10px 13px;backdrop-filter:blur(14px)}
+.nav-copy{font-size:12px;line-height:1.45;color:var(--body)}
+.nav-copy b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:1px}
+.nav-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.btn-primary{border:none;border-radius:100px;background:var(--brand);color:#fff;font:800 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:10px 15px;cursor:pointer;box-shadow:0 8px 20px rgba(214,0,111,.22);white-space:nowrap}
+.btn-primary:disabled{background:#c2c9e0;box-shadow:none;cursor:not-allowed}
+.btn-primary.confirm-glow{animation:cglow 1.5s ease-in-out infinite}
+@keyframes cglow{0%{box-shadow:0 0 0 0 rgba(214,0,111,.55)}60%{box-shadow:0 0 0 14px rgba(214,0,111,0)}100%{box-shadow:0 0 0 0 rgba(214,0,111,0)}}
+.btn-sec{border:1px solid var(--border);border-radius:100px;background:#fdfafc;color:var(--body);font:800 9.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:9px 11px;cursor:pointer;white-space:nowrap}
+.btn-sec:hover:not(:disabled){border-color:#f2b4d2;color:var(--branddk);background:var(--brandlt)}
+.btn-sec:disabled{opacity:.35;cursor:not-allowed}
+.btn-sec.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-pill">Trendy Transfers</div>
+    <div class="topbar-sep"></div>
+    <div class="air">AI Replace<span>.</span></div>
+  </div>
+  <div class="topbar-status"><div class="pulse-dot"></div><span id="statusText">AI Replace · Jenny's comment feed · answering + routing</span></div>
+</div>
+<div class="stage-label" id="stageLabel"></div>
+
+<main class="scene">
+  <aside class="post-col">
+    <div class="card post-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--brand)"></div>
+        <div class="card-title">Live Post · Meta</div>
+        <div class="cbadge b-live" id="postBadge">Live</div>
+      </div>
+      <div class="post-scroll" id="postScroll">
+        <div class="ad-hdr">
+          <div class="ad-av">◆</div>
+          <div><div class="ad-name">Trendy Transfers</div><div class="ad-sub">Sponsored · Meta</div></div>
+          <div class="ad-more">•••</div>
+        </div>
+        <div class="ad-body" id="adBody"></div>
+        <div class="ad-img" id="adImg"></div>
+        <div class="ad-bar" id="adBar"></div>
+        <div class="cmt-label">Comments</div>
+        <div class="cmt-list" id="cmtList"></div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="right-col">
+    <div class="card brain-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Reasoning</div>
+        <div class="cbadge b-idle" id="aiBadge">Standby</div>
+      </div>
+      <div class="brain-body" id="brainBody">
+        <div class="bl show"><span class="bp">›</span><span class="bt dim">Comment loaded · click Analyze to run the AI</span></div>
+      </div>
+    </div>
+
+    <div class="card feed-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--teal)"></div>
+        <div class="card-title">AI Replace · Live Comment Feed</div>
+        <div class="cbadge b-live" id="feedBadge">Monitoring</div>
+      </div>
+      <div class="feed-body" id="feedBody"></div>
+    </div>
+
+    <section class="card stats-card">
+      <div class="card-hdr">
+        <div class="card-dot" style="background:var(--green)"></div>
+        <div class="card-title">Session Stats</div>
+        <div class="cbadge b-live">Live</div>
+      </div>
+      <div class="stats-row">
+        <div class="ss"><div class="ss-num" id="stH">0</div><div class="ss-lbl">Scanned</div></div>
+        <div class="ss"><div class="ss-num" id="stA">0</div><div class="ss-lbl">Answered</div></div>
+        <div class="ss"><div class="ss-num" id="stS">0</div><div class="ss-lbl">Hidden</div></div>
+        <div class="ss"><div class="ss-num" id="stT">0</div><div class="ss-lbl">For Jenny</div></div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<div class="nav-ctrl">
+  <div class="nav-copy"><b id="navTitle">Overnight comment feed loaded</b><span id="navCopy">Seven comments came in after close. Click Analyze to run the first.</span></div>
+  <div class="nav-acts">
+    <button class="btn-primary" id="btnPrimary">ANALYZE</button>
+    <button class="btn-sec" id="btnSkip">SHOW NOW</button>
+    <button class="btn-sec" id="btnPrev">← PREV</button>
+    <div class="cbadge b-idle" id="navBadge">Waiting</div>
+  </div>
+</div>
+
+<script>
+var NAME="Jenny";var ITEM="comment";
+var AD_A={id:"A",post:"New Christmas DTF designs just dropped. Ready to press, straight off the roll.",kicker:"Ready to press DTF",head:"Howdy Christmas Cowgirl Boots",sub:"Western Christmas Design · DTF Transfer",adTag:"Reel · Christmas DTF Drop",likes:"2.1k",cmts:"184",shares:"96",spend:"Meta · Reel"};
+var AD_B={id:"B",post:"Five full Christmas sets on one oversized gang sheet. One sheet, one press run.",kicker:"Oversized DTF Gang Sheet",head:"Bah Humbug · 5 Christmas Sets",sub:"Premade Gang Sheets · DTF Transfer",adTag:"Ad · Premade Gang Sheets",likes:"1.6k",cmts:"142",shares:"71",spend:"Meta Ads"};
+var AD_C={id:"C",post:"Upload your own artwork and we gang it up for you. You pick the size, we print it.",kicker:"Build your own",head:"Custom DTF Gang Sheet",sub:"Upload your artwork · we print and ship it",adTag:"Ad · Custom DTF",likes:"2.8k",cmts:"226",shares:"133",spend:"Meta Ads"};
+var AD_D={id:"D",post:"Warehouse clearance is open. Retiring screenprints, patch clearance and grab bags.",kicker:"Warehouse Clearance",head:"Clearance Is Open",sub:"Retiring screenprints · patch clearance · grab bags",adTag:"Ad · Warehouse Clearance",likes:"3.2k",cmts:"268",shares:"147",spend:"Meta Ads"};
+var STEPS=[
+ {sender:"Brittany M.",initials:"BM",av:"#D6006F",time:"9:48pm",subject:"On: Christmas DTF drop reel",
+  label:"Buy Link · Read From The Post Context",
+  status:"AI Replace · Scanning new comments on your reel...",draftBtn:"DRAFT REPLY",
+  ad:AD_A,cmt:{who:"Brittany M.",text:"the boots one 😍 link??",time:"2m"},
+  action:"engage",sentiment:"🛒 Buying",sentCls:"fs-pos",
+  dm:"direct product link",
+  lines:[
+   ["›","New comment on your Christmas DTF drop reel","hi"],
+   ["›","Intent: she wants to buy · no product named","hi"],
+   ["›","'link??' on its own is not enough to answer","warn"],
+   ["›","Reading the post context · four designs in this reel","dim"],
+   ["›","Her words: 'the boots one'","hi"],
+   ["›","Matched: Howdy Christmas Cowgirl Boots DTF Transfer","ok"],
+   ["›","Product page pulled · design confirmed","ok"],
+   ["›","Meta allows one private reply per comment","ok"],
+   ["›","Private reply sent with the direct link","hi"]
+  ],
+  oMeta:"Auto · product matched from the post · link sent",conf:"Auto",
+  outreach:"Those are the Howdy Christmas Cowgirl Boots 🤠 one of the four new designs in this reel.\n\nWe have just sent you a DM with the direct link so you can grab it. Check your messages!",
+  sent:"Auto · replied publicly · link sent by DM",outcome:"Answered ✓",
+  auto:true,saved:4},
+
+ {sender:"Casey Lindberg",initials:"CL",av:"#0a8c6e",time:"10:06pm",subject:"On: Christmas DTF drop reel",
+  label:"Where Is My Order · Deadline Risk",
+  status:"AI Replace · Looking up an order...",draftBtn:"DRAFT REPLY",
+  ad:AD_A,cmt:{who:"Casey Lindberg",text:"ordered Tuesday and still no tracking. I have a market Saturday and 40 shirts to press 😩",time:"7m"},
+  action:"engage",sentiment:"? Order",sentCls:"fs-q",
+  dm:"tracking number and order detail",
+  lines:[
+   ["›","New comment · an order question, not a sale","hi"],
+   ["›","Matching the commenter to a customer record","dim"],
+   ["›","Order found · placed Tuesday · two gang sheets","ok"],
+   ["›","Shipping label created this afternoon","ok"],
+   ["›","Tracking emails out the moment the label is made","ok"],
+   ["›","She names a deadline · Saturday market, 40 shirts","warn"],
+   ["›","Rule: never promise a delivery date we do not control","flag"],
+   ["›","Your own policy: pick UPS when there is a hard date","ok"],
+   ["›","Order detail goes to DM, not a public thread","ok"]
+  ],
+  oMeta:"Auto · order looked up · tracking sent by DM",conf:"Auto",
+  outreach:"Oh no, Saturday market pressure is real 😅 Good news, your label went out this afternoon, so your tracking email is on its way.\n\nWe have sent you a DM with the tracking number. And for anything with a hard date on it, UPS is the one we would pick.",
+  sent:"Auto · tracking sent · deadline noted",outcome:"Answered ✓",
+  auto:true,saved:6},
+
+ {sender:"Marisol Vega",initials:"MV",av:"#a30054",time:"10:21pm",subject:"On: Premade Gang Sheets ad",
+  label:"How To Press · Answered From Your Own Page",
+  status:"AI Replace · Checking your pressing instructions...",draftBtn:"DRAFT REPLY",
+  ad:AD_B,cmt:{who:"Marisol Vega",text:"first time doing DTF, what temp and how long? I don't want to wreck 20 blanks finding out 🙈",time:"4m"},
+  action:"engage",sentiment:"? How-to",sentCls:"fs-q",
+  dm:"full pressing instructions page",
+  lines:[
+   ["›","New comment on your Premade Gang Sheets ad","hi"],
+   ["›","Question type: application settings","hi"],
+   ["›","Settings differ by formula · DTF is not spangle","warn"],
+   ["›","This ad is a DTF gang sheet · use the DTF formula","ok"],
+   ["›","Reading your Pressing Instructions page","dim"],
+   ["›","DTF: 275 to 300 degrees · heavy pressure 8 to 9 PSI","ok"],
+   ["›","Pre press 7 seconds · press 8 to 15 seconds","ok"],
+   ["›","Instant peel · then repress 8 seconds under parchment","ok"],
+   ["›","Your page is clear that every press runs differently","warn"],
+   ["›","Settings in the reply, full page link in the DM","ok"]
+  ],
+  oMeta:"Auto · answered from your pressing instructions",conf:"Auto",
+  outreach:"You will be fine, promise 🙌 For DTF: 275 to 300 degrees, heavy pressure around 8 to 9 PSI, pre press 7 seconds, press 8 to 15 seconds, instant peel, then press again for 8 seconds under parchment.\n\nWe have DM'd you our full pressing instructions. Every press runs a little different, so test one blank first.",
+  sent:"Auto · settings answered · full page sent by DM",outcome:"Answered ✓",
+  auto:true,saved:7},
+
+ {sender:"Dana Whitlock",initials:"DW",av:"#c92c2c",time:"10:44pm",subject:"On: Premade Gang Sheets ad",
+  label:"Real Complaint · Keep Public, Flag For Jenny",
+  status:"AI Replace · Checking a negative comment...",draftBtn:"DRAFT REPLY",
+  ad:AD_B,cmt:{who:"Dana Whitlock",text:"mine peeled after one wash and I had already sold the shirt. Emailed two days ago, nothing back.",time:"11m"},
+  action:"engage",sentiment:"⚑ Complaint",sentCls:"fs-med",
+  dm:"order lookup and press settings",
+  lines:[
+   ["›","Negative comment on your Premade Gang Sheets ad","warn"],
+   ["›","She names an order and an unanswered email","flag"],
+   ["›","This is a real customer, not a troll","warn"],
+   ["›","Rule: never hide a genuine complaint","flag"],
+   ["›","Hiding it removes the only trace of the problem","flag"],
+   ["›","Peeling usually traces back to press settings","dim"],
+   ["›","Do not say that publicly · it reads as blaming her","warn"],
+   ["›","Acknowledge in public, diagnose in the DM","ok"],
+   ["›","Flagged for Jenny · the unanswered email is the issue","hi"]
+  ],
+  oMeta:"Kept public · taken to DM · flagged for Jenny",conf:"Flag",
+  outreach:"Dana, that should not happen, and two days with no reply on top of it is not okay 🙏\n\nWe have sent you a DM so we can pull your order up and get this sorted properly today. We will take it from there.",
+  sent:"Kept public · DM sent · flagged for Jenny",outcome:"Flagged ⚑",
+  auto:true,flagged:true,saved:9},
+
+ {sender:"Tori Beckman",initials:"TB",av:"#8c5c0a",time:"11:02pm",subject:"On: Warehouse Clearance ad",
+  label:"Discount Question · Real Offers Only",
+  status:"AI Replace · Checking what is actually running...",draftBtn:"DRAFT REPLY",
+  ad:AD_D,cmt:{who:"Tori Beckman",text:"any code for first time buyers? just opened my boutique in September 🩷",time:"6m"},
+  action:"engage",sentiment:"🛒 Buying",sentCls:"fs-pos",
+  dm:"first order signup link",
+  lines:[
+   ["›","New comment on your Warehouse Clearance ad","hi"],
+   ["›","Intent: ready to order · asking for a code","hi"],
+   ["›","Personal context: opened her boutique in September","ok"],
+   ["›","Checking what is live on the site right now","dim"],
+   ["›","Live: 10% off your first order when you sign up","ok"],
+   ["›","Live: warehouse clearance is already running","ok"],
+   ["›","Rule: only offer what is actually running","flag"],
+   ["›","No invented codes · no one off discounts","flag"],
+   ["›","Private reply sent with the signup link","hi"]
+  ],
+  oMeta:"Auto · real offer only · signup link sent",conf:"Auto",
+  outreach:"Congrats on the boutique, that is a big one 🩷\n\nYes, there is 10% off your first order when you sign up, and clearance is already running, so this is a good week to start. We have just sent you a DM with the signup link.",
+  sent:"Auto · first order offer sent",outcome:"Answered ✓",
+  auto:true,saved:5},
+
+ {sender:"DTF Print Co.",initials:"DP",av:"#4A4F5C",time:"11:19pm",subject:"On: Custom DTF ad",
+  label:"Competitor In Your Comments · Hide",
+  status:"AI Replace · Checking a comment with a pitch...",draftBtn:"HIDE COMMENT",
+  ad:AD_C,cmt:{who:"DTF Print Co.",badge:"Page",text:"gang sheets 89¢ a design, no minimum 👉 order at the link in our bio",time:"3m"},
+  action:"hide",sentiment:"✗ Spam",sentCls:"fs-neg",
+  lines:[
+   ["›","New comment on your Custom DTF ad","hi"],
+   ["›","Commenter is a business page, not a customer","warn"],
+   ["›","Content: another print shop pitching its own prices","flag"],
+   ["›","No question · nothing here to answer","dim"],
+   ["›","This sits under a post you are paying to run","flag"],
+   ["›","Every click it takes is a click you bought","flag"],
+   ["›","Policy: hide competitor pitches on paid posts","ok"],
+   ["›","Hiding · their page still sees their own comment","hi"]
+  ],
+  oMeta:"Auto · competitor comment hidden",conf:"Auto",
+  outreach:"Hidden. A print shop page pitching its own prices under an ad you are paying for. No question to answer, and their page still sees their own comment, so there is nothing to argue about publicly.",
+  sent:"Auto · competitor comment hidden",outcome:"Hidden ✓",
+  auto:true,saved:3},
+
+ {sender:"Priya Raman",initials:"PR",av:"#D6006F",time:"11:34pm",subject:"On: Custom DTF ad",
+  label:"Wholesale Lead · Route And Flag For Jenny",
+  status:"AI Replace · Reading a custom order question...",draftBtn:"DRAFT REPLY",
+  ad:AD_C,cmt:{who:"Priya Raman",text:"do you print our own artwork? we run two boutiques and need roughly 200 shirts with our logo before the holidays",time:"5m"},
+  action:"engage",sentiment:"🛒 Buying",sentCls:"fs-pos",
+  dm:"custom gang sheet builder",
+  lines:[
+   ["›","New comment on your Custom DTF ad","hi"],
+   ["›","Yes · this ad is exactly the custom gang sheet product","ok"],
+   ["›","Signal: two boutiques · roughly 200 shirts","hi"],
+   ["›","Signal: holiday deadline · she is working to a date","hi"],
+   ["›","Volume plus a deadline · not a one sheet order","hi"],
+   ["›","Artwork has to be print ready or the order waits on us","warn"],
+   ["›","Route her to the builder and ask one question","ok"],
+   ["›","Rule: never quote volume pricing without Jenny","flag"],
+   ["›","Flagged for Jenny · wholesale, not a support ticket","hi"]
+  ],
+  oMeta:"Auto · routed to custom · flagged as a wholesale lead",conf:"Lead",
+  outreach:"Yes, that is exactly what this one is for 🙌 You upload your logo and we gang it up and print it.\n\nWe have DM'd you the builder. One quick thing, what size are you pressing the logo at? That changes how many fit on a sheet, and at 200 shirts it is worth getting right.",
+  sent:"Auto · routed to custom · flagged for Jenny",outcome:"Lead ⚑",
+  auto:true,flagged:true,saved:8}
+];
+var cur=0,done={},running=false,reasoned=false,tok=0,typeIv=null,timers=[],
+    stats={h:0,hid:0,eng:0,comp:0};
+var N=STEPS.length;
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function el(id){return document.getElementById(id)}
+function sleep(ms){return new Promise(function(r){var id=setTimeout(r,ms);timers.push(id)})}
+function clearTimers(){timers.forEach(clearTimeout);timers=[];clearInterval(typeIv)}
+function setBadge(id,cls,txt){var e=el(id);if(!e)return;e.className='cbadge '+cls;e.textContent=txt}
+function setLabel(t){var e=el('stageLabel');e.textContent=t;e.classList.toggle('vis',!!t)}
+function scrollPost(){var p=el('postScroll');if(p)p.scrollTop=p.scrollHeight}
+function scrollFeed(){var f=el('feedBody');if(f)f.scrollTop=f.scrollHeight}
+function conclusionLine(step){
+  if(step.flagged)return['Handled publicly · flagged for Jenny','warn'];
+  if(step.action==='engage')return['Reply ready to post','ok'];
+  if(step.action==='hide')return['Comment hidden · ad protected','warn'];
+  return['Competitor hidden · budget protected','flag'];
+}
+
+/* ---------- brain ---------- */
+function addLine(prefix,text,cls,delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bl';
+      d.innerHTML='<span class="bp">'+esc(prefix)+'</span><span class="bt '+cls+'">'+esc(text)+'</span>';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show');body.scrollTop=body.scrollHeight});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function addDiv(delay){
+  return new Promise(function(resolve){
+    var id=setTimeout(function(){
+      var body=el('brainBody');
+      var d=document.createElement('div');d.className='bdiv';
+      body.appendChild(d);
+      requestAnimationFrame(function(){d.classList.add('show')});
+      resolve();
+    },delay||0);
+    timers.push(id);
+  });
+}
+function fillBrainComplete(step){
+  el('brainBody').innerHTML='';
+  step.lines.forEach(function(l){
+    var d=document.createElement('div');d.className='bl show';
+    d.innerHTML='<span class="bp">'+esc(l[0])+'</span><span class="bt '+l[2]+'">'+esc(l[1])+'</span>';
+    el('brainBody').appendChild(d);
+  });
+  var dv=document.createElement('div');dv.className='bdiv show';el('brainBody').appendChild(dv);
+  var cl=conclusionLine(step);
+  var d2=document.createElement('div');d2.className='bl show';
+  d2.innerHTML='<span class="bp">✓</span><span class="bt '+cl[1]+'">'+esc(cl[0])+'</span>';
+  el('brainBody').appendChild(d2);
+}
+
+function typeInto(node,text,speed){
+  return new Promise(function(resolve){
+    clearInterval(typeIv);node.textContent='';var i=0;
+    typeIv=setInterval(function(){
+      node.textContent+=text[i];i++;scrollPost();scrollFeed();
+      if(i>=text.length){clearInterval(typeIv);resolve()}
+    },speed||26);
+  });
+}
+
+/* ---------- left: the ad post ---------- */
+function renderAd(ad){
+  el('adBody').textContent=ad.post;
+  el('adImg').innerHTML='<span class="ad-tag">'+esc(ad.adTag)+'</span>'
+    +'<div class="ai-kicker">'+esc(ad.kicker)+'</div>'
+    +'<div class="ai-head">'+esc(ad.head)+'</div>'
+    +'<div class="ai-sub">'+esc(ad.sub)+'</div>'
+    +'<span class="ad-cta">Shop Now</span>';
+  el('adBar').innerHTML='<span>👍 '+esc(ad.likes)+'</span><span>💬 '+esc(ad.cmts)+'</span><span>↗ '+esc(ad.shares)+'</span><span class="ad-spend">'+esc(ad.spend)+'</span>';
+}
+function commentHTML(step,i){
+  var c=step.cmt;
+  var bub=(step.action!=='engage')?'pc-bub negbub':'pc-bub';
+  return '<div class="pc" id="pc'+i+'"><div class="pc-av" style="background:'+esc(step.av)+'">'+esc(step.initials)+'</div>'
+    +'<div class="pc-main"><div class="'+bub+'"><div class="pc-name">'+esc(c.who)+(c.badge?'<span class="pc-badge">'+esc(c.badge)+'</span>':'')+'</div>'
+    +'<div class="pc-text">'+esc(c.text)+'</div></div>'
+    +'<div class="pc-meta">'+esc(c.time)+' · Like · Reply</div></div></div>';
+}
+function replyHTML(step,i,filled){
+  return '<div class="pc reply" id="rp'+i+'"><div class="pc-av" style="background:linear-gradient(135deg,var(--brand),var(--teal))">◆</div>'
+    +'<div class="pc-main"><div class="pc-bub brandbub"><div class="pc-name">Trendy Transfers</div>'
+    +'<div class="pc-text">'+(filled?esc(step.outreach):'<span id="aiText"></span>')+'</div></div>'
+    +'<div class="pc-meta">Just now · Like · Reply</div></div></div>'
+    +(step.dm?'<div class="pc-route" id="rt'+i+'">✉ Private reply sent</div>':'');
+}
+// rebuild the post: comments on the SAME ad, up to the current step
+function renderPost(){
+  var adId=STEPS[cur].ad.id;
+  renderAd(STEPS[cur].ad);
+  var h='';
+  for(var i=0;i<=cur;i++){
+    var s=STEPS[i];
+    if(s.ad.id!==adId)continue;
+    if(done[i]&&s.action!=='engage')continue; // hidden ones are gone from the post
+    h+=commentHTML(s,i);
+    if(done[i]&&s.action==='engage')h+=replyHTML(s,i,true);
+  }
+  el('cmtList').innerHTML=h;
+  scrollPost();
+}
+
+/* ---------- right: live feed ---------- */
+function feedRowHTML(step,i,acted){
+  var rowCls='feed-row '+(acted?'donerow':(step.action==='engage'?'posrow':'negrow'));
+  var out=acted?'<span class="fo fo-done">'+esc(step.outcome)+'</span>'
+               :'<span class="fo fo-pend" id="fo'+i+'">Analyzing…</span>';
+  var note=(acted&&step.action!=='engage')?'<div class="feed-note"><div class="feed-note-hd">AI Replace · action</div><span>'+esc(step.outreach)+'</span></div>':'';
+  return '<div class="'+rowCls+'" id="fr'+i+'"><div class="feed-av" style="background:'+esc(step.av)+'">'+esc(step.initials)+'</div>'
+    +'<div class="feed-main"><div class="feed-top"><span class="feed-name">'+esc(step.sender)+'</span><span class="feed-time">'+esc(step.time)+'</span></div>'
+    +'<div class="feed-text'+(step.action!=='engage'?' neg':'')+'">'+esc(step.cmt.text)+'</div>'+note+'</div>'
+    +'<div class="feed-action"><span class="fs '+step.sentCls+'">'+esc(step.sentiment)+'</span>'+out+'</div></div>';
+}
+function renderFeed(){
+  var h='<div class="feed-div">AI Replace live · comments appear as they post</div>';
+  for(var i=0;i<=cur;i++){h+=feedRowHTML(STEPS[i],i,!!done[i])}
+  el('feedBody').innerHTML=h;
+  scrollFeed();
+}
+
+/* ---------- stats ---------- */
+function updateStats(step){
+  stats.h++;
+  if(step.action==='hide'||step.action==='flag')stats.hid++;
+  if(step.action==='engage')stats.eng++;
+  if(step.flagged)stats.comp++;
+  el('stH').textContent=stats.h;
+  el('stA').textContent=stats.eng;
+  el('stS').textContent=stats.hid;
+  el('stT').textContent=stats.comp;
+}
+function recountStats(){
+  stats={h:0,hid:0,eng:0,comp:0};
+  for(var i=0;i<N;i++){
+    if(!done[i])continue;
+    var s=STEPS[i];stats.h++;
+    if(s.action==='hide'||s.action==='flag')stats.hid++;
+    if(s.action==='engage')stats.eng++;
+    if(s.flagged)stats.comp++;
+  }
+  el('stH').textContent=stats.h;el('stA').textContent=stats.eng;
+  el('stS').textContent=stats.hid;el('stT').textContent=stats.comp;
+}
+
+/* ---------- flow ---------- */
+function renderStep(){
+  tok++;clearTimers();running=false;reasoned=false;
+  var step=STEPS[cur];
+  renderPost();
+  renderFeed();
+  recountStats();
+  el('brainBody').innerHTML='<div class="bl show"><span class="bp">›</span><span class="bt dim">Comment loaded · click Analyze to run the AI</span></div>';
+  setBadge('aiBadge','b-idle','Standby');
+  setBadge('feedBadge','b-live','Monitoring');
+  setBadge('navBadge','b-idle','Waiting');
+  setLabel(step.label);
+  el('statusText').textContent='AI Replace · Waiting for presenter';
+  if(done[cur]){fillBrainComplete(step);setBadge('aiBadge','b-done','Done');el('statusText').textContent='AI Replace · '+step.sent;}
+  updateNav();
+}
+
+async function runStep(){
+  if(running||done[cur])return;
+  running=true;var t=++tok;var step=STEPS[cur];
+  updateNav();
+  el('statusText').textContent=step.status;
+  setBadge('aiBadge','b-proc','Reasoning');
+  setBadge('feedBadge','b-proc','Analyzing');
+  el('brainBody').innerHTML='';
+  for(var i=0;i<step.lines.length;i++){
+    await addLine(step.lines[i][0],step.lines[i][1],step.lines[i][2],i===0?140:340);
+    if(t!==tok)return;
+  }
+  await addDiv(220);if(t!==tok)return;
+  var cl=conclusionLine(step);
+  await addLine('✓',cl[0],cl[1],220);if(t!==tok)return;
+  running=false;reasoned=true;
+  setBadge('aiBadge','b-done','Done');
+  el('statusText').textContent='AI Replace · reasoning complete · ready to act';
+  updateNav();
+}
+
+async function runAct(){
+  if(running||!reasoned||done[cur])return;
+  running=true;reasoned=false;var t=++tok;var step=STEPS[cur];
+  updateNav();
+  if(step.action==='engage'){
+    setBadge('feedBadge','b-proc','Replying');
+    // reply appears under the comment in the post, types in
+    var host=document.createElement('div');host.innerHTML=replyHTML(step,cur,false);
+    while(host.firstChild)el('cmtList').appendChild(host.firstChild);
+    var rt=el('rt'+cur);if(rt)rt.style.display='none';
+    scrollPost();
+    await sleep(300);if(t!==tok)return;
+    await typeInto(el('aiText'),step.outreach,26);if(t!==tok)return;
+    if(rt)rt.style.display='inline-block';
+    scrollPost();
+  } else {
+    setBadge('feedBadge','b-alert','Hiding comment');
+    el('statusText').textContent='AI Replace · '+step.sender+' · hiding';
+    // action log types into the feed row
+    var row=el('fr'+cur);
+    var note=document.createElement('div');note.className='feed-note';
+    note.innerHTML='<div class="feed-note-hd">AI Replace · action</div><span id="aiText"></span>';
+    row.querySelector('.feed-main').appendChild(note);
+    scrollFeed();
+    await sleep(300);if(t!==tok)return;
+    await typeInto(el('aiText'),step.outreach,26);if(t!==tok)return;
+    // now hide the comment in the post
+    var pc=el('pc'+cur);
+    if(pc){pc.classList.add('hiding');await sleep(650);if(t!==tok)return;pc.remove();}
+  }
+  running=false;
+  finalize(step);
+}
+
+function finalize(step){
+  done[cur]=true;
+  // flip the feed outcome pill
+  var fo=el('fo'+cur),row=el('fr'+cur);
+  if(fo){fo.className='fo fo-done';fo.textContent=step.outcome}
+  if(row){row.className='feed-row donerow'}
+  updateStats(step);
+  setBadge('feedBadge','b-live','Monitoring');
+  el('statusText').textContent='AI Replace · '+step.sent;
+  updateNav();
+}
+
+function skipNow(){
+  if(done[cur])return;
+  // tok++ aborts any in-flight reasoning / typing, then we jump to the finished state
+  clearTimers();tok++;running=false;reasoned=false;
+  var step=STEPS[cur];
+  fillBrainComplete(step);
+  setBadge('aiBadge','b-done','Done');
+  done[cur]=true;
+  renderPost();renderFeed();recountStats();
+  setBadge('feedBadge','b-live','Monitoring');
+  el('statusText').textContent='AI Replace · '+step.sent;
+  updateNav();
+}
+
+function updateNav(){
+  var step=STEPS[cur];
+  var isDone=done[cur],isLast=cur===N-1;
+  var p=el('btnPrimary');
+  p.className='btn-primary';
+  el('btnPrev').disabled=running||cur===0;
+  // Skip stays live DURING animations so the presenter can cut the slow reveal short
+  el('btnSkip').className='btn-sec'+(isDone?' hidden':'');
+  el('btnSkip').disabled=false;
+  el('btnSkip').textContent=running?'SKIP ▸':'SHOW NOW';
+  if(running){
+    p.textContent='Running...';p.disabled=true;
+    setBadge('navBadge','b-proc','Running');
+  } else if(reasoned){
+    p.textContent=step.draftBtn||'MODERATE';p.disabled=false;p.classList.add('confirm-glow');
+    setBadge('navBadge','b-live','Act');
+    el('navTitle').textContent='Reasoning complete';
+    el('navCopy').textContent='Click to have the AI act on this '+ITEM+'.';
+  } else if(!isDone){
+    p.textContent='ANALYZE';p.disabled=false;
+    setBadge('navBadge','b-idle','Waiting');
+    el('navTitle').textContent=step.sender+' · '+step.subject;
+    el('navCopy').textContent='Click Analyze to run the AI on this '+ITEM+'.';
+  } else if(isLast){
+    p.textContent='REPLAY ↺';p.disabled=false;
+    setBadge('navBadge','b-done','Complete');
+    el('navTitle').textContent='Session complete';
+    el('navCopy').textContent='Demo complete. Click Replay to start over.';
+  } else {
+    p.textContent='NEXT →';p.disabled=false;
+    setBadge('navBadge','b-live','Next');
+    el('navTitle').textContent=step.sender+' · done';
+    el('navCopy').textContent='Click Next to continue to '+STEPS[cur+1].sender+'.';
+  }
+}
+
+function handlePrimary(){
+  if(running)return;
+  if(reasoned){runAct();return}
+  if(!done[cur]){runStep();return}
+  if(cur>=N-1){replay();return}
+  cur++;renderStep();
+}
+function replay(){
+  clearTimers();tok++;cur=0;done={};reasoned=false;running=false;
+  renderStep();
+}
+
+el('btnPrimary').addEventListener('click',handlePrimary);
+el('btnSkip').addEventListener('click',skipNow);
+el('btnPrev').addEventListener('click',function(){if(!running&&cur>0){cur--;renderStep()}});
+
+renderStep();
+</script>
+</body>
+</html>
